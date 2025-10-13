@@ -1,0 +1,40 @@
+{
+    "name": "SeeYouAgain",
+    "short_name": "SYA",
+    "description": "유기 동물 입양 및 실종 정보 제공 서비스",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "https://via.placeholder.com/1280x720",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "데스크톱 화면"
+        },
+        {
+            "src": "https://via.placeholder.com/750x1334",
+            "sizes": "750x1334",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "모바일 화면"
+        }
+    ]
+}
