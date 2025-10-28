@@ -25,14 +25,18 @@
     --color-input: var(--input);
     --color-border: var(--border);
     --color-destructive: var(--destructive);
+    --color-destructive-light: var(--destructive-light);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent: var(--accent);
+    --color-accent-light: var(--accent-light);
     --color-muted-foreground: var(--muted-foreground);
     --color-muted: var(--muted);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-secondary: var(--secondary);
     --color-primary-foreground: var(--primary-foreground);
     --color-primary: var(--primary);
+    --color-primary-light: var(--primary-light);
+    --color-primary-dark: var(--primary-dark);
     --color-popover-foreground: var(--popover-foreground);
     --color-popover: var(--popover);
     --color-card-foreground: var(--card-foreground);
@@ -56,9 +60,11 @@
     --secondary-foreground: oklch(0.3 0.02 40);
 
     --accent: oklch(0.7 0.15 145); /* #5eb761 - 초록색 accent */
+    --accent-light: oklch(0.8952 0.0504 146.04);
     --accent-foreground: oklch(1 0 0);
 
     --destructive: oklch(0.6619 0.2222 25.7); /* #fe4444 - warning/error */
+    --destructive-light: oklch(0.9568 0.0221 7.17);
     --destructive-foreground: oklch(1 0 0);
 
     /* Gray Scale with warm tint */
