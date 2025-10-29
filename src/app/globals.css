@@ -37,6 +37,11 @@
     --color-primary: var(--primary);
     --color-primary-light: var(--primary-light);
     --color-primary-dark: var(--primary-dark);
+    --color-gray-10: var(--gray-10);
+    --color-gray-20: var(--gray-20);
+    --color-gray-30: var(--gray-30);
+    --color-gray-40: var(--gray-40);
+    --color-gray-50: var(--gray-50);
     --color-popover-foreground: var(--popover-foreground);
     --color-popover: var(--popover);
     --color-card-foreground: var(--card-foreground);
