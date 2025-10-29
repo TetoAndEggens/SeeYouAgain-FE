@@ -29,8 +29,8 @@ interface TagProps {
     variant?: 'default' | 'missing' | 'find';
 }
 
-const Tag = ({ children, className, size, variant }: TagProps) => {
+function Tag({ children, className, size, variant }: TagProps) {
     return <div className={cn(tagVariants({ variant, size, className }))}>{children}</div>;
-};
+}
 
 export default Tag;
