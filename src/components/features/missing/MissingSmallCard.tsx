@@ -11,10 +11,10 @@ interface MissingProps {
 
 export function MissingSmallCard({ cardType, name, tags, location, date, image }: MissingProps) {
     return (
-        <div className="bg-gray-10 flex gap-4 items-center p-4">
+        <div className="bg-gray-10 flex items-center gap-4 p-4">
             <img src={image} className="rounded-lg"></img>
             <div className="flex flex-col gap-3">
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center gap-2">
                     <Tag variant={cardType} size="sm">
                         {cardType === 'missing' ? '실종' : '목격'}
                     </Tag>
