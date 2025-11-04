@@ -13,33 +13,22 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { Header } from "@/components/Header";
 
 const TestPage = () => {
 	return (
-		<div>
-			테스트 페이지
-			<Button>확인</Button>
-			<div
-				style={{
-					display: "flex",
-				}}
-			>
-				<div
-					style={{
-						width: "300px",
-						height: "300px",
-						border: "1px solid red",
-					}}
-				>
-					<Textarea placeholder="test textarea placeholder" />
+		<div className="md:w-full whitespace-pre-line">
+			<div>
+				<Header variant="back" />
+			</div>
+			{/* <div className="md:w-full flex border border-red-600 mt-5 flex-wrap">
+				<div className="bg-auto border border-red-600 m-5 p-5 ">
+					<Textarea
+						className="max-w-sm"
+						placeholder="test textarea placeholder"
+					/>
 				</div>
-				<div
-					style={{
-						width: "300px",
-						height: "300px",
-						border: "1px solid red",
-					}}
-				>
+				<div className="bg-auto border border-red-600 m-5 p-5">
 					<Dialog>
 						<DialogTrigger asChild>
 							<Button>열기</Button>
@@ -52,7 +41,6 @@ const TestPage = () => {
 							</DialogHeader>
 							다이얼로그 테스트용 임시 텍스트
 							<DialogFooter>
-								{/* Content에 기본 X 버튼이 이미 있음. 추가로 닫기 버튼 필요하면 */}
 								<DialogClose asChild>
 									<Button variant="outline">닫기</Button>
 								</DialogClose>
@@ -63,15 +51,12 @@ const TestPage = () => {
 						</DialogContent>
 					</Dialog>
 				</div>
-				<div
-					style={{
-						width: "300px",
-						height: "300px",
-						border: "1px solid red",
-					}}
-				>
+				<div className="bg-auto border border-red-600 m-5 p-5">
 					<Button>테스트</Button>
 				</div>
+			</div> */}
+			<div className="md:w-full flex border border-red-600 mt-5 flex-wrap">
+				test
 			</div>
 		</div>
 	);
