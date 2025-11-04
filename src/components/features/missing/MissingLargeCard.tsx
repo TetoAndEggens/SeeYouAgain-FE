@@ -15,7 +15,7 @@ export function MissingLargeCard({ cardType, name, tags, location, date, image }
         <div className="bg-gray-10 flex flex-col justify-center gap-4 p-4">
             <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                    <img src={image} alt={name} className="w-02 h-20 rounded-lg object-cover" />
+                    <img src={image} alt={name} className="h-20 w-20 rounded-lg object-cover" />
                 </div>
                 <div className="flex flex-col justify-center gap-2">
                     <div>
