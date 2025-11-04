@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 
@@ -33,7 +33,6 @@ export const metadata: Metadata = {
     title: 'SeeYouAgain',
     description: '프로젝트 설명',
     manifest: '/manifest.json',
-    themeColor: '#000000',
     appleWebApp: {
         capable: true,
         statusBarStyle: 'default',
@@ -43,6 +42,10 @@ export const metadata: Metadata = {
         icon: '/icon-192x192.png',
         apple: '/icon-192x192.png',
     },
+};
+
+export const viewport: Viewport = {
+    themeColor: '#000000',
 };
 
 export default function RootLayout({
