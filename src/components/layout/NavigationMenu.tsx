@@ -1,0 +1,62 @@
+'use client';
+
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { House, HeartHandshake, Search, Map, CircleUser } from 'lucide-react';
+
+export function NavigationMenu() {
+    const router = useRouter();
+
+    return (
+        <div className="fixed bottom-0 z-10 w-full">
+            <nav className="w-full border-gray-300 bg-gray-100 px-4 py-2">
+                <ul className="flex w-full justify-around">
+                    <li>
+                        <a
+                            href="/"
+                            className="flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:text-gray-900"
+                        >
+                            <House />홈
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            className="flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:text-gray-900"
+                        >
+                            <HeartHandshake />
+                            입양
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            className="flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:text-gray-900"
+                        >
+                            <Search />
+                            실종
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            className="flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:text-gray-900"
+                        >
+                            <Map />
+                            지도
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            className="flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:text-gray-900"
+                        >
+                            <CircleUser />
+                            마이
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    );
+}
