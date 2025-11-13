@@ -11,7 +11,7 @@ interface MissingProps {
 
 export function MissingSmallCard({ cardType, name, tags, location, date, image }: MissingProps) {
     return (
-        <div className="bg-gray-10 flex items-center gap-4 p-4">
+        <div className="flex items-center gap-4 bg-white p-4">
             <div className="flex-shrink-0">
                 <img src={image} alt={name} className="h-22 w-22 rounded-lg object-cover" />
             </div>

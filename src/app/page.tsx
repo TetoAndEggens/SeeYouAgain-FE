@@ -1,84 +1,113 @@
-import Image from 'next/image';
-import { Header } from '@/components/layout/Header';
+import { AdoptSmallCard } from '@/components/features/adopt/AdoptSmallCard';
+import { MissingSmallCard } from '@/components/features/missing/MissingSmallCard';
+import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+
+const testAdoptSmallData = [
+    {
+        name: '복돌이',
+        species: '말티즈',
+        age: '3',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        name: '복돌이',
+        species: '말티즈',
+        age: '3',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        name: '복돌이',
+        species: '말티즈',
+        age: '3',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        name: '복돌이',
+        species: '말티즈',
+        age: '3',
+        image: 'https://placedog.net/500/280',
+    },
+];
+
+const testMissingSmallData = [
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'sighting' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+];
 
 export default function Home() {
     return (
-        <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-            <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
-                <Image
-                    className="dark:invert"
-                    src="/next.svg"
-                    alt="Next.js logo"
-                    width={180}
-                    height={38}
-                    priority
-                />
-                <ol className="list-inside list-decimal text-center font-mono text-sm/6 sm:text-left">
-                    <li className="mb-2 tracking-[-.01em]">
-                        Get started by editing{' '}
-                        <code className="rounded bg-black/[.05] px-1 py-0.5 font-mono font-semibold dark:bg-white/[.06]">
-                            <a href="/test">src/app/test/page.tsx</a>
-                        </code>
-                        .
-                    </li>
-                    <li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-                </ol>
-
-                <div className="flex flex-col items-center gap-4 sm:flex-row">
-                    <a
-                        className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm font-medium transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-                        href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <Image
-                            className="dark:invert"
-                            src="/vercel.svg"
-                            alt="Vercel logomark"
-                            width={20}
-                            height={20}
-                        />
-                        Deploy now
-                    </a>
-                    <a
-                        className="flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-                        href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Read our docs
-                    </a>
+        <div className="flex flex-col gap-6">
+            <div className="bg-primary text-gray-10 flex h-[8rem] flex-col justify-center gap-2 px-8">
+                <p className="text-[1.25rem] font-bold">새로운 가족을 만나보세요</p>
+                <p>오늘도 많은 아이들이 당신을 기다리고 있어요</p>
+            </div>
+            <div className="bg-gray-10 flex flex-col gap-4 p-4">
+                <Link href={'adopt'}>
+                    <div className="flex justify-between text-gray-50">
+                        <span className="text-[1.25rem] font-bold">새로 등록된 친구들</span>
+                        <ChevronRight />
+                    </div>
+                </Link>
+                <div className="-mx-4 flex gap-4 overflow-x-auto">
+                    <div></div>
+                    {testAdoptSmallData.map((data, idx) => (
+                        <AdoptSmallCard key={idx} {...data} />
+                    ))}
+                    <div></div>
                 </div>
-            </main>
-            <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-                    Learn
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-                    Examples
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-                    Go to nextjs.org →
-                </a>
-            </footer>
+            </div>
+            <div className="bg-gray-10 flex flex-col gap-4 p-4">
+                <Link href={'missing'}>
+                    <div className="flex justify-between text-gray-50">
+                        <span className="text-[1.25rem] font-bold">실종/목격 정보</span>
+                        <ChevronRight />
+                    </div>
+                </Link>
+                <div className="flex flex-col gap-4">
+                    {testMissingSmallData.slice(0, 3).map((data, idx) => (
+                        <MissingSmallCard key={idx} {...data} />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

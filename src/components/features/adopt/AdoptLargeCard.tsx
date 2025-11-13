@@ -11,7 +11,7 @@ interface AdoptLargeCardProps {
 
 export function AdoptLargeCard({ name, species, age, tags, location, image }: AdoptLargeCardProps) {
     return (
-        <div className="bg-gray-10 overflow-hidden rounded-lg">
+        <div className="overflow-hidden rounded-lg bg-white">
             <div className="flex-shrink-0">
                 <img src={image} alt={name} className="aspect-square w-full object-cover" />
             </div>
