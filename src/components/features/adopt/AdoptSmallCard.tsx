@@ -7,7 +7,7 @@ interface AdoptSmallCardProps {
 
 export function AdoptSmallCard({ name, species, age, image }: AdoptSmallCardProps) {
     return (
-        <div className="bg-gray-10 w-fit overflow-hidden rounded-lg">
+        <div className="w-fit flex-shrink-0 overflow-hidden rounded-lg bg-white">
             <div className="flex-shrink-0">
                 <img src={image} alt={name} className="h-32.5 w-32.5 object-cover" />
             </div>
