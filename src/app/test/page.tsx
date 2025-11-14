@@ -8,72 +8,77 @@ import { Switch } from '@/components/ui/switch';
 import { Avatar } from '@/components/layout/Avatar';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
+import { InformationDetail } from '@/components/layout/InformationDetail';
+import { Tag } from '@/components/layout/Tag';
+import { ChatMessage } from '@/components/layout/ChatMessage';
 
 const TestPage = () => {
-    const [on, setOn] = React.useState(false);
-    return (
-        <div className="mb-25 whitespace-pre-line md:w-full">
-            <div>
-                <Header variant="back" />
-            </div>
+    const element = [
+        {
+            title: 'test',
+            context: 'test',
+        },
+        {
+            title: 'test',
+            context: 'test',
+        },
+        {
+            title: 'test',
+            context: 'test',
+        },
+        {
+            title: 'test',
+            context: 'test',
+        },
+    ];
 
+    const tag = [
+        'test1',
+        'test2',
+        'test3',
+        'test4',
+        'test5',
+        'test6',
+        'test7',
+        'test8',
+        'test9',
+        'test10',
+        'test11',
+        'test12',
+    ];
+
+    return (
+        <div className="whitespace-pre-line md:w-full">
             <div className="flex w-full flex-wrap gap-2 p-2">
-                <Form
-                    title="복돌이"
-                    element={[
-                        { title: '품종', context: '코코카커서스' },
-                        { title: '나이', context: '3살' },
-                        { title: '성별', context: '수컷' },
-                        { title: '무게', context: '5.4 kg' },
-                    ]}
-                    tag={[
-                        '긴급',
-                        '중성화O',
-                        '예방접종O',
-                        '등록됨',
-                        '건강함',
-                        '활발함',
-                        '사람을 잘 따름',
-                    ]}
-                />
                 <div className="flex w-full justify-center gap-2 p-2">
                     <Form
                         title="복순이"
-                        element={[
-                            { title: '품종', context: '코코카커서스코코카커서스' },
-                            { title: '나이', context: '3살' },
-                            { title: '성별', context: '암컷' },
-                            { title: '무게', context: '5.4 kg' },
-                        ]}
-                        tag={[
-                            '긴급',
-                            '중성화O',
-                            '예방접종O',
-                            '등록됨',
-                            '건강함',
-                            '활발함',
-                            '사람을 잘 따름',
-                        ]}
                         className="w-1/2"
+                        elementChildren={
+                            <div className="mt-2 grid grid-cols-2 gap-4">
+                                {element?.map((item, index) => {
+                                    return (
+                                        <InformationDetail key={index} index={index} item={item} />
+                                    );
+                                })}
+                            </div>
+                        }
+                        tagChildren={tag?.map((item, index) => {
+                            return <Tag index={index} item={item} />;
+                        })}
                     />
                     <Form
                         title="복순이"
-                        element={[
-                            { title: '품종', context: '말티즈' },
-                            { title: '나이', context: '3살' },
-                            { title: '성별', context: '암컷' },
-                            { title: '무게', context: '5.4 kg' },
-                        ]}
-                        tag={[
-                            '긴급',
-                            '중성화O',
-                            '예방접종O',
-                            '등록됨',
-                            '건강함',
-                            '활발함',
-                            '사람을 잘 따름',
-                        ]}
                         className="w-1/2"
+                        elementChildren={
+                            <div className="mt-2 grid grid-cols-1 gap-4">
+                                {element?.map((item, index) => {
+                                    return (
+                                        <InformationDetail key={index} index={index} item={item} />
+                                    );
+                                })}
+                            </div>
+                        }
                     />
                 </div>
             </div>
@@ -84,11 +89,40 @@ const TestPage = () => {
                     timestamp="방금 전"
                     unreadCount={2}
                     title="보호"
-                    post="흰색 말티즈를 찾습니다. 몸에 분홍색 하네스를 하고 있습니다."
+                    onClick={(e) => {
+                        console.log('chat e e : ', e);
+                    }}
+                    onAvatarClick={(e) => {
+                        console.log('avatar e : ', e);
+                    }}
                 />
+
+                <div className="flex w-full flex-col items-start gap-1 rounded-xl bg-[#FFF9F0] pl-10 shadow-md">
+                    <ChatPost title="실종" post="제가 실종되었어요!!" />
+                </div>
             </div>
             <div>
-                <NavigationMenu></NavigationMenu>
+                <ChatMessage
+                    message={
+                        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed aspernatur eius dignissimos aliquid? '
+                    }
+                    time={'오전 10:30'}
+                    mine={true}
+                />
+                <ChatMessage
+                    message={
+                        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed aspernatur eius dignissimos aliquid? '
+                    }
+                    time={'오전 10:30'}
+                    mine={false}
+                />
+                <ChatMessage
+                    message={
+                        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia, sed nam excepturi eveniet ipsa eum in nihil obcaecati rem id, doloremque tempore deserunt quia aliquid a. Repudiandae tenetur ex obcaecati.'
+                    }
+                    time={'오전 10:30'}
+                    mine={true}
+                />
             </div>
         </div>
     );

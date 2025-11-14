@@ -30,13 +30,13 @@ export function Avatar({
                 <img
                     src={src}
                     alt={alt}
-                    className="h-full w-full rounded-full object-cover"
+                    className="h-full w-full shrink-0 rounded-full object-cover"
                     draggable={false}
                     data-part="profile"
                 />
             ) : (
                 <UserRound
-                    className="h-full w-full rounded-full object-cover"
+                    className="h-full w-full shrink-0 rounded-full object-cover"
                     data-part="profile"
                 />
             )}
