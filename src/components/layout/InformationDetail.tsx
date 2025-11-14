@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 interface InformationDetailProps {
     index: number;
-    item: { title: String; context: String };
+    item: { title: string; context: string };
     className?: string;
     titleClassName?: string;
     contextClassName?: string;

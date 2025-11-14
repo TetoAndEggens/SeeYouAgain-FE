@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 
 interface TagProps {
     index: number;
-    item: String;
+    item: string;
 }
 
 export function Tag({ index, item }: TagProps) {

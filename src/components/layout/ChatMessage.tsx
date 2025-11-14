@@ -4,9 +4,9 @@ import React from 'react';
 import { Avatar } from './Avatar';
 
 interface ChatMessageProps {
-    message: String;
-    time: String;
-    mine: Boolean;
+    message: string;
+    time: string;
+    mine: boolean;
 
     onAvatarClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
