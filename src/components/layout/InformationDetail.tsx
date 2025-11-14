@@ -23,10 +23,7 @@ export function InformationDetail({
     return (
         <div
             key={index}
-            className={cn(
-                'flex-1 shrink-0 rounded-lg border border-gray-600 bg-[#CEC9C8] px-2 py-1',
-                className
-            )}
+            className={cn('bg-gray-20 flex-1 shrink-0 rounded-lg px-2 py-1', className)}
             {...containerProps}
         >
             <p className={cn('text-sm text-gray-800', titleClassName)}>{item.title}</p>

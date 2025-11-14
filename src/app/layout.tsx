@@ -2,6 +2,10 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 
+import { cn } from '@/lib/utils';
+import { Header } from '../components/layout/Header';
+import { NavigationMenu } from '@/components/layout/NavigationMenu';
+
 const pretendard = localFont({
     src: [
         {
@@ -55,7 +59,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko" className={pretendard.variable}>
-            <body className={pretendard.className}>{children}</body>
+            <body className={pretendard.className}>
+                <Header />
+                {children}
+                <NavigationMenu />
+            </body>
         </html>
     );
 }

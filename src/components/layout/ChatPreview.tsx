@@ -17,14 +17,7 @@ interface ChatPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
     timestamp?: string;
     unreadCount?: number;
 
-    // Chat Post props
-    title?: Title;
-    post?: string;
-
-    // callback
     onAvatarClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-    onPostAvatarClick?: React.MouseEventHandler<HTMLDivElement>;
-    onPostClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export function ChatPreview({
@@ -37,11 +30,7 @@ export function ChatPreview({
     timestamp,
     unreadCount,
     title,
-    post,
-
     onAvatarClick,
-    onPostAvatarClick,
-    onPostClick,
     ...rest
 }: ChatPreviewProps) {
     return (
@@ -56,7 +45,10 @@ export function ChatPreview({
                     size={avartarSize}
                     showStatus={avartarShowStatus}
                     className="shrink-0"
-                    onClick={onAvatarClick}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onAvatarClick?.(e);
+                    }}
                 />
                 <div className="flex min-w-0 flex-1 items-start justify-between whitespace-nowrap">
                     <div className="flex min-w-0 flex-col gap-2">
@@ -70,14 +62,6 @@ export function ChatPreview({
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="w-[80%] pl-10">
-                <ChatPost
-                    title={title}
-                    post={post}
-                    onClick={onPostClick}
-                    onAvatarClick={onPostAvatarClick}
-                />
             </div>
         </div>
     );
