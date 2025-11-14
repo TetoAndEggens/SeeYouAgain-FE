@@ -64,7 +64,7 @@ const TestPage = () => {
                             </div>
                         }
                         tagChildren={tag?.map((item, index) => {
-                            return <Tag index={index} item={item} />;
+                            return <Tag key={index} index={index} item={item} />;
                         })}
                     />
                     <Form

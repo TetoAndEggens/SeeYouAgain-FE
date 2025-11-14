@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useRouter, usePathname } from 'next/navigation';
 import { House, HeartHandshake, Search, Map, CircleUser } from 'lucide-react';
@@ -16,7 +17,7 @@ export function NavigationMenu() {
             <nav className="w-full border-gray-300 bg-gray-100 px-4 py-2">
                 <ul className="flex w-full justify-around">
                     <li>
-                        <a
+                        <Link
                             href="/"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
@@ -28,10 +29,10 @@ export function NavigationMenu() {
                                 color={pathname === '/' || pathname === null ? '#FFB84D' : 'black'}
                             />
                             홈
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
+                        <Link
                             href="#"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
@@ -43,10 +44,10 @@ export function NavigationMenu() {
                                 color={pathname === '' ? '#FFB84D' : 'black'}
                             />
                             입양
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
+                        <Link
                             href="#"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
@@ -55,10 +56,10 @@ export function NavigationMenu() {
                         >
                             <Search strokeWidth={1} color={pathname === '' ? '#FFB84D' : 'black'} />
                             실종
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
+                        <Link
                             href="#"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
@@ -67,10 +68,10 @@ export function NavigationMenu() {
                         >
                             <Map strokeWidth={1} color={pathname === '' ? '#FFB84D' : 'black'} />
                             지도
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
+                        <Link
                             href="#"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
@@ -82,7 +83,7 @@ export function NavigationMenu() {
                                 color={pathname === '' ? '#FFB84D' : 'black'}
                             />
                             마이
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </nav>
