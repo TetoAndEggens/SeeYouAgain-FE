@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface FormProps {
-    title?: String;
+    title?: string;
     className?: string;
 
     elementChildren?: React.ReactNode;
