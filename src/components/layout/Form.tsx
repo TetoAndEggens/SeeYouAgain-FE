@@ -5,18 +5,16 @@ interface FormProps {
     title?: string;
     className?: string;
 
-    elementChildren?: React.ReactNode;
+    children?: React.ReactNode;
     tagChildren?: React.ReactNode;
 }
 
-export function Form({ title, className, elementChildren, tagChildren }: FormProps) {
+export function Form({ title, className, children, tagChildren }: FormProps) {
     return (
-        <div
-            className={cn('mb-5 w-full shrink-0 rounded-lg border border-gray-300 p-2', className)}
-        >
-            <p className="text-lg font-bold">{title}</p>
-            {elementChildren}
-            <div className="overflow-hidden pt-2 whitespace-nowrap">{tagChildren}</div>
+        <div className={cn('mb-5 w-full shrink-0 rounded-lg', className)}>
+            <p className="mb-4 text-[1.25rem] font-bold">{title}</p>
+            {children}
+            <div className="overflow-hidden whitespace-nowrap">{tagChildren}</div>
         </div>
     );
 }

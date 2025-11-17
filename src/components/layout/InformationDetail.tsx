@@ -23,11 +23,13 @@ export function InformationDetail({
     return (
         <div
             key={index}
-            className={cn('bg-gray-20 flex-1 shrink-0 rounded-lg px-2 py-1', className)}
+            className={cn('bg-gray-20 flex-1 shrink-0 rounded-lg px-4 py-3', className)}
             {...containerProps}
         >
-            <p className={cn('text-sm text-gray-800', titleClassName)}>{item.title}</p>
-            <p className={cn('truncate text-lg font-bold', contextClassName)}>{item.context}</p>
+            <p className={cn('text-gray-40 text-sm', titleClassName)}>{item.title}</p>
+            <p className={cn('truncate text-lg font-semibold text-gray-50', contextClassName)}>
+                {item.context}
+            </p>
         </div>
     );
 }
