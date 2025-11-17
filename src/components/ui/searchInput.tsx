@@ -9,7 +9,7 @@ interface SearchInputProps extends Omit<React.ComponentProps<'input'>, 'value' |
 
 function SearchInput({ placeholder, value, onChange, ...props }: SearchInputProps) {
     return (
-        <div className="relative bg-gray-20 text-gray-40 py-2 px-4 flex gap-4">
+        <div className="bg-gray-20 text-gray-40 relative flex gap-4 rounded-lg px-4 py-2">
             <input
                 placeholder={placeholder}
                 value={value}
