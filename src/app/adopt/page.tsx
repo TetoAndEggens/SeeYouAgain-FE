@@ -94,9 +94,9 @@ const AdoptPage = () => {
 
     return (
         <div className="flex flex-col gap-[1.75rem] px-4 py-4">
-            <div>
-                <SearchInput placeholder="품종, 지역으로 검색" />
-            </div>
+            {/* <div>
+                <SearchInput placeholder="품종, 지역으로 검색"/>
+            </div> */}
             <div className="flex justify-between">
                 <span className="text-[1rem] text-gray-50">
                     총 <span className="text-primary">{testData.length}마리</span>가 기다리고 있어요
