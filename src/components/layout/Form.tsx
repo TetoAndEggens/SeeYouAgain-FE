@@ -11,8 +11,8 @@ interface FormProps {
 
 export function Form({ title, className, children, tagChildren }: FormProps) {
     return (
-        <div className={cn('mb-5 w-full shrink-0 rounded-lg', className)}>
-            <p className="mb-4 text-[1.25rem] font-bold">{title}</p>
+        <div className={cn('w-full shrink-0 rounded-lg', className)}>
+            <p className="mb-4 text-[1rem] font-bold">{title}</p>
             {children}
             <div className="overflow-hidden whitespace-nowrap">{tagChildren}</div>
         </div>
