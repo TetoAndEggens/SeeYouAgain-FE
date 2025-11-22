@@ -70,7 +70,7 @@ const MissingWritePage = () => {
             </div>
             <div className="sticky right-0 bottom-0 left-0 bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-2">
-                    <Button className="flex-1">입양 문의하기</Button>
+                    <Button className="flex-1">게시글 등록하기</Button>
                 </div>
             </div>
         </div>
