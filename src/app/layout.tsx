@@ -61,9 +61,7 @@ export default function RootLayout({
         <html lang="ko" className={pretendard.variable}>
             <body className={`${pretendard.className} flex h-screen flex-col`}>
                 <Header />
-                <main className="flex-1 overflow-y-auto">
-                    {children}
-                </main>
+                <main className="relative h-full overflow-y-auto">{children}</main>
                 <NavigationMenu />
             </body>
         </html>

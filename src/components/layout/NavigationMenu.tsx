@@ -13,7 +13,8 @@ export function NavigationMenu() {
     // if (pathname === '/test') return null;
 
     return (
-        <div className="sticky bottom-0 z-50 w-full">
+        //페이지가 Header와 Navigation사이의 공간만 차지하도록 하기 위해 fixed 제거
+        <div className="right-0 bottom-0 left-0 z-40 w-full">
             <nav className="w-full border-gray-300 bg-gray-100 px-4 py-2">
                 <ul className="flex w-full justify-around">
                     <li>
