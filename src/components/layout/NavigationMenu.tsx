@@ -3,14 +3,23 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { House, HeartHandshake, Search, Map, CircleUser } from 'lucide-react';
+
+const exceptUrls = ['/test']; // 예외 URL 목록
+
+function isExceptUrl(pathname: string) {
+    return exceptUrls.some((url) => {
+        if (pathname === url) return true;
+        if (pathname.startsWith(url + '/')) return true;
+        return false;
+    });
+}
 
 export function NavigationMenu() {
     const pathname = usePathname();
-    console.log('pahtname : ', pathname);
 
-    // if (pathname === '/test') return null;
+    if (isExceptUrl(pathname)) return null;
 
     return (
         //페이지가 Header와 Navigation사이의 공간만 차지하도록 하기 위해 fixed 제거
@@ -49,13 +58,16 @@ export function NavigationMenu() {
                     </li>
                     <li>
                         <Link
-                            href="#"
+                            href="/missing"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
-                                pathname === '' ? 'text-[#FFB84D]' : ''
+                                pathname === '/missing' ? 'text-[#FFB84D]' : ''
                             )}
                         >
-                            <Search strokeWidth={1} color={pathname === '' ? '#FFB84D' : 'black'} />
+                            <Search
+                                strokeWidth={1}
+                                color={pathname === '/missing' ? '#FFB84D' : 'black'}
+                            />
                             실종
                         </Link>
                     </li>

@@ -15,8 +15,13 @@ export function ChatMessage({ message, time, mine, onAvatarClick }: ChatMessageP
     return mine ? (
         <div className="m-2 ml-auto flex w-fit gap-2.5 p-2">
             <div className="flex flex-col items-end gap-1">
-                <div className="relative inline-block max-w-sm rounded-xl bg-[#FFB84D] px-2.5 py-3 text-base text-white">
-                    {message}
+                <div className="relative flex items-end gap-1">
+                    {/* <div className="flex flex-col items-end">
+                        <div className="text-yellow-600">1</div>
+                    </div> */}
+                    <div className="relative inline-block max-w-sm rounded-xl bg-[#FFB84D] px-2.5 py-3 text-base text-white">
+                        {message}
+                    </div>
                 </div>
                 <div className="">{time}</div>
             </div>
