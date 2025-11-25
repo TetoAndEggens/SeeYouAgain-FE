@@ -5,11 +5,13 @@ interface FormProps {
     title?: string;
     className?: string;
     importent?: boolean;
+    importent?: boolean;
 
     children?: React.ReactNode;
     tagChildren?: React.ReactNode;
 }
 
+export function Form({ title, className, importent, children, tagChildren }: FormProps) {
 export function Form({ title, className, importent, children, tagChildren }: FormProps) {
     return (
         <div
