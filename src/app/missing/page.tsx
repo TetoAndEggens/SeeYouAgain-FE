@@ -1,7 +1,14 @@
-import React from 'react';
+import MissingClientPage from './clientPage';
 
-const MissingPage = () => {
-    return <div>실종/목격 메인페이지</div>;
-};
+{
+    /* <Link href="/missing/detail/1"> 디테일 이동</Link> */
+}
 
-export default MissingPage;
+export default async function MissingPage() {
+    const data = {
+        count: 47,
+        items: [],
+    };
+
+    return <MissingClientPage data={data} />;
+}
