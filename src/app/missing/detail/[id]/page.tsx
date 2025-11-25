@@ -6,7 +6,7 @@ type Props = {
 
 const LostDetailPage = async ({ params }: Props) => {
     const { id } = await params;
-    return <div>실종 상세페이지 - ID: {id}</div>;
+    return <div>실종/목격 상세페이지 - ID: {id}</div>;
 };
 
 export default LostDetailPage;
