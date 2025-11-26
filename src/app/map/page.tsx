@@ -112,6 +112,10 @@ const MapPage = () => {
                                 lat: data.lat,
                                 lng: data.lng,
                             }}
+                            image={{
+                                src: `/markers/${data.cardType === 'missing' ? 'missing' : 'sighting'}.svg`,
+                                size: { width: 36, height: 51.5 },
+                            }}
                         />
                     ))}
             </Map>
