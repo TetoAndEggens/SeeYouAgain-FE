@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const tagVariants = cva(
-    'inline-flex items-center rounded-full px-2 py-1', // 기본 스타일
+    'inline-flex items-center rounded-full px-2 py-1 text-nowrap', // 기본 스타일
     {
         variants: {
             variant: {
