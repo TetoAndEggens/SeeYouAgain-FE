@@ -55,18 +55,17 @@ const testMissingData = [
     },
 ];
 
+interface CoordType {
+    lng: number;
+    lat: number;
+}
+
 const MapPage = () => {
     const [loading, error] = useKakaoLoader();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isInfoOpen, setIsInfoOpen] = useState(-1);
-    const [center, setCenter] = useState<{
-        lng: number;
-        lat: number;
-    }>({ lat: 33.450701, lng: 126.570667 });
-    const [coord, setCoord] = useState<{
-        lng: number;
-        lat: number;
-    }>({ lng: 0, lat: 0 });
+    const [center, setCenter] = useState<CoordType>({ lat: 33.450701, lng: 126.570667 });
+    const [coord, setCoord] = useState<CoordType>({ lng: 0, lat: 0 });
     const [bounds, setBounds] = useState<{
         sw: string;
         ne: string;
@@ -113,43 +112,43 @@ const MapPage = () => {
                     });
                 }}
             >
-                {testMissingData &&
-                    testMissingData.map((data) => (
-                        <div key={`marker-wrapper-${data.id}`}>
-                            <MapMarker
-                                clickable={true}
+                {testMissingData.map((data) => (
+                    <>
+                        <MapMarker
+                            key={`marker-wrapper-${data.id}`}
+                            clickable={true}
+                            position={{
+                                lat: data.lat,
+                                lng: data.lng,
+                            }}
+                            image={{
+                                src: `/markers/${data.cardType === 'missing' ? 'missing' : 'sighting'}.svg`,
+                                size: { width: 36, height: 51.5 },
+                            }}
+                            onClick={() => handleClickMarker(data.id, data.lng, data.lat)}
+                        />
+                        {isInfoOpen === data.id && (
+                            <CustomOverlayMap
                                 position={{
                                     lat: data.lat,
                                     lng: data.lng,
                                 }}
-                                image={{
-                                    src: `/markers/${data.cardType === 'missing' ? 'missing' : 'sighting'}.svg`,
-                                    size: { width: 36, height: 51.5 },
-                                }}
-                                onClick={() => handleClickMarker(data.id, data.lng, data.lat)}
-                            />
-                            {isInfoOpen === data.id && (
-                                <CustomOverlayMap
-                                    position={{
-                                        lat: data.lat,
-                                        lng: data.lng,
-                                    }}
-                                    yAnchor={1.4}
-                                >
-                                    <div className="w-80">
-                                        <MissingSmallCard
-                                            cardType={data.cardType}
-                                            name={data.name}
-                                            tags={data.tags}
-                                            location={data.location}
-                                            date={data.date}
-                                            image={data.image}
-                                        />
-                                    </div>
-                                </CustomOverlayMap>
-                            )}
-                        </div>
-                    ))}
+                                yAnchor={1.4}
+                            >
+                                <div className="w-80">
+                                    <MissingSmallCard
+                                        cardType={data.cardType}
+                                        name={data.name}
+                                        tags={data.tags}
+                                        location={data.location}
+                                        date={data.date}
+                                        image={data.image}
+                                    />
+                                </div>
+                            </CustomOverlayMap>
+                        )}
+                    </>
+                ))}
             </Map>
             {/*지도 위 오버레이 공간*/}
             <div className="relative">
