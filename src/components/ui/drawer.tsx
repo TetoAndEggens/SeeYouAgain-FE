@@ -42,18 +42,17 @@ export default function VaulDrawer({ open, onOpenChange, missingData }: VaulDraw
                             </Drawer.Description>
 
                             <div className="flex flex-col gap-4">
-                                {missingData &&
-                                    missingData.map((data) => (
-                                        <MissingSmallCard
-                                            key={data.id}
-                                            cardType={data.cardType}
-                                            name={data.name}
-                                            tags={data.tags}
-                                            location={data.location}
-                                            date={data.date}
-                                            image={data.image}
-                                        />
-                                    ))}
+                                {missingData.map((data) => (
+                                    <MissingSmallCard
+                                        key={data.id}
+                                        cardType={data.cardType}
+                                        name={data.name}
+                                        tags={data.tags}
+                                        location={data.location}
+                                        date={data.date}
+                                        image={data.image}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
