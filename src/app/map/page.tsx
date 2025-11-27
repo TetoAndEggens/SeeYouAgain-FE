@@ -1,11 +1,12 @@
 'use client';
 
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { Map, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk';
 
 import VaulDrawer from '@/components/ui/drawer';
-import { useState } from 'react';
 import useKakaoLoader from '@/hook/useKakaoLoader';
 import MapMarkerColorGuide from '@/components/features/map/MapMarkerColorGuide';
+import { MissingSmallCard } from '@/components/features/missing/MissingSmallCard';
+import { useState } from 'react';
 
 const testMissingData = [
     {
@@ -57,6 +58,11 @@ const testMissingData = [
 const MapPage = () => {
     const [loading, error] = useKakaoLoader();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isInfoOpen, setIsInfoOpen] = useState(-1);
+    const [center, setCenter] = useState<{
+        lng: number;
+        lat: number;
+    }>({ lat: 33.450701, lng: 126.570667 });
     const [coord, setCoord] = useState<{
         lng: number;
         lat: number;
@@ -65,6 +71,11 @@ const MapPage = () => {
         sw: string;
         ne: string;
     }>();
+
+    const handleClickMarker = (id: number, lng: number, lat: number) => {
+        setIsInfoOpen((prev) => (prev === id ? -1 : id));
+        // setCenter({ lat: Number(lat.toFixed(5)), lng: Number(lng.toFixed(5)) });
+    };
 
     if (loading) {
         return <div className="flex h-full items-center justify-center">지도 로딩중..</div>;
@@ -77,11 +88,8 @@ const MapPage = () => {
     return (
         <div className="relative h-full w-full">
             <Map // 지도를 표시할 Container
-                center={{
-                    // 지도의 중심좌표
-                    lat: 33.450701,
-                    lng: 126.570667,
-                }}
+                center={center}
+                isPanto={true}
                 style={{
                     // 지도의 크기
                     width: '100%',
@@ -95,6 +103,7 @@ const MapPage = () => {
                     const latlng = mouseEvent.latLng;
                     setCoord({ lng: latlng.getLng(), lat: latlng.getLat() });
                     setIsDrawerOpen(true);
+                    setIsInfoOpen(-1);
                 }}
                 onBoundsChanged={(map) => {
                     const bounds = map.getBounds();
@@ -105,18 +114,41 @@ const MapPage = () => {
                 }}
             >
                 {testMissingData &&
-                    testMissingData.map((data, idx) => (
-                        <MapMarker
-                            key={`data${idx}`}
-                            position={{
-                                lat: data.lat,
-                                lng: data.lng,
-                            }}
-                            image={{
-                                src: `/markers/${data.cardType === 'missing' ? 'missing' : 'sighting'}.svg`,
-                                size: { width: 36, height: 51.5 },
-                            }}
-                        />
+                    testMissingData.map((data) => (
+                        <div key={`marker-wrapper-${data.id}`}>
+                            <MapMarker
+                                clickable={true}
+                                position={{
+                                    lat: data.lat,
+                                    lng: data.lng,
+                                }}
+                                image={{
+                                    src: `/markers/${data.cardType === 'missing' ? 'missing' : 'sighting'}.svg`,
+                                    size: { width: 36, height: 51.5 },
+                                }}
+                                onClick={() => handleClickMarker(data.id, data.lng, data.lat)}
+                            />
+                            {isInfoOpen === data.id && (
+                                <CustomOverlayMap
+                                    position={{
+                                        lat: data.lat,
+                                        lng: data.lng,
+                                    }}
+                                    yAnchor={1.4}
+                                >
+                                    <div className="w-80">
+                                        <MissingSmallCard
+                                            cardType={data.cardType}
+                                            name={data.name}
+                                            tags={data.tags}
+                                            location={data.location}
+                                            date={data.date}
+                                            image={data.image}
+                                        />
+                                    </div>
+                                </CustomOverlayMap>
+                            )}
+                        </div>
                     ))}
             </Map>
             {/*지도 위 오버레이 공간*/}
