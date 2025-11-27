@@ -22,7 +22,7 @@ export function MissingSmallCard({ cardType, name, tags, location, date, image }
                     </Tag>
                     <span className="font-semibold">{name}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                     {tags.map((tag) => (
                         <Tag key={tag} variant="default" size="sm">
                             {tag}
