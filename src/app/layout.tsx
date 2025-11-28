@@ -5,6 +5,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '../components/layout/Header';
 import { NavigationMenu } from '@/components/layout/NavigationMenu';
+import QueryProvider from '@/providers/QueryProvider';
 
 const pretendard = localFont({
     src: [
@@ -61,7 +62,9 @@ export default function RootLayout({
         <html lang="ko" className={pretendard.variable}>
             <body className={`${pretendard.className} flex h-screen flex-col`}>
                 <Header />
-                <main className="relative h-full overflow-y-auto">{children}</main>
+                <QueryProvider>
+                    <main className="relative h-full overflow-y-auto">{children}</main>
+                </QueryProvider>
                 <NavigationMenu />
             </body>
         </html>
