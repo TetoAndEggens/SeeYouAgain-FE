@@ -54,7 +54,7 @@ const TestPage = () => {
                     <Form
                         title="복순이"
                         className="w-1/2"
-                        elementChildren={
+                        children={
                             <div className="mt-2 grid grid-cols-2 gap-4">
                                 {element?.map((item, index) => {
                                     return (
@@ -70,7 +70,7 @@ const TestPage = () => {
                     <Form
                         title="복순이"
                         className="w-1/2"
-                        elementChildren={
+                        children={
                             <div className="mt-2 grid grid-cols-1 gap-4">
                                 {element?.map((item, index) => {
                                     return (
