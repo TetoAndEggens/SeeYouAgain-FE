@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface InformationDetailProps {
-    index: number;
+    index?: number;
     item: { title: string; context: string };
     className?: string;
     titleClassName?: string;

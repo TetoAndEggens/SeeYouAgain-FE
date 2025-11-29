@@ -16,19 +16,30 @@ interface Action {
 
 const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
     '/': { variant: 'default', title: 'SeeYouAgain' },
+    '/missing/detail': { variant: 'back', title: '실종 동물 찾기' },
     '/missing': { variant: 'default', title: '실종 동물 찾기' },
-    '/missing/detial/*': { variant: 'back', title: '' },
     '/test': { variant: 'back', title: 'Test Page' },
     '/sample': { variant: 'hidden' },
 };
 
 function HeaderControl(pathname: string | null) {
-    pathname = pathname || '/';
-    const rule = ROUTE_RULES[pathname];
-    if (!rule) {
+    const currentPath = pathname || '/';
+
+    const matcheUrl = Object.entries(ROUTE_RULES).find(([pattern]) => {
+        if (currentPath === pattern) return true;
+        if (currentPath.startsWith(pattern + '/')) return true;
+        return false;
+    });
+
+    if (!matcheUrl) {
         return { variant: 'default' as Variant, title: 'SeeYouAgain' };
     }
-    return { variant: rule.variant, title: rule.title ?? 'SeeYouAgain' };
+
+    const [, rule] = matcheUrl;
+    return {
+        variant: rule.variant,
+        title: rule.title ?? 'SeeYouAgain',
+    };
 }
 
 export function Header() {
@@ -105,7 +116,7 @@ export function Header() {
 
     return (
         <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-gray-600 bg-[#F8F9FA] p-4">
-            <div className="flex w-36 items-center justify-between bg-auto">
+            <div className="flex items-center justify-between bg-auto">
                 {leftIcons.map((item) => (
                     <button
                         key={item.key}
