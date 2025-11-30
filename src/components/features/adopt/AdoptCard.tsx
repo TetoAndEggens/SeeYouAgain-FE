@@ -1,25 +1,28 @@
-import Tag from '@/components/ui/tag';
 import { calculateAgeFromYear } from '@/lib/date-utils';
+import { cn } from '@/lib/utils';
 import type { AdoptAnimal } from '@/types/adopt';
 import { Mars, Venus } from 'lucide-react';
 
-// export type AdoptAnimal = {
-//     animalId: number;
-//     happenDate: string;
-//     species: 'DOG' | 'CAT';
-//     breedType: string;
-//     birth: string;
-//     city: string;
-//     town: string;
-//     sex: 'M' | 'F' | 'Q';
-//     processState: string;
-//     profile: string;
-//     animalType: 'ABANDONED';
-// };
+interface AdoptCardProps extends AdoptAnimal {
+    className?: string;
+}
 
-export function AdoptLargeCard({ breedType, birth, sex, city, town, profile }: AdoptAnimal) {
+export function AdoptCard({
+    breedType,
+    birth,
+    sex,
+    city,
+    town,
+    profile,
+    className,
+}: AdoptCardProps) {
     return (
-        <div className="overflow-hidden rounded-lg bg-white">
+        <div
+            className={cn(
+                'w-full flex-shrink-0 overflow-hidden rounded-lg bg-white text-nowrap',
+                className
+            )}
+        >
             <div className="flex-shrink-0">
                 <img src={profile} alt={breedType} className="aspect-square w-full object-cover" />
             </div>
