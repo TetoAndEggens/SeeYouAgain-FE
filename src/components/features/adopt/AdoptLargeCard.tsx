@@ -1,40 +1,43 @@
 import Tag from '@/components/ui/tag';
+import { calculateAgeFromYear } from '@/lib/date-utils';
+import type { AdoptAnimal } from '@/types/adopt';
+import { Mars, Venus } from 'lucide-react';
 
-interface AdoptLargeCardProps {
-    name: string;
-    species: string;
-    age: string;
-    tags: string[];
-    location: string;
-    image: string;
-}
+// export type AdoptAnimal = {
+//     animalId: number;
+//     happenDate: string;
+//     species: 'DOG' | 'CAT';
+//     breedType: string;
+//     birth: string;
+//     city: string;
+//     town: string;
+//     sex: 'M' | 'F' | 'Q';
+//     processState: string;
+//     profile: string;
+//     animalType: 'ABANDONED';
+// };
 
-export function AdoptLargeCard({ name, species, age, tags, location, image }: AdoptLargeCardProps) {
+export function AdoptLargeCard({ breedType, birth, sex, city, town, profile }: AdoptAnimal) {
     return (
         <div className="overflow-hidden rounded-lg bg-white">
             <div className="flex-shrink-0">
-                <img src={image} alt={name} className="aspect-square w-full object-cover" />
+                <img src={profile} alt={breedType} className="aspect-square w-full object-cover" />
             </div>
             <div className="flex flex-col gap-2 px-4 py-3">
                 <div className="flex flex-col gap-1">
-                    <span className="font-semibold">{name}</span>
-                    <span className="text-gray-40 text-[0.75rem]">
-                        {species} {age}살
-                    </span>
+                    <span className="font-semibold">{breedType}</span>
+                    <div className="text-gray-40 flex gap-1 text-[0.75rem]">
+                        {calculateAgeFromYear(Number(birth.slice(0, 4)))}살{' '}
+                        {sex === 'M' ? (
+                            <Mars size={16} color="#3B82F6" />
+                        ) : (
+                            <Venus size={16} color="#EC4899" />
+                        )}
+                    </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                    {tags.slice(0, 2).map((tag) => (
-                        <Tag key={tag} variant="default" size="sm">
-                            {tag}
-                        </Tag>
-                    ))}
-                    {tags.length > 2 && (
-                        <Tag variant="default" size="sm">
-                            {`+${tags.length - 2}`}
-                        </Tag>
-                    )}
-                </div>
-                <span className="text-gray-40 text-[0.75rem]">{location}</span>
+                <span className="text-gray-40 text-[0.75rem]">
+                    {city} {town}
+                </span>
             </div>
         </div>
     );
