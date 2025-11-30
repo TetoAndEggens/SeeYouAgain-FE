@@ -25,7 +25,11 @@ export function ImageCarousel({ images, alt = 'Image' }: ImageCarouselProps) {
         >
             {images.map((image, idx) => (
                 <SwiperSlide key={idx}>
-                    <img src={image} alt={`${alt} ${idx + 1}`} className="object-contain" />
+                    <img
+                        src={image}
+                        alt={`${alt} ${idx + 1}`}
+                        className="h-80 w-full object-cover"
+                    />
                 </SwiperSlide>
             ))}
         </Swiper>

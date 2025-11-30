@@ -1,5 +1,5 @@
 import axiosInstance from '@/lib/axios';
-import type { AdoptAnimal } from '@/types/adopt';
+import type { AdoptAnimal, AdoptAnimalDetail } from '@/types/adopt';
 
 export const fetchAdoptAnimals = async () => {
     // const { data } = await axiosInstance.get('/adopt');
@@ -125,7 +125,123 @@ export const fetchAdoptAnimals = async () => {
     return data;
 };
 
-export const fetchAdoptAnimalsById = async (id: number) => {
-    const { data } = await axiosInstance.get(`/adopt/${id}`);
-    return data;
+export const fetchAdoptAnimalsById = async (id: number): Promise<AdoptAnimalDetail> => {
+    // const { data } = await axiosInstance.get(`/adopt/${id}`);
+    // return data;
+
+    // 테스트 데이터
+    const testDetailData: Record<number, AdoptAnimalDetail> = {
+        1: {
+            animalId: 1,
+            animalType: '유기',
+            happenDate: '20251120',
+            species: 'DOG',
+            breedType: '믹스견',
+            birth: '2024년생',
+            happenPlace: '서울특별시 강남구 테헤란로',
+            sex: 'M',
+            processState: '보호중',
+            profiles: [
+                'https://placedog.net/500/280?random=1',
+                'https://placedog.net/500/280?random=11',
+                'https://placedog.net/500/280?random=12',
+            ],
+            color: '갈색',
+            noticeNo: '서울-강남-2025-00001',
+            noticeStartDate: '2025-11-20',
+            noticeEndDate: '2025-12-10',
+            specialMark: '왼쪽 귀에 흰색 반점',
+            weight: '5.2(Kg)',
+            neuteredState: 'Y',
+            centerName: '서울시 동물보호센터',
+            centerAddress: '서울특별시 강남구 어쩌구로 123',
+            centerPhone: '02-1234-5678',
+            isBookmarked: false,
+        },
+        2: {
+            animalId: 2,
+            animalType: '유기',
+            happenDate: '20251118',
+            species: 'DOG',
+            breedType: '말티즈',
+            birth: '2023년생',
+            happenPlace: '서울특별시 강서구 마곡중앙로',
+            sex: 'F',
+            processState: '보호중',
+            profiles: [
+                'https://placedog.net/500/280?random=2',
+                'https://placedog.net/500/280?random=21',
+            ],
+            color: '흰색',
+            noticeNo: '서울-강서-2025-00015',
+            noticeStartDate: '2025-11-18',
+            noticeEndDate: '2025-12-08',
+            specialMark: '오른쪽 뒷다리 약간 절뚝임',
+            weight: '3.1(Kg)',
+            neuteredState: 'Y',
+            centerName: '강서구 유기동물보호소',
+            centerAddress: '서울특별시 강서구 공항대로 456',
+            centerPhone: '02-2345-6789',
+            isBookmarked: true,
+        },
+        3: {
+            animalId: 3,
+            animalType: '유기',
+            happenDate: '20251115',
+            species: 'CAT',
+            breedType: '코리안숏헤어',
+            birth: '2025(60일미만)년생',
+            happenPlace: '경기도 성남시 분당구 판교역로',
+            sex: 'F',
+            processState: '보호중',
+            profiles: [
+                'https://placedog.net/500/280?random=3',
+                'https://placedog.net/500/280?random=31',
+                'https://placedog.net/500/280?random=32',
+                'https://placedog.net/500/280?random=33',
+            ],
+            color: '회색 줄무늬',
+            noticeNo: '경기-성남-2025-00087',
+            noticeStartDate: '2025-11-15',
+            noticeEndDate: '2025-12-05',
+            specialMark: '매우 어림, 눈이 아직 완전히 안 떠짐',
+            weight: '0.5(Kg)',
+            neuteredState: 'N',
+            centerName: '성남시 반려동물센터',
+            centerAddress: '경기도 성남시 분당구 정자일로 789',
+            centerPhone: '031-3456-7890',
+            isBookmarked: false,
+        },
+        4: {
+            animalId: 4,
+            animalType: '유기',
+            happenDate: '20251110',
+            species: 'DOG',
+            breedType: '포메라니안',
+            birth: '2022년생',
+            happenPlace: '인천광역시 남동구 구월동',
+            sex: 'M',
+            processState: '보호중',
+            profiles: ['https://placedog.net/500/280?random=4'],
+            color: '주황색',
+            noticeNo: '인천-남동-2025-00042',
+            noticeStartDate: '2025-11-10',
+            noticeEndDate: '2025-11-30',
+            specialMark: '목에 파란색 목줄 착용',
+            weight: '2.8(Kg)',
+            neuteredState: 'U',
+            centerName: '인천 남동구 동물보호센터',
+            centerAddress: '인천광역시 남동구 소래로 234',
+            centerPhone: '032-4567-8901',
+            isBookmarked: true,
+        },
+    };
+
+    // id에 해당하는 데이터가 없으면 기본값 반환
+    return (
+        testDetailData[id] || {
+            ...testDetailData[1],
+            animalId: id,
+        }
+    );
 };
