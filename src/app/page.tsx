@@ -1,34 +1,11 @@
-import { AdoptSmallCard } from '@/components/features/adopt/AdoptSmallCard';
+'use client';
+
+import { fetchAdoptAnimals } from '@/api/adopt';
+import { AdoptCard } from '@/components/features/adopt/AdoptCard';
 import { MissingSmallCard } from '@/components/features/missing/MissingSmallCard';
+import { useQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-
-const testAdoptSmallData = [
-    {
-        name: '복돌이',
-        species: '말티즈',
-        age: '3',
-        image: 'https://placedog.net/500/280',
-    },
-    {
-        name: '복돌이',
-        species: '말티즈',
-        age: '3',
-        image: 'https://placedog.net/500/280',
-    },
-    {
-        name: '복돌이',
-        species: '말티즈',
-        age: '3',
-        image: 'https://placedog.net/500/280',
-    },
-    {
-        name: '복돌이',
-        species: '말티즈',
-        age: '3',
-        image: 'https://placedog.net/500/280',
-    },
-];
 
 const testMissingSmallData = [
     {
@@ -74,6 +51,11 @@ const testMissingSmallData = [
 ];
 
 export default function Home() {
+    const { data: adoptData, isLoading } = useQuery({
+        queryKey: ['adoptAnimals'],
+        queryFn: fetchAdoptAnimals,
+    });
+
     return (
         <div className="flex flex-col gap-6">
             <div className="bg-primary text-gray-10 flex h-[8rem] flex-col justify-center gap-2 px-8">
@@ -89,9 +71,10 @@ export default function Home() {
                 </Link>
                 <div className="-mx-4 flex gap-4 overflow-x-auto">
                     <div></div>
-                    {testAdoptSmallData.map((data, idx) => (
-                        <AdoptSmallCard key={idx} {...data} />
-                    ))}
+                    {adoptData &&
+                        adoptData.map((data) => (
+                            <AdoptCard key={data.animalId} className="w-48" {...data} />
+                        ))}
                     <div></div>
                 </div>
             </div>
