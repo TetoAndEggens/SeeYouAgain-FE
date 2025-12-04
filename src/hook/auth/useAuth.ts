@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import apiClient from '@/lib/api';
+import axiosInstance from '@/lib/axios';
 
 export const useAuth = () => {
     const { login, logout, setLoading, isAuthenticated } = useAuthStore();
@@ -10,11 +10,8 @@ export const useAuth = () => {
             setLoading(true);
 
             try {
-                const response = await apiClient.get('/auth/status');
-
-                if (response.data) {
-                    login();
-                }
+                const response = await axiosInstance.post('/auth/reissue');
+                login();
             } catch (error) {
                 logout();
             } finally {
