@@ -5,15 +5,24 @@ import { Button } from '@/components/ui/button';
 import React, { useEffect, useState } from 'react';
 import PasswordInput from '@/components/ui/passwordInput';
 import { SignupRequest } from '@/types/auth';
-import {
-    fetchSocialTempInfo,
-    sendSocialPhoneVerification,
-    signup,
-    verifySocialPhoneCode,
-} from '@/api/auth';
+import { signup } from '@/api/auth';
 import { useSignupValidation } from '@/hook/auth/useSignupValidation';
+import { usePhoneVerification } from '@/hook/auth/usePhoneVerification';
+import { useSocialSignup } from '@/hook/auth/useSocialSignup';
 
 const SignupPage = () => {
+    const [formData, setFormData] = useState<SignupRequest>({
+        loginId: '',
+        password: '',
+        nickName: '',
+        phoneNumber: '',
+    });
+
+    const [checkPassword, setCheckPassword] = useState('');
+    const [isAvailableId, setIsAvailableId] = useState(false);
+
+    const { isSocialSignup, tempUuid } = useSocialSignup();
+
     const {
         errors,
         validateLoginId,
@@ -24,67 +33,25 @@ const SignupPage = () => {
         checkDupLoginId,
     } = useSignupValidation();
 
-    const [formData, setFormData] = useState<SignupRequest>({
-        loginId: '',
-        password: '',
-        nickName: '',
-        phoneNumber: '',
-    });
+    const {
+        isVerificationSent,
+        isPhoneVerified,
+        verificationCode,
+        setVerificationCode,
+        sendVerificationCode,
+        confirmVerificationCode,
+    } = usePhoneVerification();
 
-    const [checkPassword, setCheckPassword] = useState('');
-    const [isVerificationSent, setIsVerificationSent] = useState(false);
-    const [verificationCode, setVerificationCode] = useState('');
-    const [isSocialSignup, setIsSocialSignup] = useState(false);
-    const [isPhoneVerified, setIsPhoneVerified] = useState(false); // 추가
-    const [isAvailableId, setIsAvailableId] = useState(false);
-
-    const handleChangeInput = (field: keyof SignupRequest, value: string) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-    };
-
-    const handleSentVerification = async () => {
-        try {
-            if (isSocialSignup && formData.tempUuid) {
-                console.log({
-                    phone: formData.phoneNumber,
-                    tempUuid: formData.tempUuid,
-                });
-                const response = await sendSocialPhoneVerification({
-                    phone: formData.phoneNumber,
-                    tempUuid: formData.tempUuid,
-                });
-
-                console.log('인증번호 발송 성공:', response);
-                alert('인증번호가 발송되었습니다');
-            } else {
-                // 일반 회원가입 (아직 미구현)
-                alert('일반 회원가입 폰 인증은 아직 지원되지 않습니다');
-                return;
-            }
-
-            setIsVerificationSent(true);
-        } catch (error) {
-            console.error('인증번호 발송 실패:', error);
-            alert('인증번호 발송에 실패했습니다. 다시 시도해주세요.');
-        }
+    const handleSendVerification = async () => {
+        sendVerificationCode(isSocialSignup, formData.tempUuid, formData.phoneNumber);
     };
 
     const handleConfirmVerification = async () => {
-        // 인증번호 입력 확인
-        if (!verificationCode || verificationCode.length !== 6) {
-            alert('인증번호 6자리를 입력해주세요');
-            return;
-        }
+        confirmVerificationCode(formData.phoneNumber);
+    };
 
-        try {
-            await verifySocialPhoneCode(formData.phoneNumber);
-
-            setIsPhoneVerified(true);
-            alert('인증이 완료되었습니다');
-        } catch (error) {
-            console.error('인증번호 확인 실패:', error);
-            alert('인증번호가 일치하지 않습니다');
-        }
+    const handleChangeInput = (field: keyof SignupRequest, value: string) => {
+        setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
     const handleCheckLoginId = async () => {
@@ -127,21 +94,10 @@ const SignupPage = () => {
     };
 
     useEffect(() => {
-        const checkSocialSignup = async () => {
-            try {
-                const { data } = await fetchSocialTempInfo();
-                setIsSocialSignup(true);
-
-                // tempUuid를 formData에 저장
-                setFormData((prev) => ({ ...prev, tempUuid: data.tempUuid }));
-            } catch (error) {
-                // 실패 (401) → 일반 회원가입
-                setIsSocialSignup(false);
-            }
-        };
-
-        checkSocialSignup();
-    }, []);
+        if (tempUuid) {
+            setFormData((prev) => ({ ...prev, tempUuid }));
+        }
+    }, [tempUuid]);
 
     return (
         <div className="flex h-full flex-col justify-between px-4 py-5">
@@ -221,7 +177,7 @@ const SignupPage = () => {
                         <Button
                             className="h-9 text-[0.75rem]"
                             disabled={!formData.phoneNumber || errors.phoneNumber !== ''}
-                            onClick={handleSentVerification}
+                            onClick={handleSendVerification}
                         >
                             인증번호 받기
                         </Button>
