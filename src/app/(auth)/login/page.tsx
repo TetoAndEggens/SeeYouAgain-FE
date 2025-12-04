@@ -2,6 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const LoginPage = () => {
@@ -23,7 +24,7 @@ const LoginPage = () => {
                         <span>아이디 찾기</span>
                         <span>비밀번호 찾기</span>
                     </div>
-                    <span>회원가입</span>
+                    <Link href={'/signup'}>회원가입</Link>
                 </div>
             </div>
             <div>
