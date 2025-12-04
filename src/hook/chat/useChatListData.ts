@@ -113,8 +113,162 @@ export const chatListData: {
     },
 ];
 
+export const chatDetailData: {
+    date: string;
+    content: {
+        id: number;
+        isMe: boolean;
+        message: string;
+        time: string;
+        isRead: boolean;
+    }[];
+}[] = [
+    {
+        date: '2025년 12월 3일 수요일',
+        content: [
+            {
+                id: 1,
+                isMe: false,
+                message: '안녕하세요! 게시글 보고 연락드렸습니다.',
+                time: '14:14',
+                isRead: true,
+            },
+            {
+                id: 2,
+                isMe: false,
+                message: '방금 강남역 근처에서 비슷한 강아지를 봤어요.',
+                time: '14:14',
+                isRead: true,
+            },
+            {
+                id: 3,
+                isMe: true,
+                message: '정말요? 제보해 주셔서 너무 감사합니다!',
+                time: '14:15',
+                isRead: true,
+            },
+            {
+                id: 4,
+                isMe: true,
+                message: '혹시 본 위치랑 시간 조금 더 자세히 알려주실 수 있을까요?',
+                time: '14:15',
+                isRead: true,
+            },
+            {
+                id: 5,
+                isMe: false,
+                message: '강남역 5번 출구 근처였어요. 시간은 정확히 2시쯤이었습니다.',
+                time: '14:16',
+                isRead: true,
+            },
+            {
+                id: 6,
+                isMe: true,
+                message: '알려주셔서 감사합니다. 근처부터 다시 한 번 찾아볼게요.',
+                time: '14:17',
+                isRead: true,
+            },
+            {
+                id: 7,
+                isMe: false,
+                message: '도움이 되었으면 좋겠네요. 찾으시길 정말 바랄게요.',
+                time: '14:18',
+                isRead: true,
+            },
+            {
+                id: 8,
+                isMe: true,
+                message: '혹시 이후에라도 비슷한 강아지 보시면 한 번만 더 연락 부탁드려도 될까요?',
+                time: '20:32',
+                isRead: true,
+            },
+            {
+                id: 9,
+                isMe: false,
+                message: '네, 당연하죠. 또 보게 되면 바로 알려드릴게요.',
+                time: '20:33',
+                isRead: true,
+            },
+        ],
+    },
+    {
+        date: '2025년 12월 4일 목요일',
+        content: [
+            {
+                id: 10,
+                isMe: false,
+                message: '오늘도 강남역 근처 지나가면서 한 번 더 둘러봤는데, 아직은 못 봤어요.',
+                time: '13:05',
+                isRead: false,
+            },
+            {
+                id: 11,
+                isMe: false,
+                message: '혹시 강아지 특징 중에 더 눈에 띄는 게 있을까요?',
+                time: '13:05',
+                isRead: false,
+            },
+            {
+                id: 12,
+                isMe: true,
+                message:
+                    '노란 리드줄이랑 파란색 목줄을 하고 있어요. 꼬리가 긴 편이고 사람을 잘 따라와요.',
+                time: '13:08',
+                isRead: false,
+            },
+            {
+                id: 13,
+                isMe: true,
+                message: '계속 신경 써 주셔서 정말 감사합니다.',
+                time: '13:08',
+                isRead: false,
+            },
+        ],
+    },
+    {
+        date: '2025년 12월 5일 금요일',
+        content: [
+            {
+                id: 14,
+                isMe: false,
+                message:
+                    '어제 말씀해주신 특징이랑 조금 비슷한 강아지를 또 보긴 했는데, 확신은 잘 안 들었어요.',
+                time: '09:12',
+                isRead: false,
+            },
+            {
+                id: 15,
+                isMe: false,
+                message: '혹시 사진이 있으면 보내주실 수 있을까요? 비교해 보려고요.',
+                time: '09:12',
+                isRead: false,
+            },
+            {
+                id: 16,
+                isMe: true,
+                message: '네, 잠시만요. 지금 가지고 있는 사진 정리해서 보내드릴게요.',
+                time: '09:13',
+                isRead: false,
+            },
+            {
+                id: 17,
+                isMe: true,
+                message:
+                    '정말 계속 신경 써 주셔서 감사하고, 좋은 소식 생기면 저도 바로 알려드릴게요.',
+                time: '09:14',
+                isRead: false,
+            },
+        ],
+    },
+];
 export function useChatListData() {
     return {
         data: chatListData,
+    };
+}
+
+export function useChatDetailData() {
+    return {
+        data: chatDetailData,
     };
 }
