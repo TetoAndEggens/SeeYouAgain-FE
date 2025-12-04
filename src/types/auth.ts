@@ -10,3 +10,8 @@ export interface PhoneVerifyRequest {
     phone: string;
     tempUuid?: string;
 }
+
+export interface LoginRequest {
+    loginId: string;
+    password: string;
+}
