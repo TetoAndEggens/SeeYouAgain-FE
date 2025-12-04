@@ -17,28 +17,28 @@ axiosInstance.interceptors.response.use(
 
         // 401 에러이고, 재시도 안한 경우, reissue 요청 자체가 아닌 경우
         // 무한루프 방지
-        if (
-            error.response?.status === 401 &&
-            !originalRequest._retry &&
-            !originalRequest.url?.includes('/auth/reissue')
-        ) {
-            originalRequest._retry = true;
+        // if (
+        //     error.response?.status === 401 &&
+        //     !originalRequest._retry &&
+        //     !originalRequest.url?.includes('/auth/reissue')
+        // ) {
+        //     originalRequest._retry = true;
 
-            try {
-                // RefreshToken으로 재발급
-                await axiosInstance.post('/auth/reissue');
+        //     try {
+        //         // RefreshToken으로 재발급
+        //         await axiosInstance.post('/auth/reissue');
 
-                // 원래 요청 재시도
-                return axiosInstance(originalRequest);
-            } catch (refreshError) {
-                // Refresh 실패 → 로그아웃
-                useAuthStore.getState().logout();
-                if (typeof window !== 'undefined') {
-                    window.location.href = '/login';
-                }
-                return Promise.reject(refreshError);
-            }
-        }
+        //         // 원래 요청 재시도
+        //         return axiosInstance(originalRequest);
+        //     } catch (refreshError) {
+        //         // Refresh 실패 → 로그아웃
+        //         useAuthStore.getState().logout();
+        //         if (typeof window !== 'undefined') {
+        //             window.location.href = '/login';
+        //         }
+        //         return Promise.reject(refreshError);
+        //     }
+        // }
 
         return Promise.reject(error);
     }

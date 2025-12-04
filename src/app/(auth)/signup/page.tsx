@@ -38,23 +38,23 @@ const SignupPage = () => {
         setIsVerificationSent(true);
     };
 
-    // useEffect(() => {
-    //     const checkSocialSignup = async () => {
-    //         try {
-    //             const data = await fetchSocialTempInfo();
+    useEffect(() => {
+        const checkSocialSignup = async () => {
+            try {
+                const data = await fetchSocialTempInfo();
+                console.log(data);
+                setIsSocialSignup(true);
 
-    //             setIsSocialSignup(true);
+                // tempUuid를 formData에 저장
+                setFormData((prev) => ({ ...prev, tempUuid: data.tempUuid }));
+            } catch (error) {
+                // 실패 (401) → 일반 회원가입
+                setIsSocialSignup(false);
+            }
+        };
 
-    //             // tempUuid를 formData에 저장
-    //             setFormData((prev) => ({ ...prev, tempUuid: data.tempUuid }));
-    //         } catch (error) {
-    //             // 실패 (401) → 일반 회원가입
-    //             setIsSocialSignup(false);
-    //         }
-    //     };
-
-    //     checkSocialSignup();
-    // }, []);
+        checkSocialSignup();
+    }, []);
 
     return (
         <div className="flex h-full flex-col justify-between px-4 py-5">
