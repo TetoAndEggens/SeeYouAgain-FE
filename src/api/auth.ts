@@ -1,5 +1,5 @@
 import axiosInstance from '@/lib/axios';
-import { LoginRequest, PhoneVerifyRequest, SignupRequest } from '@/types/auth';
+import { LoginRequest, PhoneVerifyRequest, SignupRequest, WithdrawalRequest } from '@/types/auth';
 
 export const fetchSocialTempInfo = async () => {
     const { data } = await axiosInstance.get('/auth/social/temp-info');
@@ -41,5 +41,12 @@ export const verifyPhoneCode = async (phone: string, code: string) => {
 
 export const login = async (request: LoginRequest) => {
     const { data } = await axiosInstance.post('/auth/login', request);
+    return data;
+};
+
+export const withdrawal = async (request: WithdrawalRequest) => {
+    const { data } = await axiosInstance.delete('/auth/withdrawal', {
+        data: request,
+    });
     return data;
 };
