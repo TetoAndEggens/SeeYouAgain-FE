@@ -1,8 +1,6 @@
 import React from 'react';
 import MissingDetailPage from './MissingDetailPage';
 
-import MissingDetailPage from './MissingDetailPage';
-
 type Props = {
     params: Promise<{ id: number }>;
 };

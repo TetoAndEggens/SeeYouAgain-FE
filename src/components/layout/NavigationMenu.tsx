@@ -4,7 +4,6 @@ import * as React from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
-import { usePathname } from 'next/navigation';
 import { House, HeartHandshake, Search, Map, CircleUser } from 'lucide-react';
 
 const exceptUrls = ['/test', '/missing/detail']; // 예외 URL 목록
@@ -63,13 +62,8 @@ export function NavigationMenu() {
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
                                 pathname === '/missing' ? 'text-[#FFB84D]' : ''
-                                pathname === '/missing' ? 'text-[#FFB84D]' : ''
                             )}
                         >
-                            <Search
-                                strokeWidth={1}
-                                color={pathname === '/missing' ? '#FFB84D' : 'black'}
-                            />
                             <Search
                                 strokeWidth={1}
                                 color={pathname === '/missing' ? '#FFB84D' : 'black'}

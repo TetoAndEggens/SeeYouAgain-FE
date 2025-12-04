@@ -19,3 +19,15 @@ export interface MissingData {
     lng: number;
     lat: number;
 }
+
+export interface MissingDetailData {
+    data: {
+        cardType: 'missing' | 'sighting';
+        title: string;
+        userName: string;
+        tags: string[];
+        location: string;
+        date: string;
+        image: string;
+    };
+}
