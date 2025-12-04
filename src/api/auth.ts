@@ -25,3 +25,13 @@ export const verifySocialPhoneCode = async (phone: string) => {
     const { data } = await axiosInstance.post('/auth/social/phone/verify-code', { phone: phone });
     return data;
 };
+
+export const sendPhoneVerification = async (phone: string) => {
+    const { data } = await axiosInstance.post('/auth/phone/send-code', { phone: phone });
+    return data;
+};
+
+export const verifyPhoneCode = async (phone: string, code: string) => {
+    const { data } = await axiosInstance.post('/auth/phone/verify-code', { phone: phone, code: code });
+    return data;
+};
