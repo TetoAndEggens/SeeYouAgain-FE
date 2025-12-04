@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Search } from '@/components/layout/Search';
 import { useChatListData } from '@/hook/chat/useChatListData';
@@ -18,6 +19,7 @@ interface dataType {
 
 const ChatListPage = () => {
     const { data } = useChatListData();
+    const router = useRouter();
     const [tab, setTab] = React.useState<'all' | 'unread'>('all');
     const visiblaList = React.useMemo(() => {
         if (!data) return [];
@@ -52,7 +54,7 @@ const ChatListPage = () => {
             </div>
             {visiblaList.map((item, index) => {
                 return (
-                    <div key={index} className="mb-2 flex flex-col items-center gap-1 shadow-md">
+                    <div key={index} className="mb-2 flex flex-col items-center shadow-md">
                         <ChatPreview
                             // avatarSrc={item.avatar}
                             // avartarAlt={item.avatar}
@@ -60,9 +62,17 @@ const ChatListPage = () => {
                             lastMessage={item.lastMessage}
                             timestamp={item.lastMessageTime}
                             unreadCount={item.unreadCount}
+                            onClick={() => router.push(`/chat/detail/${item.id}`)}
                         />
-                        <div className="w-[80%]">
-                            <ChatPost title={item.title} post={item.post} />
+                        <div
+                            className={cn(
+                                'flex w-full justify-center',
+                                item.unreadCount !== undefined && item.unreadCount > 0
+                                    ? 'bg-[#FFF9F0]'
+                                    : 'bg-white'
+                            )}
+                        >
+                            <ChatPost title={item.title} post={item.post} className="w-[80%]" />
                         </div>
                     </div>
                 );
