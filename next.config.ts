@@ -9,7 +9,14 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
-    // 기타 Next.js 설정
+    async rewrites() {
+        return [
+            {
+                source: '/api/:path*',
+                destination: 'https://dev-api.seeyouagain.store/:path*',
+            },
+        ];
+    },
 };
 
 export default withPWA(nextConfig);
