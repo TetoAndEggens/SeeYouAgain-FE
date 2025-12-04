@@ -1,24 +1,18 @@
+'use client';
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Avatar } from '@/components/layout/Avatar';
 import Tag from '@/components/ui/tag';
 import { Form } from '@/components/layout/Form';
 import { InformationDetail } from '@/components/layout/InformationDetail';
 import { Button } from '@/components/ui/button';
 import { Siren } from 'lucide-react';
+import { MissingDetailData } from '@/types/map';
 
-interface MissingDetailProps {
-    data: {
-        cardType: 'missing' | 'sighting';
-        title: string;
-        userName: string;
-        tags: string[];
-        location: string;
-        date: string;
-        image: string;
-    };
-}
+export default function MissingDetailPage({ data }: MissingDetailData) {
+    const router = useRouter();
 
-export default function MissingDetailPage({ data }: MissingDetailProps) {
     return (
         <div className="flex flex-col gap-4 p-4">
             <div className="flex-shrink-0">
@@ -46,7 +40,7 @@ export default function MissingDetailPage({ data }: MissingDetailProps) {
                 <Form
                     className="border-0 p-0"
                     title={data.title}
-                    elementChildren={
+                    children={
                         <p className="">
                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia illum
                             fugiat unde voluptatum natus excepturi fugit corporis tenetur nisi qui?
@@ -67,7 +61,7 @@ export default function MissingDetailPage({ data }: MissingDetailProps) {
             <Form
                 className="border-0 p-0"
                 title="상세 정보"
-                elementChildren={
+                children={
                     <div className="flex flex-col gap-2">
                         <div>
                             <InformationDetail item={{ title: '품종', context: '말티즈' }} />
@@ -82,7 +76,7 @@ export default function MissingDetailPage({ data }: MissingDetailProps) {
             <Form
                 className="gap-2 border-0 p-0"
                 title="목격 위치"
-                elementChildren={
+                children={
                     <div className="flex flex-col gap-2">
                         <div className="h-[200px] w-full rounded-lg bg-gray-500">지도</div>
                         <div className="">{data.location}</div>
@@ -90,7 +84,9 @@ export default function MissingDetailPage({ data }: MissingDetailProps) {
                 }
             />
 
-            <Button className="w-full">채팅하기</Button>
+            <Button className="w-full" onClick={() => router.push('/chat')}>
+                채팅하기
+            </Button>
         </div>
     );
 }
