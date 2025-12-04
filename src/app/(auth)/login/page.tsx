@@ -6,7 +6,8 @@ import React from 'react';
 
 const LoginPage = () => {
     const handleKakaoLogin = () => {
-        window.location.href = 'https://dev-api.seeyouagain.store/oauth2/authorization/kakao';
+        const redirectUri = window.location.origin;
+        window.location.href = `https://dev-api.seeyouagain.store/oauth2/authorization/kakao?redirect_uri=${encodeURIComponent(redirectUri)}`;
     };
 
     return (
