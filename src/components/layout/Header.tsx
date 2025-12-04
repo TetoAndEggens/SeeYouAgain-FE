@@ -18,6 +18,8 @@ const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
     '/': { variant: 'default', title: 'SeeYouAgain' },
     '/missing/detail': { variant: 'back', title: '실종 동물 찾기' },
     '/missing': { variant: 'default', title: '실종 동물 찾기' },
+    '/chat/': { variant: 'default', title: '' },
+    '/chat': { variant: 'default', title: '채팅' },
     '/test': { variant: 'back', title: 'Test Page' },
     '/sample': { variant: 'hidden' },
 };
