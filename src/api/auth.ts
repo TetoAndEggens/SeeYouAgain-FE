@@ -11,6 +11,11 @@ export const signup = async (request: SignupRequest) => {
     return data;
 };
 
+export const checkLoginId = async (loginId: string) => {
+    const { data } = await axiosInstance.post('/auth/check/loginId', { loginId: loginId });
+    return data;
+};
+
 export const sendSocialPhoneVerification = async (request: PhoneVerifyRequest) => {
     const { data } = await axiosInstance.post('/auth/social/phone/send-code', request);
     return data;

@@ -1,3 +1,4 @@
+import { checkLoginId } from '@/api/auth';
 import { useState } from 'react';
 
 export const useSignupValidation = () => {
@@ -29,6 +30,21 @@ export const useSignupValidation = () => {
         }
         clearError('loginId');
         return true;
+    };
+
+    const checkDupLoginId = async (loginId: string) => {
+        try {
+            await checkLoginId(loginId);
+            clearError('loginId');
+            return true;
+        } catch (error: any) {
+            if (error.response?.status === 409) {
+                setError('loginId', '이미 사용 중인 아이디입니다');
+            } else {
+                setError('loginId', '중복 확인에 실패했습니다');
+            }
+            return false;
+        }
     };
 
     // 비밀번호 검증 (8자 이상, 영문+숫자+특수문자)
@@ -82,5 +98,6 @@ export const useSignupValidation = () => {
         validatePasswordConfirm,
         validateNickName,
         validatePhoneNumber,
+        checkDupLoginId,
     };
 };
