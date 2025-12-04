@@ -15,3 +15,8 @@ export interface LoginRequest {
     loginId: string;
     password: string;
 }
+
+export interface WithdrawalRequest {
+    password: string;
+    reason: string;
+}
