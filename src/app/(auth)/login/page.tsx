@@ -1,15 +1,12 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
-import { redirect, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react';
 
 const LoginPage = () => {
-    const router = useRouter();
-
     const handleKakaoLogin = () => {
-        router.push('https://dev-api.seeyouagain.store/oauth2/authorization/kakao');
+        window.location.href = 'https://dev-api.seeyouagain.store/oauth2/authorization/kakao';
     };
 
     return (
