@@ -7,6 +7,9 @@ import { useLogin } from '@/hook/auth/useLogin';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { KakaoLoginButton } from '@/components/auth/KakaoLoginButton';
+import { NaverLoginButton } from '@/components/auth/NaverLoginButton';
+import { GoogleLoginButton } from '@/components/auth/GoogleLoginButton';
 
 const LoginPage = () => {
     const [loginId, setLoginId] = useState('');
@@ -25,6 +28,16 @@ const LoginPage = () => {
     const handleKakaoLogin = () => {
         const redirectUri = window.location.origin;
         window.location.href = `https://dev-api.seeyouagain.store/oauth2/authorization/kakao?redirect_uri=${encodeURIComponent(redirectUri)}`;
+    };
+
+    const handleNaverLogin = () => {
+        const redirectUri = window.location.origin;
+        window.location.href = `https://dev-api.seeyouagain.store/oauth2/authorization/naver?redirect_uri=${encodeURIComponent(redirectUri)}`;
+    };
+
+    const handleGoogleLogin = () => {
+        const redirectUri = window.location.origin;
+        window.location.href = `https://dev-api.seeyouagain.store/oauth2/authorization/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
     };
 
     return (
@@ -55,16 +68,10 @@ const LoginPage = () => {
                     <Link href={'/signup'}>회원가입</Link>
                 </div>
             </div>
-            <div>
-                <button className="overflow-hidden" onClick={handleKakaoLogin}>
-                    <Image
-                        src="/kakao/kakao_login_medium_wide.png"
-                        alt="카카오 로그인"
-                        width={300}
-                        height={45}
-                        className="cursor-pointer"
-                    />
-                </button>
+            <div className="flex w-[300px] flex-col gap-3">
+                <KakaoLoginButton onClick={handleKakaoLogin} />
+                <NaverLoginButton onClick={handleNaverLogin} />
+                <GoogleLoginButton onClick={handleGoogleLogin} />
             </div>
         </div>
     );
