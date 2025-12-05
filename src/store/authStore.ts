@@ -1,0 +1,35 @@
+import { create } from 'zustand';
+
+interface AuthStore {
+    // 상태
+    isAuthenticated: boolean;
+    isLoading: boolean;
+
+    // 액션
+    login: () => void;
+    logout: () => void;
+    setLoading: (loading: boolean) => void;
+}
+
+export const useAuthStore = create<AuthStore>((set) => ({
+    // 초기 상태
+    isAuthenticated: false,
+    isLoading: true,
+
+    // 사용자 설정 (로그인)
+    login: () =>
+        set({
+            isAuthenticated: true,
+            isLoading: false,
+        }),
+
+    // 로그아웃
+    logout: () =>
+        set({
+            isAuthenticated: false,
+            isLoading: false,
+        }),
+
+    // 로딩 상태 변경
+    setLoading: (loading) => set({ isLoading: loading }),
+}));
