@@ -1,5 +1,11 @@
 import axiosInstance from '@/lib/axios';
-import { LoginRequest, PhoneVerifyRequest, SignupRequest, WithdrawalRequest } from '@/types/auth';
+import {
+    LoginRequest,
+    PhoneVerifyRequest,
+    SignupRequest,
+    WithdrawalRequest,
+    PhoneVerifyResponse,
+} from '@/types/auth';
 
 export const fetchSocialTempInfo = async () => {
     const { data } = await axiosInstance.get('/auth/social/temp-info');
@@ -21,8 +27,16 @@ export const sendSocialPhoneVerification = async (request: PhoneVerifyRequest) =
     return data;
 };
 
-export const verifySocialPhoneCode = async (phone: string) => {
-    const { data } = await axiosInstance.post('/auth/social/phone/verify-code', { phone: phone });
+export const verifySocialPhoneCode = async (phone: string): Promise<PhoneVerifyResponse> => {
+    const response = await axiosInstance.post<PhoneVerifyResponse>(
+        '/auth/social/phone/verify-code',
+        { phone: phone }
+    );
+    return response.data;
+};
+
+export const linkSocialAccount = async () => {
+    const { data } = await axiosInstance.post('/auth/social/link');
     return data;
 };
 

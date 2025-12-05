@@ -3,14 +3,19 @@ import {
     verifySocialPhoneCode,
     sendPhoneVerification,
     verifyPhoneCode,
+    linkSocialAccount,
 } from '@/api/auth';
 import { useState } from 'react';
+import { useAuthStore } from '@/store/authStore';
+import { useRouter } from 'next/navigation';
 
 export const usePhoneVerification = () => {
     const [isVerificationSent, setIsVerificationSent] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
     const [isPhoneVerified, setIsPhoneVerified] = useState(false);
     const [currentPhoneType, setCurrentPhoneType] = useState<'social' | 'normal'>('normal');
+    const { login } = useAuthStore();
+    const router = useRouter();
 
     const sendVerificationCode = async (
         isSocial: boolean,
@@ -59,13 +64,43 @@ export const usePhoneVerification = () => {
 
         try {
             if (currentPhoneType === 'social') {
-                await verifySocialPhoneCode(phoneNumber);
+                const response = await verifySocialPhoneCode(phoneNumber);
+
+                // LINK 상태: 이미 가입된 계정, 연동 확인
+                if (response.data.status === 'LINK') {
+                    const confirmed = confirm(
+                        response.data.message || '이미 가입된 계정입니다. 소셜 계정을 연동하시겠습니까?'
+                    );
+
+                    if (confirmed) {
+                        const linkResponse = await linkSocialAccount();
+
+                        // 연동 성공 → 로그인 처리
+                        if (linkResponse.data.status === 'LOGIN' && linkResponse.data.loginResponse) {
+                            login();
+                            alert('계정 연동이 완료되었습니다.');
+                            router.push('/');
+                        }
+                    }
+                    return;
+                }
+
+                // LOGIN 상태: 바로 로그인 처리
+                if (response.data.status === 'LOGIN' && response.data.loginResponse) {
+                    login();
+                    alert('로그인되었습니다.');
+                    router.push('/');
+                    return;
+                }
+
+                // SUCCESS 상태: 인증 완료
+                setIsPhoneVerified(true);
+                alert('인증이 완료되었습니다');
             } else {
                 await verifyPhoneCode(phoneNumber, verificationCode);
+                setIsPhoneVerified(true);
+                alert('인증이 완료되었습니다');
             }
-
-            setIsPhoneVerified(true);
-            alert('인증이 완료되었습니다');
         } catch (error) {
             console.error('인증번호 확인 실패:', error);
             alert('인증번호가 일치하지 않습니다');
