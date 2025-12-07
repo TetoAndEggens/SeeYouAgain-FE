@@ -6,6 +6,8 @@ import { useChatListData, useChatDetailData } from '@/hook/chat/useChatListData'
 import { ChatMessage } from '@/components/layout/ChatMessage';
 import { ChatPost } from '@/components/layout/ChatPost';
 import { ChevronLeft } from 'lucide-react';
+import { CirclePlus, Send } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 type Props = {
     params: Promise<{ id: number }>;
@@ -61,6 +63,11 @@ const ChatRoomPage = ({ params }: Props) => {
                         </div>
                     );
                 })}
+            </div>
+            <div className="sticky bottom-0 flex items-center gap-4 bg-white p-2">
+                {/* <CirclePlus /> */}
+                <Input />
+                <Send />
             </div>
         </div>
     );

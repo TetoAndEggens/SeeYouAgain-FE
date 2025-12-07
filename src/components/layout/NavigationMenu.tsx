@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { House, HeartHandshake, Search, Map, CircleUser } from 'lucide-react';
 
-const exceptUrls = ['/test', '/missing/detail']; // 예외 URL 목록
+const exceptUrls = ['/test', '/missing/detail', '/chat/detail']; // 예외 URL 목록
 
 function isExceptUrl(pathname: string) {
     return exceptUrls.some((url) => {
