@@ -1,17 +1,11 @@
 import axiosInstance from '@/lib/axios';
-import type {
-    AdoptAnimal,
-    AdoptAnimalDetail,
-    adoptFetchParams,
-    AdoptAnimalsResponse,
-    CursorPageResponse,
-} from '@/types/adopt';
+import type { AdoptAnimalDetail, adoptFetchParams, AdoptAnimalsResponse } from '@/types/adopt';
 
 export const fetchAdoptAnimals = async (
     params: adoptFetchParams
-): Promise<CursorPageResponse<AdoptAnimal>> => {
+): Promise<AdoptAnimalsResponse> => {
     const { data } = await axiosInstance.get<AdoptAnimalsResponse>('/animal/list', { params });
-    return data.data.animal;
+    return data;
 };
 
 export const fetchAdoptAnimalsById = async (id: number): Promise<AdoptAnimalDetail> => {
