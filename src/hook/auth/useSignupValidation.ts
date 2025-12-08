@@ -1,4 +1,5 @@
 import { checkLoginId } from '@/api/auth';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 
 export const useSignupValidation = () => {
@@ -37,8 +38,8 @@ export const useSignupValidation = () => {
             await checkLoginId(loginId);
             clearError('loginId');
             return true;
-        } catch (error: any) {
-            if (error.response?.status === 409) {
+        } catch (error) {
+            if (error instanceof AxiosError && error.response?.status === 409) {
                 setError('loginId', '이미 사용 중인 아이디입니다');
             } else {
                 setError('loginId', '중복 확인에 실패했습니다');

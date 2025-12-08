@@ -2,6 +2,7 @@ import { withdrawal } from '@/api/auth';
 import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 
 export const useWithdrawal = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +26,9 @@ export const useWithdrawal = () => {
             alert('회원탈퇴가 완료되었습니다.');
             router.push('/login');
             return true;
-        } catch (error: any) {
+        } catch (error) {
             console.error('회원탈퇴 실패:', error);
-            if (error.response?.status === 401) {
+            if (error instanceof AxiosError && error.response?.status === 401) {
                 alert('인증이 만료되었습니다. 다시 로그인해주세요.');
                 logout();
                 router.push('/login');
