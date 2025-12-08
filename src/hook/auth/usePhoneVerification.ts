@@ -8,6 +8,7 @@ import {
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 
 export const usePhoneVerification = () => {
     const [isVerificationSent, setIsVerificationSent] = useState(false);
@@ -45,9 +46,9 @@ export const usePhoneVerification = () => {
             }
 
             setIsVerificationSent(true);
-        } catch (error: any) {
+        } catch (error) {
             console.error('인증번호 발송 실패:', error);
-            if (error.response?.status === 409) {
+            if (error instanceof AxiosError && error.response?.status === 409) {
                 alert('이미 사용 중인 전화번호입니다');
             } else {
                 alert('인증번호 발송에 실패했습니다. 다시 시도해주세요.');
@@ -69,14 +70,18 @@ export const usePhoneVerification = () => {
                 // LINK 상태: 이미 가입된 계정, 연동 확인
                 if (response.data.status === 'LINK') {
                     const confirmed = confirm(
-                        response.data.message || '이미 가입된 계정입니다. 소셜 계정을 연동하시겠습니까?'
+                        response.data.message ||
+                            '이미 가입된 계정입니다. 소셜 계정을 연동하시겠습니까?'
                     );
 
                     if (confirmed) {
                         const linkResponse = await linkSocialAccount();
 
                         // 연동 성공 → 로그인 처리
-                        if (linkResponse.data.status === 'LOGIN' && linkResponse.data.loginResponse) {
+                        if (
+                            linkResponse.data.status === 'LOGIN' &&
+                            linkResponse.data.loginResponse
+                        ) {
                             login();
                             alert('계정 연동이 완료되었습니다.');
                             router.push('/');
