@@ -53,7 +53,11 @@ const testMissingSmallData = [
 export default function Home() {
     const { data: adoptData, isLoading } = useQuery({
         queryKey: ['adoptAnimals'],
-        queryFn: fetchAdoptAnimals,
+        queryFn: () =>
+            fetchAdoptAnimals({
+                size: 10,
+                sortDirection: 'LATEST',
+            }),
     });
 
     return (
@@ -72,8 +76,10 @@ export default function Home() {
                 <div className="-mx-4 flex gap-4 overflow-x-auto">
                     <div></div>
                     {adoptData &&
-                        adoptData.map((data) => (
-                            <AdoptCard key={data.animalId} className="w-48" {...data} />
+                        adoptData.data.map((data) => (
+                            <Link key={data.animalId} href={`adopt/${data.animalId}`}>
+                                <AdoptCard className="w-48" {...data} />
+                            </Link>
                         ))}
                     <div></div>
                 </div>

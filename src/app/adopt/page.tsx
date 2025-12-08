@@ -20,7 +20,11 @@ const AdoptPage = () => {
     const [sortBy, setSortBy] = useState('newest');
     const { data: adoptData, isLoading } = useQuery({
         queryKey: ['adoptAnimals'],
-        queryFn: fetchAdoptAnimals,
+        queryFn: () =>
+            fetchAdoptAnimals({
+                size: 10,
+                sortDirection: 'LATEST',
+            }),
     });
 
     if (isLoading) return <div>로딩중</div>;
@@ -32,7 +36,10 @@ const AdoptPage = () => {
             </div> */}
             <div className="flex justify-between">
                 <span className="text-[1rem] text-gray-50">
-                    총 <span className="text-primary">{adoptData ? adoptData.length : 0}마리</span>
+                    총{' '}
+                    <span className="text-primary">
+                        {adoptData ? adoptData.data.length : 0}마리
+                    </span>
                     가 기다리고 있어요
                 </span>
                 <div className="flex gap-2">
@@ -63,7 +70,7 @@ const AdoptPage = () => {
             </div>
             <div className="bg-gray-10 m-[-1rem] grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {adoptData &&
-                    adoptData.map((data) => (
+                    adoptData.data.map((data) => (
                         <Link key={data.animalId} href={`adopt/${data.animalId}`}>
                             <AdoptCard {...data} />
                         </Link>
