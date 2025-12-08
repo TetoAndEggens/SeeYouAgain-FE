@@ -40,9 +40,10 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
                             item={{
                                 title: '나이',
                                 context:
-                                    calculateAgeFromYear(
-                                        Number(adoptDetail.birth.slice(0, 4))
-                                    ).toString() ?? '불명',
+                                    // calculateAgeFromYear(
+                                    //     Number(adoptDetail.birth.slice(0, 4))
+                                    // ).toString() ?? '불명',
+                                    adoptDetail.birth,
                             }}
                         />
                         <InformationDetail
