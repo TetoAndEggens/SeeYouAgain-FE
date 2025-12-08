@@ -9,7 +9,8 @@ export type AdoptAnimal = {
     sex: 'M' | 'F' | 'Q';
     processState: string;
     profile: string;
-    animalType: 'ABANDONED';
+    animalType: string;
+    isBookmarked: boolean;
 };
 
 export type AdoptAnimalDetail = {
@@ -34,4 +35,37 @@ export type AdoptAnimalDetail = {
     centerAddress: string;
     centerPhone: string;
     isBookmarked: boolean;
+};
+
+export type adoptFetchParams = {
+    cursorId?: number | null;
+    size?: number;
+    sortDirection?: 'LATEST' | 'OLDEST';
+    startDate?: string;
+    endDate?: string;
+    species?: 'DOG' | 'CAT' | 'ETC';
+    breedType?: string;
+    neuteredState?: 'Y' | 'N' | 'U';
+    sex?: 'M' | 'F' | 'Q';
+    city?: string;
+    town?: string;
+};
+
+// 커서 페이징 응답
+export type CursorPageResponse<T> = {
+    data: T[];
+    size: number;
+    nextCursor: number | null;
+    hasNext: boolean;
+    empty: boolean;
+};
+
+// 전체 API 응답 래퍼
+export type AdoptAnimalsResponse = {
+    data: {
+        animalCount: number;
+        animal: CursorPageResponse<AdoptAnimal>;
+    };
+    status: number;
+    message: string;
 };
