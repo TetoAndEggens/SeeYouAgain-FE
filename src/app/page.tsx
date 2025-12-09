@@ -58,6 +58,7 @@ export default function Home() {
                 size: 10,
                 sortDirection: 'LATEST',
             }),
+        select: (data) => data.data.animal.data,
     });
 
     return (
@@ -76,7 +77,7 @@ export default function Home() {
                 <div className="-mx-4 flex gap-4 overflow-x-auto">
                     <div></div>
                     {adoptData &&
-                        adoptData.data.map((data) => (
+                        adoptData.map((data) => (
                             <Link key={data.animalId} href={`adopt/${data.animalId}`}>
                                 <AdoptCard className="w-48" {...data} />
                             </Link>
