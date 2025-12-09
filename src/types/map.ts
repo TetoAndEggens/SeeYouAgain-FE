@@ -4,8 +4,8 @@ export interface CoordType {
 }
 
 export interface MapBounds {
-    sw: string;
-    ne: string;
+    sw: number[];
+    ne: number[];
 }
 
 export interface MissingData {

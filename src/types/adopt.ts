@@ -37,7 +37,7 @@ export type AdoptAnimalDetail = {
     isBookmarked: boolean;
 };
 
-export type adoptFetchParams = {
+export type animalFetchParams = {
     cursorId?: number | null;
     size?: number;
     sortDirection?: 'LATEST' | 'OLDEST';
