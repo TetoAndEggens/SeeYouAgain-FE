@@ -3,6 +3,7 @@ import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import { MissingSmallCard } from '../missing/MissingSmallCard';
 import type { MapState } from '@/hook/map/useMapState';
 import type { MissingData } from '@/types/map';
+import { parseCoordinates } from '@/lib/utils';
 
 interface MapContainerProps extends MapState {
     missingData: MissingData[];
@@ -39,8 +40,8 @@ function MapContainer({
             onBoundsChanged={(map) => {
                 const bounds = map.getBounds();
                 setBounds({
-                    sw: bounds.getSouthWest().toString(),
-                    ne: bounds.getNorthEast().toString(),
+                    sw: parseCoordinates(bounds.getSouthWest().toString()),
+                    ne: parseCoordinates(bounds.getNorthEast().toString()),
                 });
             }}
         >

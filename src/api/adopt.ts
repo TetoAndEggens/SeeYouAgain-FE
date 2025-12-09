@@ -1,8 +1,8 @@
 import axiosInstance from '@/lib/axios';
-import type { AdoptAnimalDetail, adoptFetchParams, AdoptAnimalsResponse } from '@/types/adopt';
+import type { AdoptAnimalDetail, animalFetchParams, AdoptAnimalsResponse } from '@/types/adopt';
 
 export const fetchAdoptAnimals = async (
-    params: adoptFetchParams
+    params: animalFetchParams
 ): Promise<AdoptAnimalsResponse> => {
     const { data } = await axiosInstance.get<AdoptAnimalsResponse>('/animal/list', { params });
     return data;

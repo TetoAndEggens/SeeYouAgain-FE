@@ -7,11 +7,32 @@ import React from 'react';
 import useMapState from '@/hook/map/useMapState';
 import MapContainer from '@/components/features/map/MapContainer';
 import { useMissingData } from '@/hook/map/useMissingData';
+import { useQuery } from '@tanstack/react-query';
+import { fetchBoardList } from '@/api/board';
 
 const MapPage = () => {
     const [loading, error] = useKakaoLoader();
     const mapState = useMapState();
     const { data } = useMissingData();
+
+    const { data: boardData, isLoading } = useQuery({
+        queryKey: ['boardAnimals'],
+        queryFn: () =>
+            fetchBoardList({
+                size: 10,
+                sortDirection: 'LATEST',
+            }),
+        select: (data) =>
+            data.data.board.data.filter(
+                (data) =>
+                    mapState.bounds.sw[0] <= data.latitude &&
+                    data.latitude <= mapState.bounds.ne[0] &&
+                    mapState.bounds.sw[1] <= data.longitude &&
+                    data.longitude <= mapState.bounds.ne[1]
+            ),
+    });
+
+    console.log(boardData);
 
     if (loading)
         return <div className="flex h-full items-center justify-center">지도 로딩중..</div>;
