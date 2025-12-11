@@ -4,7 +4,7 @@ import { AdoptCard } from '@/components/features/adopt/AdoptCard';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { SortDropdown } from '@/components/features/adopt/SortDropdown';
+import { CustomSelect } from '@/components/features/adopt/CustomSelect';
 import { useAdoptAnimals } from '@/hook/adopt/useAdoptAnimals';
 import { SortByType } from '@/types/common';
 import { useInfiniteScroll } from '@/hook/adopt/useInfiniteScroll';
@@ -35,7 +35,14 @@ const AdoptPage = () => {
                     <Button variant="outline" className="px-4 py-1 text-[0.75rem]">
                         필터
                     </Button>
-                    <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
+                    <CustomSelect
+                        options={[
+                            { value: 'LATEST', label: '최신순' },
+                            { value: 'OLDEST', label: '오래된순' },
+                        ]}
+                        value={sortBy}
+                        onChange={setSortBy}
+                    />
                 </div>
             </div>
             <div className="bg-gray-10 m-[-1rem] grid grid-cols-2 gap-4 p-4 md:grid-cols-4 lg:grid-cols-5">
