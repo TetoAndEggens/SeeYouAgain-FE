@@ -24,7 +24,7 @@ export function CustomSelect<T extends string = string>({
     value,
     onChange,
     placeholder,
-    className = 'w-[100px] px-2 py-1 text-[0.75rem]',
+    className = 'w-full px-2 py-1 text-[0.75rem]',
 }: CustomSelectProps<T>) {
     return (
         <Select value={value} onValueChange={onChange}>
@@ -34,7 +34,9 @@ export function CustomSelect<T extends string = string>({
             <SelectContent>
                 {options &&
                     options.map((option) => (
-                        <SelectItem value={option.value}>{option.label}</SelectItem>
+                        <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                        </SelectItem>
                     ))}
             </SelectContent>
         </Select>
