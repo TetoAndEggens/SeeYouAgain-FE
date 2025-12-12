@@ -1,13 +1,17 @@
-import MissingClientPage from './MissingClientPage';
+import React from 'react';
+import MissingDetailPage from './MissingDetailPage';
 
-{
-    /* <Link href="/missing/detail/1"> 디테일 이동</Link> */
-}
+type Props = {
+    params: Promise<{ id: number }>;
+};
 
-export default async function MissingPage() {
+const LostDetailPage = async ({ params }: Props) => {
+    const { id } = await params;
+
     const testData: {
         cardType: 'missing' | 'sighting';
-        name: string;
+        title: string;
+        userName: string;
         tags: string[];
         location: string;
         date: string;
@@ -15,7 +19,8 @@ export default async function MissingPage() {
     }[] = [
         {
             cardType: 'missing',
-            name: '복돌이',
+            title: '복돌이',
+            userName: '홍길동',
             tags: ['말티즈', '3살', '중성화', '암컷'],
             location: '서울 강남구 역삼동',
             date: '2025-11-01',
@@ -23,7 +28,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'missing',
-            name: '초코',
+            title: '초코',
+            userName: '홍길동',
             tags: ['푸들', '2살', '갈색', '암컷'],
             location: '서울 마포구 합정동',
             date: '2025-10-28',
@@ -31,7 +37,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'sighting',
-            name: '하루',
+            title: '하루',
+            userName: '홍길동',
             tags: ['믹스', '목걸이 없음', '겁이 많음'],
             location: '서울 송파구 잠실동',
             date: '2025-11-02',
@@ -39,7 +46,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'missing',
-            name: '몽이',
+            title: '몽이',
+            userName: '홍길동',
             tags: ['시바견', '4살', '수컷', '하네스 착용'],
             location: '경기 성남시 분당구',
             date: '2025-10-20',
@@ -47,7 +55,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'sighting',
-            name: '두부',
+            title: '두부',
+            userName: '홍길동',
             tags: ['하얀털', '귀가 큰 편', '사람을 잘 따름'],
             location: '서울 용산구 이태원동',
             date: '2025-11-03',
@@ -55,7 +64,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'missing',
-            name: '보리',
+            title: '보리',
+            userName: '홍길동',
             tags: ['코기', '5살', '수컷', '꼬리 짧음'],
             location: '인천 연수구 송도동',
             date: '2025-09-30',
@@ -63,7 +73,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'sighting',
-            name: '라라',
+            title: '라라',
+            userName: '홍길동',
             tags: ['검은색 목줄', '소형견', '낯가림 있음'],
             location: '서울 강서구 마곡동',
             date: '2025-11-05',
@@ -71,7 +82,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'missing',
-            name: '콩이',
+            title: '콩이',
+            userName: '홍길동',
             tags: ['치와와', '1살', '암컷', '장난감 좋아함'],
             location: '경기 고양시 일산동구',
             date: '2025-10-10',
@@ -79,7 +91,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'sighting',
-            name: '탄이',
+            title: '탄이',
+            userName: '홍길동',
             tags: ['블랙탄', '중형견', '목에 파란 목줄'],
             location: '서울 동작구 상도동',
             date: '2025-11-04',
@@ -87,7 +100,8 @@ export default async function MissingPage() {
         },
         {
             cardType: 'missing',
-            name: '미미',
+            title: '미미',
+            userName: '홍길동',
             tags: ['말티즈', '7살', '치아 안 좋음', '중성화'],
             location: '부산 해운대구',
             date: '2025-09-15',
@@ -95,5 +109,7 @@ export default async function MissingPage() {
         },
     ];
 
-    return <MissingClientPage data={testData} />;
-}
+    return <MissingDetailPage data={testData[id]} />;
+};
+
+export default LostDetailPage;
