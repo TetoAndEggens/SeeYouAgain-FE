@@ -22,6 +22,7 @@ const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
     '/chat': { variant: 'default', title: '채팅' },
     '/test': { variant: 'back', title: 'Test Page' },
     '/sample': { variant: 'hidden' },
+    '/mypage/settings': { variant: 'back', title: '알림 설정' },
 };
 
 function HeaderControl(pathname: string | null) {

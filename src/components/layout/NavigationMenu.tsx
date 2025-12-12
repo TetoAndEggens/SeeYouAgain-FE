@@ -85,15 +85,15 @@ export function NavigationMenu() {
                     </li>
                     <li>
                         <Link
-                            href="#"
+                            href="/mypage"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
-                                pathname === '' ? 'text-[#FFB84D]' : ''
+                                pathname.startsWith('/mypage') ? 'text-[#FFB84D]' : ''
                             )}
                         >
                             <CircleUser
                                 strokeWidth={1}
-                                color={pathname === '' ? '#FFB84D' : 'black'}
+                                color={pathname.startsWith('/mypage') ? '#FFB84D' : 'black'}
                             />
                             마이
                         </Link>
