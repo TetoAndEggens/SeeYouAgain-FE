@@ -41,18 +41,17 @@ export default function Filter({ open, isOpen }: FilterProps) {
                             setOpen={setFromCalendarOpen}
                             data={fromDate?.toLocaleDateString()}
                             icon={<ChevronDownIcon />}
-                            children={
-                                <Calendar
-                                    mode="single"
-                                    selected={fromDate}
-                                    captionLayout="dropdown"
-                                    onSelect={(date) => {
-                                        setFromDate(date);
-                                        setFromCalendarOpen(false);
-                                    }}
-                                />
-                            }
-                        />
+                        >
+                            <Calendar
+                                mode="single"
+                                selected={fromDate}
+                                captionLayout="dropdown"
+                                onSelect={(date) => {
+                                    setFromDate(date);
+                                    setFromCalendarOpen(false);
+                                }}
+                            />
+                        </CustomPopover>
                         <p>~</p>
                         <CustomPopover
                             open={toCalendarOpen}
