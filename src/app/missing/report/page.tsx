@@ -141,7 +141,7 @@ const MissingWritePage = () => {
                                     height: '200px',
                                 }}
                                 level={3} // 지도의 확대 레벨
-                                onCenterChanged={(map) => {
+                                onDragEnd={(map) => {
                                     const latlng = map.getCenter();
                                     setFormData((prev) => ({
                                         ...prev,
