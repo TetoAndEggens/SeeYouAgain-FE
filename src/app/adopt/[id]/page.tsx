@@ -20,6 +20,7 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
     const { data: adoptDetail, isLoading } = useQuery({
         queryKey: ['adoptAnimal', id],
         queryFn: () => fetchAdoptAnimalsById(Number(id)),
+        select: (data) => data.data,
     });
 
     if (isLoading) return <div>로딩중</div>;

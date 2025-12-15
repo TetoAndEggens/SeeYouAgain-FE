@@ -1,4 +1,4 @@
-import { CursorPageResponse } from './adopt';
+import { CursorPageResponse } from './common';
 
 export type BoardData = {
     boardId: number;
@@ -21,11 +21,30 @@ export type BoardData = {
     isBookmarked: boolean;
 };
 
+export type BoardForm = {
+    title: string;
+    content: string;
+    species?: 'DOG' | 'CAT' | 'ETC';
+    breedType: string;
+    sex: 'M' | 'F' | 'Q';
+    neuteredState: 'Y' | 'N';
+    color: string;
+    address?: string;
+    city?: string;
+    town?: string;
+    latitude: number;
+    longitude: number;
+    animalType: string;
+    tags?: string[];
+    isPhotoUploaded: boolean;
+    count: number;
+};
+
+export type BoardFormResponse = {
+    presignedUrls: string[];
+};
+
 export type BoardDataResponse = {
-    data: {
-        boardCount: number;
-        board: CursorPageResponse<BoardData>;
-    };
-    status: number;
-    message: string;
+    boardCount: number;
+    board: CursorPageResponse<BoardData>;
 };

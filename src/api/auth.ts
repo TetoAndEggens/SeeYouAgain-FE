@@ -6,6 +6,7 @@ import {
     WithdrawalRequest,
     PhoneVerifyResponse,
 } from '@/types/auth';
+import { ServerResponseType } from '@/types/common';
 
 export const fetchSocialTempInfo = async () => {
     const { data } = await axiosInstance.get('/auth/social/temp-info');
@@ -27,12 +28,11 @@ export const sendSocialPhoneVerification = async (request: PhoneVerifyRequest) =
     return data;
 };
 
-export const verifySocialPhoneCode = async (phone: string): Promise<PhoneVerifyResponse> => {
-    const response = await axiosInstance.post<PhoneVerifyResponse>(
-        '/auth/social/phone/verify-code',
-        { phone: phone }
-    );
-    return response.data;
+export const verifySocialPhoneCode = async (
+    phone: string
+): Promise<ServerResponseType<PhoneVerifyResponse>> => {
+    const { data } = await axiosInstance.post('/auth/social/phone/verify-code', { phone: phone });
+    return data;
 };
 
 export const linkSocialAccount = async () => {
