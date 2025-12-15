@@ -93,6 +93,9 @@ const MissingWritePage = () => {
         }));
     };
 
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
     return (
         <div>
             <div className="bg-gray-10 flex flex-col gap-12 p-4">
@@ -189,11 +192,28 @@ const MissingWritePage = () => {
                                 level={3} // 지도의 확대 레벨
                                 onDragEnd={(map) => {
                                     const latlng = map.getCenter();
-                                    setFormData((prev) => ({
-                                        ...prev,
-                                        latitude: latlng.getLat(),
-                                        longitude: latlng.getLng(),
-                                    }));
+                                    const geocoder = new kakao.maps.services.Geocoder();
+
+                                    geocoder.coord2Address(
+                                        latlng.getLng(),
+                                        latlng.getLat(),
+                                        (result, status) => {
+                                            if (
+                                                status === kakao.maps.services.Status.OK &&
+                                                result[0]
+                                            ) {
+                                                const address = result[0].address;
+
+                                                setFormData((prev) => ({
+                                                    ...prev,
+                                                    latitude: latlng.getLat(),
+                                                    longitude: latlng.getLng(),
+                                                    city: address.region_1depth_name,
+                                                    town: address.region_2depth_name,
+                                                }));
+                                            }
+                                        }
+                                    );
                                 }}
                             />
                             <Image
