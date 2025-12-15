@@ -1,6 +1,12 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
+import CustomSelect from '@/components/layout/Selector';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { MissingLargeCard } from '@/components/features/missing/MissingLargeCard';
+import { Trash2, CircleX } from 'lucide-react';
 
 interface posts {
     cardType: 'missing' | 'sighting';
@@ -12,9 +18,6 @@ interface posts {
 }
 
 const MyPostsPage = () => {
-<<<<<<< HEAD
-    return <div>내가 쓴 글 페이지</div>;
-=======
     const [testData, setTestData] = React.useState<posts[]>([]);
 
     const [useCheck, setUseCheck] = React.useState(false);
@@ -268,7 +271,6 @@ const MyPostsPage = () => {
             </div>
         </div>
     );
->>>>>>> 5961e1c (feat: 내가 쓴 글 기능 화면 및 기능 구현)
 };
 
 export default MyPostsPage;
