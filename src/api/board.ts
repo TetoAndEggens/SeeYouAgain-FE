@@ -14,6 +14,6 @@ export const fetchBoardList = async (
 export const postBoard = async (
     request: BoardForm
 ): Promise<ServerResponseType<BoardFormResponse>> => {
-    const { data } = await axiosInstance.post('board', { request });
+    const { data } = await axiosInstance.post('board', request);
     return data;
 };
