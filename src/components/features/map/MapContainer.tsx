@@ -37,7 +37,7 @@ function MapContainer({
                 setIsDrawerOpen(true);
                 setIsInfoOpen(-1);
             }}
-            onBoundsChanged={(map) => {
+            onDragEnd={(map) => {
                 const bounds = map.getBounds();
                 setBounds({
                     sw: parseCoordinates(bounds.getSouthWest().toString()),
