@@ -22,14 +22,10 @@ export interface WithdrawalRequest {
 }
 
 export interface PhoneVerifyResponse {
-    data: {
-        status: 'LINK' | 'LOGIN' | 'SUCCESS';
-        message: string | null;
-        loginResponse: {
-            uuid: string;
-            role: string;
-        } | null;
-    };
-    status: number;
-    message: string;
+    status: 'LINK' | 'LOGIN' | 'SUCCESS';
+    message: string | null;
+    loginResponse: {
+        uuid: string;
+        role: string;
+    } | null;
 }

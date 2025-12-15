@@ -6,17 +6,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import useKakaoLoader from '@/hook/map/useKakaoLoader';
-import { BoardReportForm } from '@/types/missing';
+import { BoardForm } from '@/types/board';
 import { Camera, Search } from 'lucide-react';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import Tag from '@/components/ui/tag';
 
 const MissingWritePage = () => {
     useKakaoLoader();
     const [tagInput, setTagInput] = useState('');
-    const [formData, setFormData] = useState<BoardReportForm>({
+    const [formData, setFormData] = useState<BoardForm>({
         animalType: 'missing',
         title: '',
         content: '',
@@ -27,9 +27,11 @@ const MissingWritePage = () => {
         latitude: 37.4979,
         longitude: 127.0276,
         tags: [],
+        isPhotoUploaded: false,
+        count: 0,
     });
 
-    const handleChangeInput = (field: keyof BoardReportForm, value: string) => {
+    const handleChangeInput = (field: keyof BoardForm, value: string) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
@@ -47,6 +49,9 @@ const MissingWritePage = () => {
         }));
     };
 
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
     return (
         <div>
             <div className="bg-gray-10 flex flex-col gap-12 p-4">
@@ -179,6 +184,7 @@ const MissingWritePage = () => {
                         <div className="mt-2 flex flex-wrap gap-2">
                             {formData.tags?.map((value, index) => (
                                 <div
+                                    key={`${value}${index}`}
                                     onClick={() => handleDeleteTag(index)}
                                     className="cursor-pointer"
                                 >

@@ -1,3 +1,5 @@
+import { CursorPageResponse } from './common';
+
 export type AdoptAnimal = {
     animalId: number;
     happenDate: string;
@@ -51,21 +53,8 @@ export type animalFetchParams = {
     town?: string;
 };
 
-// 커서 페이징 응답
-export type CursorPageResponse<T> = {
-    data: T[];
-    size: number;
-    nextCursor: number | null;
-    hasNext: boolean;
-    empty: boolean;
-};
-
 // 전체 API 응답 래퍼
 export type AdoptAnimalsResponse = {
-    data: {
-        animalCount: number;
-        animal: CursorPageResponse<AdoptAnimal>;
-    };
-    status: number;
-    message: string;
+    animalCount: number;
+    animal: CursorPageResponse<AdoptAnimal>;
 };
