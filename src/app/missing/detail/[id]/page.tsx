@@ -8,6 +8,7 @@ import { Form } from '@/components/layout/Form';
 import { InformationDetail } from '@/components/layout/InformationDetail';
 import { Button } from '@/components/ui/button';
 import { Siren } from 'lucide-react';
+import Image from 'next/image';
 
 const LostDetailPage = () => {
     const router = useRouter();
@@ -119,7 +120,7 @@ const LostDetailPage = () => {
         <div className="flex flex-col gap-4 p-4">
             <div className="shrink-0">
                 <div className="aspect-square w-full overflow-hidden">
-                    <img
+                    <Image
                         src={testData[id].image}
                         alt={testData[id].title}
                         className="h-full w-full object-cover"
@@ -146,13 +147,6 @@ const LostDetailPage = () => {
                 <Form
                     className="border-0 p-0"
                     title={testData[id].title}
-                    children={
-                        <p className="">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia illum
-                            fugiat unde voluptatum natus excepturi fugit corporis tenetur nisi qui?
-                            Delectus distinctio sint ut? Consectetur eius earum quis porro odit!
-                        </p>
-                    }
                     tagChildren={
                         <div className="flex gap-2">
                             {testData[id].tags.map((tag) => (
@@ -162,7 +156,13 @@ const LostDetailPage = () => {
                             ))}
                         </div>
                     }
-                />
+                >
+                    <p className="">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia illum fugiat
+                        unde voluptatum natus excepturi fugit corporis tenetur nisi qui? Delectus
+                        distinctio sint ut? Consectetur eius earum quis porro odit!
+                    </p>
+                </Form>
             </div>
             <Form
                 className="border-0 p-0"
