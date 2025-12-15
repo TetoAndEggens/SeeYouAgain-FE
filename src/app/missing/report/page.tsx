@@ -19,6 +19,7 @@ const MissingWritePage = () => {
     useKakaoLoader();
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [tagInput, setTagInput] = useState('');
     const [formData, setFormData] = useState<BoardForm>({
         animalType: 'MISSING',
@@ -176,6 +177,64 @@ const MissingWritePage = () => {
                                     onChange={(value) => handleChangeInput('neuteredState', value)}
                                 />
                             </Form>
+                        </div>
+                    </Form>
+                </div>
+                <div>
+                    <Form title="사진 업로드">
+                        <div className="flex flex-col gap-4">
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onClick={(e) => {
+                                    e.currentTarget.value = '';
+                                }}
+                                onChange={(e) => {
+                                    if (e.target.files) {
+                                        const files = Array.from(e.target.files);
+                                        setSelectedImages((prev) => [...prev, ...files]);
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            count: prev.count + files.length,
+                                            isPhotoUploaded: true,
+                                        }));
+                                    }
+                                }}
+                            />
+
+                            {selectedImages.length > 0 && (
+                                <div className="grid grid-cols-3 gap-2">
+                                    {selectedImages.map((file, index) => (
+                                        <div key={index} className="relative">
+                                            <Image
+                                                src={URL.createObjectURL(file)}
+                                                alt={`preview-${index}`}
+                                                width={100}
+                                                height={100}
+                                                className="h-24 w-full rounded object-cover"
+                                            />
+                                            <Button
+                                                variant="destructive"
+                                                size="icon"
+                                                className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                                                onClick={() => {
+                                                    setSelectedImages((prev) =>
+                                                        prev.filter((_, i) => i !== index)
+                                                    );
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        count: prev.count - 1,
+                                                        isPhotoUploaded: prev.count > 1,
+                                                    }));
+                                                }}
+                                            >
+                                                ×
+                                            </Button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </Form>
                 </div>
