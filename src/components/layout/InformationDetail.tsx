@@ -13,7 +13,6 @@ interface InformationDetailProps {
 }
 
 export function InformationDetail({
-    index,
     item,
     className,
     titleClassName,
@@ -22,7 +21,6 @@ export function InformationDetail({
 }: InformationDetailProps) {
     return (
         <div
-            key={index}
             className={cn('bg-gray-20 flex-1 shrink-0 rounded-lg px-4 py-3', className)}
             {...containerProps}
         >
