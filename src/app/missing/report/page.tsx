@@ -12,12 +12,17 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import Tag from '@/components/ui/tag';
+import { postBoard } from '@/api/board';
+import { useRouter } from 'next/navigation';
 
 const MissingWritePage = () => {
     useKakaoLoader();
+    const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [tagInput, setTagInput] = useState('');
     const [formData, setFormData] = useState<BoardForm>({
-        animalType: 'missing',
+        animalType: 'MISSING',
+        species: 'DOG',
         title: '',
         content: '',
         breedType: '',
@@ -26,10 +31,49 @@ const MissingWritePage = () => {
         color: '',
         latitude: 37.4979,
         longitude: 127.0276,
+        city: '서울특별시',
+        town: '강남구',
         tags: [],
         isPhotoUploaded: false,
         count: 0,
     });
+
+    const verifyRequest = () => {
+        if (!formData.title.trim()) {
+            alert('제목을 입력해주세요');
+            return false;
+        }
+
+        if (!formData.content.trim()) {
+            alert('내용을 입력해주세요');
+            return false;
+        }
+
+        if (!formData.breedType.trim()) {
+            alert('품종을 입력해주세요');
+            return false;
+        }
+
+        return true;
+    };
+
+    const handlePostBoard = async () => {
+        setIsSubmitting(true);
+        try {
+            if (!verifyRequest()) return;
+            const response = await postBoard(formData);
+            if (response.data?.presignedUrls) {
+                //이미지 s3 업로드 코드
+            }
+            router.push('/missing');
+        } catch (error) {
+            alert('글쓰기 작성에 실패했습니다');
+            console.error(error);
+            return;
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const handleChangeInput = (field: keyof BoardForm, value: string) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
@@ -49,9 +93,6 @@ const MissingWritePage = () => {
         }));
     };
 
-    useEffect(() => {
-        console.log(formData);
-    }, [formData]);
     return (
         <div>
             <div className="bg-gray-10 flex flex-col gap-12 p-4">
@@ -60,8 +101,8 @@ const MissingWritePage = () => {
                         <div className="flex gap-4">
                             <Button
                                 className="flex flex-1 flex-col"
-                                variant={formData.animalType === 'missing' ? 'default' : 'outline'}
-                                onClick={() => handleChangeInput('animalType', 'missing')}
+                                variant={formData.animalType === 'MISSING' ? 'default' : 'outline'}
+                                onClick={() => handleChangeInput('animalType', 'MISSING')}
                             >
                                 <Search />
                                 실종
@@ -78,7 +119,7 @@ const MissingWritePage = () => {
                     </Form>
                 </div>
                 <div>
-                    <Form title="제목">
+                    <Form importent title="제목">
                         <Input
                             placeholder="예: 흰색 말티즈를 찾습니다"
                             value={formData.title}
@@ -87,7 +128,7 @@ const MissingWritePage = () => {
                     </Form>
                 </div>
                 <div>
-                    <Form title="상세 내용">
+                    <Form importent title="상세 내용">
                         <Textarea
                             placeholder={'실종 / 목격 상황을 자세히 설명해주세요.'}
                             className="h-[6rem] items-start"
@@ -136,7 +177,7 @@ const MissingWritePage = () => {
                     </Form>
                 </div>
                 <div>
-                    <Form title="위치">
+                    <Form importent title="위치">
                         <div className="relative">
                             <Map // 지도를 표시할 Container
                                 center={{ lat: 33.450701, lng: 126.570667 }}
@@ -157,7 +198,7 @@ const MissingWritePage = () => {
                             />
                             <Image
                                 className="absolute top-[50%] left-[50%] z-10 -translate-x-1/2 -translate-y-[calc(50%+12.5px)]"
-                                src={`/markers/${formData.animalType === 'missing' ? 'missing' : 'sighting'}.svg`}
+                                src={`/markers/${formData.animalType === 'MISSING' ? 'missing' : 'sighting'}.svg`}
                                 alt={'marker'}
                                 width={25}
                                 height={25}
@@ -197,7 +238,9 @@ const MissingWritePage = () => {
             </div>
             <div className="sticky right-0 bottom-0 left-0 z-20 bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-2">
-                    <Button className="flex-1">게시글 등록하기</Button>
+                    <Button onClick={handlePostBoard} disabled={isSubmitting} className="flex-1">
+                        게시글 등록하기
+                    </Button>
                 </div>
             </div>
         </div>
