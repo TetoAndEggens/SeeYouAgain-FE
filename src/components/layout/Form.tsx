@@ -11,13 +11,15 @@ interface FormProps {
 
 export function Form({ title, className, important, children, tagChildren }: FormProps) {
     return (
-        <div className={cn('flex w-full shrink-0 flex-col gap-2 rounded-lg px-2', className)}>
+        <div className={cn('flex w-full shrink-0 flex-col gap-4 rounded-lg px-2', className)}>
             <p className="text-lg font-bold">
                 {title}{' '}
-                {important && <span className="align-text-top text-lg text-red-600">*</span>}{' '}
+                {important && (
+                    <span className="text-destructive align-text-top text-lg">*</span>
+                )}{' '}
             </p>
             {children}
-            <div className="overflow-hidden whitespace-nowrap">{tagChildren}</div>
+            {tagChildren && <div className="overflow-hidden whitespace-nowrap">{tagChildren}</div>}
         </div>
     );
 }

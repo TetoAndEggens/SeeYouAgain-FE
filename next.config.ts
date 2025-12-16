@@ -9,6 +9,16 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'placedog.net',
+                pathname: '/**',
+            },
+        ],
+    },
+
     async rewrites() {
         return [
             {
