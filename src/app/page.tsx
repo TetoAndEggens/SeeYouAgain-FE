@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchAdoptAnimals } from '@/api/adopt';
+import { fetchAdoptAnimals } from '@/api/animal';
 import { AdoptCard } from '@/components/features/adopt/AdoptCard';
 import { MissingSmallCard } from '@/components/features/missing/MissingSmallCard';
 import { useQuery } from '@tanstack/react-query';

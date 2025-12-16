@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchAdoptAnimalsById } from '@/api/adopt';
+import { fetchAdoptAnimalsById } from '@/api/animal';
 import { Form } from '@/components/layout/Form';
 import { ImageCarousel } from '@/components/layout/ImageCarousel';
 import { InformationDetail } from '@/components/layout/InformationDetail';
