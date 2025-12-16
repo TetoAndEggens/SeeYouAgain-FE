@@ -1,6 +1,6 @@
 import { CursorPageResponse } from './common';
 
-export type AdoptAnimal = {
+export interface AdoptAnimal {
     animalId: number;
     happenDate: string;
     species: 'DOG' | 'CAT';
@@ -8,14 +8,16 @@ export type AdoptAnimal = {
     birth: string;
     city: string;
     town: string;
+    latitude?: number;
+    longitude?: number;
     sex: 'M' | 'F' | 'Q';
     processState: string;
     profile: string;
     animalType: string;
     isBookmarked: boolean;
-};
+}
 
-export type AdoptAnimalDetail = {
+export interface AdoptAnimalDetail {
     animalId: number;
     animalType: string;
     happenDate: string;
@@ -37,9 +39,9 @@ export type AdoptAnimalDetail = {
     centerAddress: string;
     centerPhone: string;
     isBookmarked: boolean;
-};
+}
 
-export type animalFetchParams = {
+export interface AnimalFetchParams {
     cursorId?: number | null;
     size?: number;
     sortDirection?: 'LATEST' | 'OLDEST';
@@ -51,10 +53,18 @@ export type animalFetchParams = {
     sex?: 'M' | 'F' | 'Q';
     city?: string;
     town?: string;
-};
+}
+
+export interface AnimalMapFetchparams extends AnimalFetchParams {
+    minLongitude: number;
+    minLatitude: number;
+    maxLongitude: number;
+    maxLatitude: number;
+    animalType?: 'ABANDONED | MISSING | WITNESS';
+}
 
 // 전체 API 응답 래퍼
-export type AdoptAnimalsResponse = {
+export interface AdoptAnimalsResponse {
     animalCount: number;
     animal: CursorPageResponse<AdoptAnimal>;
-};
+}
