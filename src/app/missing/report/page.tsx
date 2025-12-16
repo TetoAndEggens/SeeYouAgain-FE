@@ -180,7 +180,7 @@ const MissingWritePage = () => {
                                 height: '200px',
                             }}
                             level={3} // 지도의 확대 레벨
-                            onDragEnd={(map) => handleDragOnMap(map)}
+                            onIdle={(map) => handleDragOnMap(map)}
                         />
                         <Image
                             className="absolute top-[50%] left-[50%] z-10 -translate-x-1/2 -translate-y-[calc(50%+12.5px)]"

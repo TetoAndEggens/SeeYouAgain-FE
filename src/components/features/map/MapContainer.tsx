@@ -37,7 +37,7 @@ function MapContainer({
                 setIsDrawerOpen(true);
                 setIsInfoOpen(-1);
             }}
-            onDragEnd={(map) => {
+            onIdle={(map) => {
                 const bounds = map.getBounds();
                 setBounds({
                     sw: parseCoordinates(bounds.getSouthWest().toString()),
@@ -51,11 +51,11 @@ function MapContainer({
                         <MapMarker
                             clickable={true}
                             position={{
-                                lat: data.latitude,
-                                lng: data.longitude,
+                                lng: data.latitude,
+                                lat: data.longitude,
                             }}
                             image={{
-                                src: `/markers/${data.animalType === 'MISSING' ? 'missing' : 'witness'}.svg`,
+                                src: `/markers/${data.animalType}.svg`,
                                 size: { width: 36, height: 51.5 },
                             }}
                             onClick={() =>
@@ -74,7 +74,7 @@ function MapContainer({
                             >
                                 <div className="w-80">
                                     {/* <MissingSmallCard
-                                        cardType={data.cardType}
+                                        animalType={data.animalType}
                                         name={data.name}
                                         tags={data.tags}
                                         location={data.location}
