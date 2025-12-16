@@ -23,6 +23,9 @@ const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
     '/test': { variant: 'back', title: 'Test Page' },
     '/sample': { variant: 'hidden' },
     '/mypage/settings': { variant: 'back', title: '알림 설정' },
+    '/mypage/posts': { variant: 'back', title: '내가 쓴 글' },
+    '/mypage': { variant: 'default', title: '마이페이지' },
+    '/report': { variant: 'close', title: '신고하기' },
 };
 
 function HeaderControl(pathname: string | null) {
@@ -48,7 +51,6 @@ function HeaderControl(pathname: string | null) {
 export function Header() {
     const router = useRouter();
     const pathname = usePathname();
-    console.log('Current Pathname:', pathname);
 
     const headerControl = React.useMemo(() => HeaderControl(pathname), [pathname]);
 
