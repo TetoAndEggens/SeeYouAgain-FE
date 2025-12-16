@@ -8,8 +8,8 @@ export interface AdoptAnimal {
     birth: string;
     city: string;
     town: string;
-    latitude?: number;
-    longitude?: number;
+    latitude: number;
+    longitude: number;
     sex: 'M' | 'F' | 'Q';
     processState: string;
     profile: string;

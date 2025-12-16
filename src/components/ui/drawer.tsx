@@ -4,17 +4,13 @@ import { Drawer } from 'vaul';
 import { MissingSmallCard } from '../features/missing/MissingSmallCard';
 import { AdoptAnimal } from '@/types/animal';
 
-interface VaulDrawerProps<T> {
+interface VaulDrawerProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    mapAnimalData: T[];
+    mapAnimalData: AdoptAnimal[];
 }
 
-export default function VaulDrawer({
-    open,
-    onOpenChange,
-    mapAnimalData,
-}: VaulDrawerProps<AdoptAnimal>) {
+export default function VaulDrawer({ open, onOpenChange, mapAnimalData }: VaulDrawerProps) {
     return (
         <Drawer.Root noBodyStyles={true} open={open} onOpenChange={onOpenChange}>
             {/* <Drawer.Trigger className="relative flex h-10 flex-shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-4 text-sm font-medium shadow-sm transition-all hover:bg-[#FAFAFA] dark:bg-[#161615] dark:text-white dark:hover:bg-[#1A1A19]">
@@ -37,7 +33,7 @@ export default function VaulDrawer({
                             </Drawer.Description>
 
                             <div className="flex flex-col gap-4">
-                                {mapAnimalData.map((data) => (
+                                {/* {mapAnimalData.map((data) => (
                                     <MissingSmallCard
                                         key={data.id}
                                         cardType={data.cardType}
@@ -47,7 +43,7 @@ export default function VaulDrawer({
                                         date={data.date}
                                         image={data.image}
                                     />
-                                ))}
+                                ))} */}
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import Tag from '@/components/ui/tag';
 
 interface MissingProps {
-    cardType: 'missing' | 'sighting';
+    cardType: 'missing' | 'witness';
     name: string;
     tags: string[];
     location: string;

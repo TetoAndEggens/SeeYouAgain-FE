@@ -12,7 +12,7 @@ const tagVariants = cva(
             variant: {
                 default: 'bg-primary-light text-primary-dark',
                 missing: 'bg-destructive-light text-destructive py-0.5 rounded-[0.5rem]',
-                sighting: 'bg-accent-light text-accent py-0.5 rounded-[0.5rem]',
+                witness: 'bg-accent-light text-accent py-0.5 rounded-[0.5rem]',
             },
             size: {
                 sm: 'text-[0.75rem]',
@@ -48,10 +48,10 @@ interface TagProps {
      * 태그 색상 스타일
      * - `default`: 기본 프라이머리 색상
      * - `missing`: 실종 표시 (빨간색)
-     * - `sighting`: 목격 표시 (파란색)
+     * - `witness`: 목격 표시 (파란색)
      * @default "default"
      */
-    variant?: 'default' | 'missing' | 'sighting';
+    variant?: 'default' | 'missing' | 'witness';
 
     /**
      * 삭제 버튼 여부
@@ -70,7 +70,7 @@ interface TagProps {
  * ```tsx
  * <Tag>기본 태그</Tag>
  * <Tag variant="missing">실종</Tag>
- * <Tag variant="sighting" size="lg">목격</Tag>
+ * <Tag variant="witness" size="lg">목격</Tag>
  * ```
  */
 function Tag({ children, className, size, variant, isDelete = false, onDelete }: TagProps) {

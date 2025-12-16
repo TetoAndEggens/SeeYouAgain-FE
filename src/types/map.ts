@@ -10,7 +10,7 @@ export interface MapBounds {
 
 export interface MissingData {
     id: number;
-    cardType: 'missing' | 'sighting';
+    cardType: 'missing' | 'witness';
     name: string;
     tags: string[];
     location: string;
@@ -22,7 +22,7 @@ export interface MissingData {
 
 export interface MissingDetailData {
     data: {
-        cardType: 'missing' | 'sighting';
+        cardType: 'missing' | 'witness';
         title: string;
         userName: string;
         tags: string[];

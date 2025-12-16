@@ -18,7 +18,7 @@ interface MissingProps {
 
 export default function MissingPage() {
     const testData: {
-        cardType: 'missing' | 'sighting';
+        cardType: 'missing' | 'witness';
         name: string;
         tags: string[];
         location: string;
@@ -42,7 +42,7 @@ export default function MissingPage() {
             image: 'https://placedog.net/501/281',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             name: '하루',
             tags: ['믹스', '목걸이 없음', '겁이 많음'],
             location: '서울 송파구 잠실동',
@@ -58,7 +58,7 @@ export default function MissingPage() {
             image: 'https://placedog.net/503/283',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             name: '두부',
             tags: ['하얀털', '귀가 큰 편', '사람을 잘 따름'],
             location: '서울 용산구 이태원동',
@@ -74,7 +74,7 @@ export default function MissingPage() {
             image: 'https://placedog.net/505/285',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             name: '라라',
             tags: ['검은색 목줄', '소형견', '낯가림 있음'],
             location: '서울 강서구 마곡동',
@@ -90,7 +90,7 @@ export default function MissingPage() {
             image: 'https://placedog.net/507/287',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             name: '탄이',
             tags: ['블랙탄', '중형견', '목에 파란 목줄'],
             location: '서울 동작구 상도동',

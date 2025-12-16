@@ -25,7 +25,7 @@ const testMissingSmallData = [
         image: 'https://placedog.net/500/280',
     },
     {
-        cardType: 'sighting' as const,
+        cardType: 'witness' as const,
         name: '복돌이',
         tags: ['암컷', '3kg', '파란 목줄'],
         location: '서울 강남구',
