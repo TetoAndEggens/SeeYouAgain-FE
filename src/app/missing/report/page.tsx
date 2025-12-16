@@ -8,7 +8,7 @@ import { Form } from '@/components/layout/Form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Camera, Search } from 'lucide-react';
+import { Camera, Cat, Dog, Search, Squirrel } from 'lucide-react';
 import { Map } from 'react-kakao-maps-sdk';
 import { useBoardPost } from '@/hook/board/useBoardPost';
 
@@ -30,7 +30,7 @@ const MissingWritePage = () => {
     } = useBoardPost();
     return (
         <div>
-            <div className="bg-gray-10 flex flex-col gap-12 p-4">
+            <div className="flex flex-col gap-12 p-4">
                 <Form title="게시글 종류">
                     <div className="flex gap-4">
                         <Button
@@ -43,11 +43,39 @@ const MissingWritePage = () => {
                         </Button>
                         <Button
                             className="flex flex-1 flex-col"
-                            variant={formData.animalType === 'sighting' ? 'default' : 'outline'}
-                            onClick={() => handleChangeInput('animalType', 'sighting')}
+                            variant={formData.animalType === 'WITNESS' ? 'default' : 'outline'}
+                            onClick={() => handleChangeInput('animalType', 'WITNESS')}
                         >
                             <Camera />
                             목격
+                        </Button>
+                    </div>
+                </Form>
+                <Form title="분류">
+                    <div className="flex gap-4">
+                        <Button
+                            className="flex flex-1 flex-col"
+                            variant={formData.species === 'DOG' ? 'default' : 'outline'}
+                            onClick={() => handleChangeInput('species', 'DOG')}
+                        >
+                            <Dog />
+                            강아지
+                        </Button>
+                        <Button
+                            className="flex flex-1 flex-col"
+                            variant={formData.species === 'CAT' ? 'default' : 'outline'}
+                            onClick={() => handleChangeInput('species', 'CAT')}
+                        >
+                            <Cat />
+                            고양이
+                        </Button>
+                        <Button
+                            className="flex flex-1 flex-col"
+                            variant={formData.species === 'ETC' ? 'default' : 'outline'}
+                            onClick={() => handleChangeInput('species', 'ETC')}
+                        >
+                            <Squirrel />
+                            기타
                         </Button>
                     </div>
                 </Form>
@@ -156,7 +184,7 @@ const MissingWritePage = () => {
                         />
                         <Image
                             className="absolute top-[50%] left-[50%] z-10 -translate-x-1/2 -translate-y-[calc(50%+12.5px)]"
-                            src={`/markers/${formData.animalType === 'MISSING' ? 'missing' : 'sighting'}.svg`}
+                            src={`/markers/${formData.animalType === 'MISSING' ? 'missing' : 'witness'}.svg`}
                             alt={'marker'}
                             width={25}
                             height={25}

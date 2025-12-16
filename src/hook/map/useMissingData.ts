@@ -12,7 +12,7 @@ export const testMissingData = [
     },
     {
         id: 2,
-        cardType: 'sighting' as const,
+        cardType: 'witness' as const,
         name: '코코',
         tags: ['푸들', '갈색', '3살'],
         location: '제주시 연동',
@@ -34,7 +34,7 @@ export const testMissingData = [
     },
     {
         id: 4,
-        cardType: 'sighting' as const,
+        cardType: 'witness' as const,
         name: '초코',
         tags: ['리트리버', '황금색', '5살'],
         location: '제주시 일도동',

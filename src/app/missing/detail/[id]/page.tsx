@@ -16,7 +16,7 @@ const LostDetailPage = () => {
     const id = Number(param.id);
 
     const testData: {
-        cardType: 'missing' | 'sighting';
+        cardType: 'missing' | 'witness';
         title: string;
         userName: string;
         tags: string[];
@@ -43,7 +43,7 @@ const LostDetailPage = () => {
             image: 'https://placedog.net/501/281',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             title: '하루',
             userName: '홍길동',
             tags: ['믹스', '목걸이 없음', '겁이 많음'],
@@ -61,7 +61,7 @@ const LostDetailPage = () => {
             image: 'https://placedog.net/503/283',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             title: '두부',
             userName: '홍길동',
             tags: ['하얀털', '귀가 큰 편', '사람을 잘 따름'],
@@ -79,7 +79,7 @@ const LostDetailPage = () => {
             image: 'https://placedog.net/505/285',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             title: '라라',
             userName: '홍길동',
             tags: ['검은색 목줄', '소형견', '낯가림 있음'],
@@ -97,7 +97,7 @@ const LostDetailPage = () => {
             image: 'https://placedog.net/507/287',
         },
         {
-            cardType: 'sighting',
+            cardType: 'witness',
             title: '탄이',
             userName: '홍길동',
             tags: ['블랙탄', '중형견', '목에 파란 목줄'],

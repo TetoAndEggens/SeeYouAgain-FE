@@ -16,9 +16,11 @@ const MapPage = () => {
     const { data } = useMissingData();
 
     const { data: mapData, isLoading: mapDataLoading } = useQuery({
-        queryKey: ['animalMap'],
+        queryKey: ['animalMap', mapState.bounds],
         queryFn: () =>
             fetchAnimalMap({
+                size: 100,
+                sortDirection: 'LATEST',
                 minLatitude: mapState.bounds.sw[0],
                 minLongitude: mapState.bounds.sw[1],
                 maxLatitude: mapState.bounds.ne[0],
@@ -36,7 +38,7 @@ const MapPage = () => {
 
     return (
         <div className="relative h-full w-full">
-            <MapContainer mapAnimalData={mapData} {...mapState} />
+            <MapContainer mapAnimalData={mapData ?? []} {...mapState} />
             {/*지도 위 오버레이 공간*/}
             <div className="relative">
                 <MapMarkerColorGuide />
@@ -44,7 +46,7 @@ const MapPage = () => {
             <VaulDrawer
                 open={mapState.isDrawerOpen}
                 onOpenChange={mapState.setIsDrawerOpen}
-                mapAnimalData={data}
+                mapAnimalData={mapData ?? []}
             />
         </div>
     );

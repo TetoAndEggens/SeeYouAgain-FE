@@ -2,7 +2,7 @@ import Tag from '@/components/ui/tag';
 import { Clock, MapPin } from 'lucide-react';
 
 interface MissingProps {
-    cardType: 'missing' | 'sighting';
+    cardType: 'missing' | 'witness';
     name: string;
     tags: string[];
     location: string;

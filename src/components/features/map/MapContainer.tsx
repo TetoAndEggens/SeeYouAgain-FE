@@ -45,42 +45,47 @@ function MapContainer({
                 });
             }}
         >
-            {mapAnimalData.map((data) => (
-                <React.Fragment key={`marker-wrapper-${data.id}`}>
-                    <MapMarker
-                        clickable={true}
-                        position={{
-                            lat: data.lat,
-                            lng: data.lng,
-                        }}
-                        image={{
-                            src: `/markers/${data.cardType === 'missing' ? 'missing' : 'sighting'}.svg`,
-                            size: { width: 36, height: 51.5 },
-                        }}
-                        onClick={() => setIsInfoOpen((prev) => (prev === data.id ? -1 : data.id))}
-                    />
-                    {isInfoOpen === data.id && (
-                        <CustomOverlayMap
+            {mapAnimalData &&
+                mapAnimalData.map((data) => (
+                    <React.Fragment key={data.animalId}>
+                        <MapMarker
+                            clickable={true}
                             position={{
-                                lat: data.lat,
-                                lng: data.lng,
+                                lat: data.latitude,
+                                lng: data.longitude,
                             }}
-                            yAnchor={1.4}
-                        >
-                            <div className="w-80">
-                                <MissingSmallCard
-                                    cardType={data.cardType}
-                                    name={data.name}
-                                    tags={data.tags}
-                                    location={data.location}
-                                    date={data.date}
-                                    image={data.image}
-                                />
-                            </div>
-                        </CustomOverlayMap>
-                    )}
-                </React.Fragment>
-            ))}
+                            image={{
+                                src: `/markers/${data.animalType === 'MISSING' ? 'missing' : 'witness'}.svg`,
+                                size: { width: 36, height: 51.5 },
+                            }}
+                            onClick={() =>
+                                setIsInfoOpen((prev) =>
+                                    prev === data.animalId ? -1 : data.animalId
+                                )
+                            }
+                        />
+                        {isInfoOpen === data.animalId && (
+                            <CustomOverlayMap
+                                position={{
+                                    lat: data.latitude,
+                                    lng: data.longitude,
+                                }}
+                                yAnchor={1.4}
+                            >
+                                <div className="w-80">
+                                    {/* <MissingSmallCard
+                                        cardType={data.cardType}
+                                        name={data.name}
+                                        tags={data.tags}
+                                        location={data.location}
+                                        date={data.date}
+                                        image={data.image}
+                                    /> */}
+                                </div>
+                            </CustomOverlayMap>
+                        )}
+                    </React.Fragment>
+                ))}
         </Map>
     );
 }
