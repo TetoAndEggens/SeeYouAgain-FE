@@ -1,6 +1,6 @@
 import { calculateAgeFromYear } from '@/lib/date-utils';
 import { cn } from '@/lib/utils';
-import type { AdoptAnimal } from '@/types/adopt';
+import type { AdoptAnimal } from '@/types/animal';
 import { Mars, Venus } from 'lucide-react';
 
 interface AdoptCardProps extends AdoptAnimal {

@@ -1,5 +1,5 @@
 import axiosInstance from '@/lib/axios';
-import { animalFetchParams } from '@/types/adopt';
+import { animalFetchParams } from '@/types/animal';
 import { BoardDataResponse, BoardFormResponse } from '@/types/board';
 import { BoardForm } from '@/types/board';
 import { ServerResponseType } from '@/types/common';

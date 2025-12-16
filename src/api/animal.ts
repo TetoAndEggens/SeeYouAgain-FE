@@ -1,5 +1,5 @@
 import axiosInstance from '@/lib/axios';
-import type { AdoptAnimalDetail, animalFetchParams, AdoptAnimalsResponse } from '@/types/adopt';
+import type { AdoptAnimalDetail, animalFetchParams, AdoptAnimalsResponse } from '@/types/animal';
 import { ServerResponseType } from '@/types/common';
 
 export const fetchAdoptAnimals = async (

@@ -1,7 +1,7 @@
-import { AdoptAnimal, AdoptAnimalsResponse } from '@/types/adopt';
+import { AdoptAnimal, AdoptAnimalsResponse } from '@/types/animal';
 import { SortByType } from '@/types/common';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchAdoptAnimals } from '@/api/adopt';
+import { fetchAdoptAnimals } from '@/api/animal';
 
 export const useAdoptAnimals = (sortBy: SortByType) => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery<
