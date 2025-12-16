@@ -1,11 +1,11 @@
 import { AdoptAnimal, AdoptAnimalsResponse } from '@/types/animal';
-import { SortByType } from '@/types/common';
+import { ServerResponseType, SortByType } from '@/types/common';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchAdoptAnimals } from '@/api/animal';
 
 export const useAdoptAnimals = (sortBy: SortByType) => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery<
-        AdoptAnimalsResponse, // TQueryFnData: queryFn 반환 타입
+        ServerResponseType<AdoptAnimalsResponse>, // TQueryFnData: queryFn 반환 타입
         Error, // TError: 에러 타입
         { animals: AdoptAnimal[]; totalCount: number }, // TData: select 반환 타입
         string[], // TQueryKey: queryKey 타입

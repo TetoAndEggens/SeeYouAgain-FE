@@ -2,15 +2,15 @@ import React from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import { MissingSmallCard } from '../missing/MissingSmallCard';
 import type { MapState } from '@/hook/map/useMapState';
-import type { MissingData } from '@/types/map';
 import { parseCoordinates } from '@/lib/utils';
+import { AdoptAnimal } from '@/types/animal';
 
 interface MapContainerProps extends MapState {
-    missingData: MissingData[];
+    mapAnimalData: AdoptAnimal[];
 }
 
 function MapContainer({
-    missingData,
+    mapAnimalData,
     center,
     isInfoOpen,
     setCoord,
@@ -45,7 +45,7 @@ function MapContainer({
                 });
             }}
         >
-            {missingData.map((data) => (
+            {mapAnimalData.map((data) => (
                 <React.Fragment key={`marker-wrapper-${data.id}`}>
                     <MapMarker
                         clickable={true}

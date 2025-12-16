@@ -8,31 +8,25 @@ import useMapState from '@/hook/map/useMapState';
 import MapContainer from '@/components/features/map/MapContainer';
 import { useMissingData } from '@/hook/map/useMissingData';
 import { useQuery } from '@tanstack/react-query';
-import { fetchBoardList } from '@/api/board';
+import { fetchAnimalMap } from '@/api/animal';
 
 const MapPage = () => {
     const [loading, error] = useKakaoLoader();
     const mapState = useMapState();
     const { data } = useMissingData();
 
-    const { data: boardData, isLoading } = useQuery({
-        queryKey: ['boardAnimals'],
+    const { data: mapData, isLoading: mapDataLoading } = useQuery({
+        queryKey: ['animalMap'],
         queryFn: () =>
-            fetchBoardList({
-                size: 10,
-                sortDirection: 'LATEST',
+            fetchAnimalMap({
+                minLatitude: mapState.bounds.sw[0],
+                minLongitude: mapState.bounds.sw[1],
+                maxLatitude: mapState.bounds.ne[0],
+                maxLongitude: mapState.bounds.ne[1],
             }),
-        select: (data) =>
-            data.data.board.data.filter(
-                (data) =>
-                    mapState.bounds.sw[0] <= data.latitude &&
-                    data.latitude <= mapState.bounds.ne[0] &&
-                    mapState.bounds.sw[1] <= data.longitude &&
-                    data.longitude <= mapState.bounds.ne[1]
-            ),
+        select: (data) => data.data.animal.data,
+        enabled: !loading && !error,
     });
-
-    console.log(boardData);
 
     if (loading)
         return <div className="flex h-full items-center justify-center">지도 로딩중..</div>;
@@ -42,7 +36,7 @@ const MapPage = () => {
 
     return (
         <div className="relative h-full w-full">
-            <MapContainer missingData={data} {...mapState} />
+            <MapContainer mapAnimalData={mapData} {...mapState} />
             {/*지도 위 오버레이 공간*/}
             <div className="relative">
                 <MapMarkerColorGuide />
@@ -50,7 +44,7 @@ const MapPage = () => {
             <VaulDrawer
                 open={mapState.isDrawerOpen}
                 onOpenChange={mapState.setIsDrawerOpen}
-                missingData={data}
+                mapAnimalData={data}
             />
         </div>
     );
