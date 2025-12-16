@@ -222,7 +222,7 @@ const MyPostsPage = () => {
                             </>
                         )}
                         <Button
-                            className="flex items-center bg-red-500"
+                            className="bg-destructive flex items-center"
                             size="sm"
                             onClick={() => {
                                 if (!useCheck) setUseCheck(true);

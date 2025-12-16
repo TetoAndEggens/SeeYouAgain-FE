@@ -61,7 +61,7 @@ export function ChatPreview({
                     <div className="flex min-w-12 shrink-0 flex-col items-center gap-2">
                         <p className="text-md text-gray-500">{timestamp}</p>
                         {unreadCount !== undefined && unreadCount > 0 && (
-                            <div className="w-6 rounded-full bg-red-500 px-2 py-1">
+                            <div className="bg-destructive w-6 rounded-full px-2 py-1">
                                 <p className="text-center text-xs font-semibold text-white">
                                     {unreadCount}
                                 </p>

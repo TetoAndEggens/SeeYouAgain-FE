@@ -16,7 +16,7 @@ interface MissingProps {
     }[];
 }
 
-export default async function MissingPage() {
+export default function MissingPage() {
     const testData: {
         cardType: 'missing' | 'sighting';
         name: string;
