@@ -11,8 +11,8 @@ const tagVariants = cva(
         variants: {
             variant: {
                 default: 'bg-primary-light text-primary-dark',
-                missing: 'bg-destructive-light text-destructive py-0.5 rounded-[0.5rem]',
-                witness: 'bg-accent-light text-accent py-0.5 rounded-[0.5rem]',
+                MISSING: 'bg-destructive-light text-destructive py-0.5 rounded-[0.5rem]',
+                WITNESS: 'bg-accent-light text-accent py-0.5 rounded-[0.5rem]',
             },
             size: {
                 sm: 'text-[0.75rem]',
@@ -51,7 +51,7 @@ interface TagProps {
      * - `witness`: 목격 표시 (파란색)
      * @default "default"
      */
-    variant?: 'default' | 'missing' | 'witness';
+    variant?: 'default' | 'MISSING' | 'WITNESS';
 
     /**
      * 삭제 버튼 여부
