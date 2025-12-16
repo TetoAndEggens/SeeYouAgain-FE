@@ -63,7 +63,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="bg-primary text-gray-10 flex h-[8rem] flex-col justify-center gap-2 px-8">
+            <div className="bg-primary text-gray-10 flex h-32 flex-col justify-center gap-2 px-8">
                 <p className="text-[1.25rem] font-bold">새로운 가족을 만나보세요</p>
                 <p>오늘도 많은 아이들이 당신을 기다리고 있어요</p>
             </div>
