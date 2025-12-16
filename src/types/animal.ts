@@ -13,13 +13,13 @@ export interface AdoptAnimal {
     sex: 'M' | 'F' | 'Q';
     processState: string;
     profile: string;
-    animalType: string;
+    animalType: 'ABANDONED' | 'MISSING' | 'WITNESS';
     isBookmarked: boolean;
 }
 
 export interface AdoptAnimalDetail {
     animalId: number;
-    animalType: string;
+    animalType: 'ABANDONED' | 'MISSING' | 'WITNESS';
     happenDate: string;
     species: 'DOG' | 'CAT';
     breedType: string;
@@ -60,7 +60,7 @@ export interface AnimalMapFetchparams extends AnimalFetchParams {
     minLatitude: number;
     maxLongitude: number;
     maxLatitude: number;
-    animalType?: 'ABANDONED | MISSING | WITNESS';
+    animalType?: 'ABANDONED' | 'MISSING' | 'WITNESS';
 }
 
 // 전체 API 응답 래퍼
