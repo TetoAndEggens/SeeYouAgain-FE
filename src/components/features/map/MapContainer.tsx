@@ -1,6 +1,5 @@
 import React from 'react';
-import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
-import { MissingSmallCard } from '../missing/MissingSmallCard';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import type { MapState } from '@/hook/map/useMapState';
 import { parseCoordinates } from '@/lib/utils';
 import { AdoptAnimal } from '@/types/animal';
@@ -12,10 +11,9 @@ interface MapContainerProps extends MapState {
 function MapContainer({
     mapAnimalData,
     center,
-    isInfoOpen,
     setCoord,
     setBounds,
-    setIsInfoOpen,
+    setSelectedCoord,
     setIsDrawerOpen,
 }: MapContainerProps) {
     return (
@@ -34,8 +32,8 @@ function MapContainer({
             onClick={(_, mouseEvent) => {
                 const latlng = mouseEvent.latLng;
                 setCoord({ lng: latlng.getLng(), lat: latlng.getLat() });
+                setSelectedCoord(null);
                 setIsDrawerOpen(true);
-                setIsInfoOpen(-1);
             }}
             onIdle={(map) => {
                 const bounds = map.getBounds();
@@ -47,44 +45,25 @@ function MapContainer({
         >
             {mapAnimalData &&
                 mapAnimalData.map((data) => (
-                    <React.Fragment key={data.animalId}>
-                        <MapMarker
-                            clickable={true}
-                            position={{
-                                lng: data.latitude,
-                                lat: data.longitude,
-                            }}
-                            image={{
-                                src: `/markers/${data.animalType}.svg`,
-                                size: { width: 36, height: 51.5 },
-                            }}
-                            onClick={() =>
-                                setIsInfoOpen((prev) =>
-                                    prev === data.animalId ? -1 : data.animalId
-                                )
-                            }
-                        />
-                        {isInfoOpen === data.animalId && (
-                            <CustomOverlayMap
-                                position={{
-                                    lat: data.latitude,
-                                    lng: data.longitude,
-                                }}
-                                yAnchor={1.4}
-                            >
-                                <div className="w-80">
-                                    {/* <MissingSmallCard
-                                        animalType={data.animalType}
-                                        name={data.name}
-                                        tags={data.tags}
-                                        location={data.location}
-                                        date={data.date}
-                                        image={data.image}
-                                    /> */}
-                                </div>
-                            </CustomOverlayMap>
-                        )}
-                    </React.Fragment>
+                    <MapMarker
+                        key={data.animalId}
+                        clickable={true}
+                        position={{
+                            lng: data.latitude,
+                            lat: data.longitude,
+                        }}
+                        image={{
+                            src: `/markers/${data.animalType}.svg`,
+                            size: { width: 36, height: 51.5 },
+                        }}
+                        onClick={() => {
+                            setIsDrawerOpen(true);
+                            setSelectedCoord({
+                                lat: data.latitude,
+                                lng: data.longitude,
+                            });
+                        }}
+                    />
                 ))}
         </Map>
     );

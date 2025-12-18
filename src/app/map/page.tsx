@@ -13,8 +13,8 @@ import { RefreshCw } from 'lucide-react';
 import type { MapBounds } from '@/types/map';
 
 const MapPage = () => {
-    const [loading, error] = useKakaoLoader();
     const mapState = useMapState();
+    const [loading, error] = useKakaoLoader();
     const [searchBounds, setSearchBounds] = useState<MapBounds>(mapState.bounds);
 
     const { data: mapData, isLoading: mapDataLoading } = useQuery({
@@ -44,6 +44,18 @@ const MapPage = () => {
         );
     }, [mapState.bounds, searchBounds]);
 
+    const filteredMapData = useMemo(() => {
+        const filter = mapState.selectedCoord;
+
+        if (!filter) return mapData;
+
+        return mapData?.filter(
+            (data) =>
+                Math.abs(data.latitude - filter.lat) < 0.000001 &&
+                Math.abs(data.longitude - filter.lng) < 0.000001
+        );
+    }, [mapData, mapState.selectedCoord]);
+
     const handleSearchCurrentArea = () => {
         setSearchBounds(mapState.bounds);
     };
@@ -61,7 +73,6 @@ const MapPage = () => {
             <div className="relative">
                 <MapMarkerColorGuide />
             </div>
-            {/* 지도 이동 시 재검색 버튼 */}
             {hasMapMoved && (
                 <Button
                     className="absolute top-4 left-1/2 z-20 -translate-x-1/2 gap-2 shadow-lg"
@@ -75,7 +86,7 @@ const MapPage = () => {
             <VaulDrawer
                 open={mapState.isDrawerOpen}
                 onOpenChange={mapState.setIsDrawerOpen}
-                mapAnimalData={mapData ?? []}
+                mapAnimalData={filteredMapData ?? []}
             />
         </div>
     );
