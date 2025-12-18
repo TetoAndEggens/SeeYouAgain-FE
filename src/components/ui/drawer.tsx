@@ -1,7 +1,7 @@
 'use client';
 
 import { Drawer } from 'vaul';
-import { MissingSmallCard } from '../features/missing/MissingSmallCard';
+import { AnimalMapCard } from '../features/map/AnimalMapCard';
 import { AdoptAnimal } from '@/types/animal';
 
 interface VaulDrawerProps {
@@ -29,21 +29,19 @@ export default function VaulDrawer({ open, onOpenChange, mapAnimalData }: VaulDr
                                 현재 지역의 동물들
                             </Drawer.Title>
                             <Drawer.Description className="text-gray-40 mb-4 text-[1rem]">
-                                총 n마리
+                                총 {mapAnimalData.length}마리
                             </Drawer.Description>
 
                             <div className="flex flex-col gap-4">
-                                {/* {mapAnimalData.map((data) => (
-                                    <MissingSmallCard
-                                        key={data.id}
-                                        cardType={data.cardType}
-                                        name={data.name}
-                                        tags={data.tags}
-                                        location={data.location}
-                                        date={data.date}
-                                        image={data.image}
-                                    />
-                                ))} */}
+                                {mapAnimalData.length > 0 ? (
+                                    mapAnimalData.map((data) => (
+                                        <AnimalMapCard key={data.animalId} animal={data} />
+                                    ))
+                                ) : (
+                                    <div className="text-gray-40 flex items-center justify-center py-8 text-center">
+                                        이 지역에는 등록된 동물이 없습니다.
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
