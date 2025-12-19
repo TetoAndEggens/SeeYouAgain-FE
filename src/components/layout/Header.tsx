@@ -1,11 +1,10 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { Bell, Menu, ChevronLeft, X } from 'lucide-react';
 
-type Variant = 'default' | 'back' | 'close' | 'hidden';
+type Variant = 'default' | 'back' | 'backOnly' | 'close' | 'hidden';
 
 interface Action {
     key: string;
@@ -16,9 +15,15 @@ interface Action {
 
 const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
     '/': { variant: 'default', title: 'SeeYouAgain' },
-    '/missing/detail': { variant: 'back', title: '실종 동물 찾기' },
+    '/login': { variant: 'hidden' },
+    '/signup': { variant: 'close', title: '회원가입' },
+    '/map': { variant: 'default', title: '다시 만날 U' },
+    '/adopt/': { variant: 'backOnly', title: '' },
+    '/adopt': { variant: 'default', title: '입양 동물 찾기' },
+    '/missing/report': { variant: 'close', title: '글쓰기' },
+    '/missing/detail/': { variant: 'back', title: '실종 동물 찾기' },
     '/missing': { variant: 'default', title: '실종 동물 찾기' },
-    '/chat/detail': { variant: 'hidden' },
+    '/chat/detail/': { variant: 'hidden' },
     '/chat': { variant: 'default', title: '채팅' },
     '/test': { variant: 'back', title: 'Test Page' },
     '/sample': { variant: 'hidden' },
@@ -31,11 +36,14 @@ const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
 function HeaderControl(pathname: string | null) {
     const currentPath = pathname || '/';
 
-    const matcheUrl = Object.entries(ROUTE_RULES).find(([pattern]) => {
-        if (currentPath === pattern) return true;
-        if (currentPath.startsWith(pattern + '/')) return true;
-        return false;
-    });
+    const matcheUrl = Object.entries(ROUTE_RULES)
+        .filter(([pattern]) => {
+            if (currentPath === pattern) return true;
+            if (pattern.endsWith('/')) return currentPath.startsWith(pattern);
+            if (currentPath.startsWith(pattern + '/')) return true;
+            return false;
+        })
+        .sort((a, b) => b[0].length - a[0].length)[0];
 
     if (!matcheUrl) {
         return { variant: 'default' as Variant, title: 'SeeYouAgain' };
@@ -100,6 +108,17 @@ export function Header() {
                 },
             ],
         },
+        backOnly: {
+            leftIcons: [
+                {
+                    key: 'back',
+                    ariaLabel: '뒤로가기',
+                    onClick: () => router.back(),
+                    icon: <ChevronLeft size={24} />,
+                },
+            ],
+            rightIcons: [],
+        },
         close: {
             leftIcons: [
                 {
@@ -121,7 +140,7 @@ export function Header() {
 
     return (
         <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-gray-600 bg-[#F8F9FA] p-4">
-            <div className="flex items-center justify-between bg-auto">
+            <div className="flex items-center justify-between gap-2 bg-auto">
                 {leftIcons.map((item) => (
                     <button
                         key={item.key}
