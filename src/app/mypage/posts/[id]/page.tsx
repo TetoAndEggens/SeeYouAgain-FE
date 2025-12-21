@@ -145,13 +145,6 @@ const PostDetail = () => {
                 <Form
                     className="border-0 p-0"
                     title={testData[id].title}
-                    children={
-                        <p className="">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia illum
-                            fugiat unde voluptatum natus excepturi fugit corporis tenetur nisi qui?
-                            Delectus distinctio sint ut? Consectetur eius earum quis porro odit!
-                        </p>
-                    }
                     tagChildren={
                         <div className="flex gap-2">
                             {testData[id].tags.map((tag) => (
@@ -161,33 +154,31 @@ const PostDetail = () => {
                             ))}
                         </div>
                     }
-                />
+                >
+                    <p className="">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia illum fugiat
+                        unde voluptatum natus excepturi fugit corporis tenetur nisi qui? Delectus
+                        distinctio sint ut? Consectetur eius earum quis porro odit!
+                    </p>
+                </Form>
             </div>
-            <Form
-                className="border-0 p-0"
-                title="상세 정보"
-                children={
-                    <div className="flex flex-col gap-2">
-                        <div>
-                            <InformationDetail item={{ title: '품종', context: '말티즈' }} />
-                        </div>
-                        <div className="flex gap-2">
-                            <InformationDetail item={{ title: '성별', context: '수컷' }} />
-                            <InformationDetail item={{ title: '색상', context: '노랑' }} />
-                        </div>
+            <Form className="border-0 p-0" title="상세 정보">
+                <div className="flex flex-col gap-2">
+                    <div>
+                        <InformationDetail item={{ title: '품종', context: '말티즈' }} />
                     </div>
-                }
-            />
-            <Form
-                className="gap-2 border-0 p-0"
-                title="목격 위치"
-                children={
-                    <div className="flex flex-col gap-2">
-                        <div className="h-50 w-full rounded-lg bg-gray-500">지도</div>
-                        <div className="">{testData[id].location}</div>
+                    <div className="flex gap-2">
+                        <InformationDetail item={{ title: '성별', context: '수컷' }} />
+                        <InformationDetail item={{ title: '색상', context: '노랑' }} />
                     </div>
-                }
-            />
+                </div>
+            </Form>
+            <Form className="gap-2 border-0 p-0" title="목격 위치">
+                <div className="flex flex-col gap-2">
+                    <div className="h-50 w-full rounded-lg bg-gray-500">지도</div>
+                    <div className="">{testData[id].location}</div>
+                </div>
+            </Form>
         </div>
     );
 };

@@ -169,32 +169,24 @@ const LostDetailPage = () => {
                 </Form>
             </div>
             <div className="bg-gray-10 h-4"></div>
-            <Form
-                className="border-0 p-4"
-                title="상세 정보"
-                children={
-                    <div className="flex flex-col gap-4">
-                        <div>
-                            <InformationDetail item={{ title: '품종', context: '말티즈' }} />
-                        </div>
-                        <div className="flex gap-4">
-                            <InformationDetail item={{ title: '성별', context: '수컷' }} />
-                            <InformationDetail item={{ title: '색상', context: '노랑' }} />
-                        </div>
+            <Form className="border-0 p-4" title="상세 정보">
+                <div className="flex flex-col gap-4">
+                    <div>
+                        <InformationDetail item={{ title: '품종', context: '말티즈' }} />
                     </div>
-                }
-            />
+                    <div className="flex gap-4">
+                        <InformationDetail item={{ title: '성별', context: '수컷' }} />
+                        <InformationDetail item={{ title: '색상', context: '노랑' }} />
+                    </div>
+                </div>
+            </Form>
             <div className="bg-gray-10 h-4"></div>
-            <Form
-                className="gap-4 border-0 p-4"
-                title="목격 위치"
-                children={
-                    <div className="flex flex-col gap-4">
-                        <div className="h-50 w-full rounded-lg bg-gray-500">지도</div>
-                        <div className="bg-gray-10">{testData[id].location}</div>
-                    </div>
-                }
-            />
+            <Form className="gap-4 border-0 p-4" title="목격 위치">
+                <div className="flex flex-col gap-4">
+                    <div className="h-50 w-full rounded-lg bg-gray-500">지도</div>
+                    <div className="bg-gray-10">{testData[id].location}</div>
+                </div>
+            </Form>
             <div className="sticky bottom-0 p-4">
                 <Button className="w-full" onClick={() => router.push('/chat')}>
                     채팅하기
