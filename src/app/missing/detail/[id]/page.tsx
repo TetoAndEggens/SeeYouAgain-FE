@@ -76,48 +76,40 @@ const LostDetailPage = ({ params }: MissingDetailPageProps) => {
                 </Form>
             </div>
             <div className="bg-gray-10 h-4"></div>
-            <Form
-                className="border-0 p-4"
-                title="상세 정보"
-                children={
-                    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                        <InformationDetail
-                            item={{ title: '품종', context: missingDetail.breedType ?? '미상' }}
-                        />
-                        <InformationDetail
-                            item={{
-                                title: '중성화',
-                                context: missingDetail.neuteredState,
-                            }}
-                        />
-                        <InformationDetail
-                            item={{ title: '성별', context: formatSex(missingDetail.sex) }}
-                        />
-                        <InformationDetail item={{ title: '색상', context: missingDetail.color }} />
-                    </div>
-                }
-            />
+            <Form className="border-0 p-4" title="상세 정보">
+                <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                    <InformationDetail
+                        item={{ title: '품종', context: missingDetail.breedType ?? '미상' }}
+                    />
+                    <InformationDetail
+                        item={{
+                            title: '중성화',
+                            context: missingDetail.neuteredState,
+                        }}
+                    />
+                    <InformationDetail
+                        item={{ title: '성별', context: formatSex(missingDetail.sex) }}
+                    />
+                    <InformationDetail item={{ title: '색상', context: missingDetail.color }} />
+                </div>
+            </Form>
             <div className="bg-gray-10 h-4"></div>
-            <Form
-                className="gap-4 border-0 p-4"
-                title="목격 위치"
-                children={
-                    <div className="flex flex-col gap-4">
-                        {!loading && !error && (
-                            <StaticMap
-                                longitude={missingDetail.latitude}
-                                latitude={missingDetail.longitude}
-                                markerType={missingDetail.animalType}
-                                height="200px"
-                            />
-                        )}
+            <Form className="gap-4 border-0 p-4" title="목격 위치">
+                <div className="flex flex-col gap-4">
+                    {!loading && !error && (
+                        <StaticMap
+                            longitude={missingDetail.latitude}
+                            latitude={missingDetail.longitude}
+                            markerType={missingDetail.animalType}
+                            height="200px"
+                        />
+                    )}
 
-                        <div className="bg-gray-10 rounded-lg p-3">
-                            {missingDetail.city} {missingDetail.town}
-                        </div>
+                    <div className="bg-gray-10 rounded-lg p-3">
+                        {missingDetail.city} {missingDetail.town}
                     </div>
-                }
-            />
+                </div>
+            </Form>
             <div className="sticky bottom-0 z-10 bg-white p-4">
                 <Button className="w-full" onClick={() => router.push('/chat')}>
                     채팅하기
