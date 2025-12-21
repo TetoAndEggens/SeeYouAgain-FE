@@ -49,8 +49,8 @@ function MapContainer({
                         key={data.animalId}
                         clickable={true}
                         position={{
-                            lng: data.latitude,
-                            lat: data.longitude,
+                            lat: data.latitude,
+                            lng: data.longitude,
                         }}
                         image={{
                             src: `/markers/${data.animalType}.svg`,
