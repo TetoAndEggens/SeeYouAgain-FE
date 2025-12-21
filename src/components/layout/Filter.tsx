@@ -58,18 +58,17 @@ export default function Filter({ open, isOpen }: FilterProps) {
                             setOpen={setToCalendarOpen}
                             data={toDate?.toLocaleDateString()}
                             icon={<ChevronDownIcon />}
-                            children={
-                                <Calendar
-                                    mode="single"
-                                    selected={toDate}
-                                    captionLayout="dropdown"
-                                    onSelect={(date) => {
-                                        setToDate(date);
-                                        setToCalendarOpen(false);
-                                    }}
-                                />
-                            }
-                        />
+                        >
+                            <Calendar
+                                mode="single"
+                                selected={toDate}
+                                captionLayout="dropdown"
+                                onSelect={(date) => {
+                                    setToDate(date);
+                                    setToCalendarOpen(false);
+                                }}
+                            />
+                        </CustomPopover>
                     </div>
                 </div>
                 <div className="grid max-w-full grid-cols-2 gap-4">
