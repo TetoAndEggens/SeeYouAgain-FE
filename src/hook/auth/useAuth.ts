@@ -10,7 +10,7 @@ export const useAuth = () => {
             setLoading(true);
 
             try {
-                // const { data } = await axiosInstance.post('/auth/reissue');
+                const { data } = await axiosInstance.post('/auth/reissue');
                 login();
             } catch (error) {
                 logout();
