@@ -9,7 +9,7 @@ import { fetchBoardList } from '@/api/board';
 
 export default function MissingPage() {
     const { data: boardData, isLoading } = useQuery({
-        queryKey: ['adoptAnimals'],
+        queryKey: ['boardList'],
         queryFn: () =>
             fetchBoardList({
                 size: 10,

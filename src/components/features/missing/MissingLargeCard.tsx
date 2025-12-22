@@ -13,12 +13,14 @@ export function MissingLargeCard({
     createdAt,
     profile,
 }: BoardData) {
+    const imageUrl = profile || '/logo-placeholder.webp';
+
     return (
         <div className="border-gray-20 flex flex-col justify-center gap-4 rounded-lg border bg-white p-4">
             <div className="flex gap-4">
                 <div className="shrink-0">
                     <img
-                        src={profile}
+                        src={imageUrl}
                         alt={breedType}
                         className="h-20 w-20 rounded-lg object-cover"
                     />
@@ -44,9 +46,9 @@ export function MissingLargeCard({
             </div>
             <hr />
             <div className="flex gap-2">
-                {tags.map((tagItem) => (
-                    <Tag key={tagItem.tagId} variant="default" size="sm">
-                        {tagItem.tag}
+                {tags.map((tag) => (
+                    <Tag key={tag} variant="default" size="sm">
+                        {tag}
                     </Tag>
                 ))}
             </div>

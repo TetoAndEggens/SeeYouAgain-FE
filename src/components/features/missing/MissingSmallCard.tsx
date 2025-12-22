@@ -1,20 +1,9 @@
 import Tag from '@/components/ui/tag';
 import { formatRelativeTime } from '@/lib/utils';
-import { Tag as TagType } from '@/types/board';
-
-interface MissingProps {
-    boardId: number;
-    animalType: 'MISSING' | 'WITNESS';
-    breedType: string;
-    tags: TagType[];
-    city: string;
-    town: string;
-    createdAt: string;
-    profile: string;
-}
+import { BoardData } from '@/types/board';
 
 export function MissingSmallCard({
-    boardId,
+    title,
     animalType,
     breedType,
     tags,
@@ -22,23 +11,25 @@ export function MissingSmallCard({
     town,
     createdAt,
     profile,
-}: MissingProps) {
+}: BoardData) {
+    const imageUrl = profile || '/logo-placeholder.webp';
+
     return (
         <div className="border-gray-20 flex items-center gap-4 rounded-lg border bg-white p-4">
             <div className="flex-shrink-0">
-                <img src={profile} alt={breedType} className="h-22 w-22 rounded-lg object-cover" />
+                <img src={imageUrl} alt={breedType} className="h-22 w-22 rounded-lg object-cover" />
             </div>
             <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
                     <Tag variant={animalType} size="sm">
                         {animalType === 'MISSING' ? '실종' : '목격'}
                     </Tag>
-                    <span className="font-semibold">{breedType}</span>
+                    <span className="font-semibold">{title}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                    {tags.map((tagItem) => (
-                        <Tag key={tagItem.tagId} variant="default" size="sm">
-                            {tagItem.tag}
+                    {tags.map((tag) => (
+                        <Tag key={tag} variant="default" size="sm">
+                            {tag}
                         </Tag>
                     ))}
                 </div>
