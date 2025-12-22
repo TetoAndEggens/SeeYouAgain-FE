@@ -1,5 +1,7 @@
 export type SortByType = 'LATEST' | 'OLDEST';
 
+export type AnimalTypeType = 'MISSING' | 'WITNESS' | 'default';
+
 export type ServerResponseType<T> = {
     data: T;
     status: number;
