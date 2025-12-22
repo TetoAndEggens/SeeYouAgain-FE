@@ -44,9 +44,9 @@ export function MissingLargeCard({
             </div>
             <hr />
             <div className="flex gap-2">
-                {tags.map((tag) => (
-                    <Tag key={tag} variant="default" size="sm">
-                        {tag}
+                {tags.map((tagItem) => (
+                    <Tag key={tagItem.tagId} variant="default" size="sm">
+                        {tagItem.tag}
                     </Tag>
                 ))}
             </div>
