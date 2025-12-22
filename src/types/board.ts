@@ -1,5 +1,10 @@
 import { CursorPageResponse } from './common';
 
+export type Tag = {
+    tagId: number;
+    tag: string;
+};
+
 export type BoardData = {
     boardId: number;
     title: string;
@@ -17,7 +22,30 @@ export type BoardData = {
     profile: string;
     createdAt: string;
     updatedAt: string;
-    tags: string[];
+    tags: Tag[];
+    isBookmarked: boolean;
+};
+
+export type BoardDetailData = {
+    boardId: number;
+    title: string;
+    content: string;
+    species: 'DOG' | 'CAT' | 'ETC';
+    breedType: string;
+    sex: 'M' | 'F' | 'Q';
+    neuteredState: 'Y' | 'N';
+    color: string;
+    address: string;
+    city: string;
+    town: string;
+    latitude: number;
+    longitude: number;
+    animalType: 'MISSING' | 'WITNESS';
+    memberNickname: string;
+    createdAt: string;
+    updatedAt: string;
+    tags: Tag[];
+    profiles: string[];
     isBookmarked: boolean;
 };
 

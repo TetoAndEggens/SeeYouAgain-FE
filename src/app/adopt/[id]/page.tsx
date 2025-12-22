@@ -28,7 +28,7 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
 
     return (
         <div className="relative">
-            <ImageCarousel images={adoptDetail.profiles ?? ['https://placehold.co/600x400']} />
+            <ImageCarousel images={adoptDetail.profiles ?? ['/public/logo-placeholder.webp']} />
             <div className="bg-gray-10 flex flex-col gap-4">
                 <div className="flex flex-col gap-4 bg-white py-6">
                     <div className="grid grid-cols-2 gap-4 px-4">

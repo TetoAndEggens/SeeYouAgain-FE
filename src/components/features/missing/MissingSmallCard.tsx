@@ -1,11 +1,12 @@
 import Tag from '@/components/ui/tag';
 import { formatRelativeTime } from '@/lib/utils';
+import { Tag as TagType } from '@/types/board';
 
 interface MissingProps {
     boardId: number;
     animalType: 'MISSING' | 'WITNESS';
     breedType: string;
-    tags: string[];
+    tags: TagType[];
     city: string;
     town: string;
     createdAt: string;
@@ -35,9 +36,9 @@ export function MissingSmallCard({
                     <span className="font-semibold">{breedType}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
-                        <Tag key={tag} variant="default" size="sm">
-                            {tag}
+                    {tags.map((tagItem) => (
+                        <Tag key={tagItem.tagId} variant="default" size="sm">
+                            {tagItem.tag}
                         </Tag>
                     ))}
                 </div>
