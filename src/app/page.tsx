@@ -1,57 +1,15 @@
 'use client';
 
 import { fetchAdoptAnimals } from '@/api/animal';
+import { fetchBoardList } from '@/api/board';
 import { AdoptCard } from '@/components/features/adopt/AdoptCard';
 import { MissingSmallCard } from '@/components/features/missing/MissingSmallCard';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
-const testMissingSmallData = [
-    {
-        cardType: 'missing' as const,
-        name: '복돌이',
-        tags: ['암컷', '3kg', '파란 목줄'],
-        location: '서울 강남구',
-        date: '2시간 전',
-        image: 'https://placedog.net/500/280',
-    },
-    {
-        cardType: 'missing' as const,
-        name: '복돌이',
-        tags: ['암컷', '3kg', '파란 목줄'],
-        location: '서울 강남구',
-        date: '2시간 전',
-        image: 'https://placedog.net/500/280',
-    },
-    {
-        cardType: 'witness' as const,
-        name: '복돌이',
-        tags: ['암컷', '3kg', '파란 목줄'],
-        location: '서울 강남구',
-        date: '2시간 전',
-        image: 'https://placedog.net/500/280',
-    },
-    {
-        cardType: 'missing' as const,
-        name: '복돌이',
-        tags: ['암컷', '3kg', '파란 목줄'],
-        location: '서울 강남구',
-        date: '2시간 전',
-        image: 'https://placedog.net/500/280',
-    },
-    {
-        cardType: 'missing' as const,
-        name: '복돌이',
-        tags: ['암컷', '3kg', '파란 목줄'],
-        location: '서울 강남구',
-        date: '2시간 전',
-        image: 'https://placedog.net/500/280',
-    },
-];
-
 export default function Home() {
-    const { data: adoptData, isLoading } = useQuery({
+    const { data: adoptData, isLoading: adoptLoading } = useQuery({
         queryKey: ['adoptAnimals'],
         queryFn: () =>
             fetchAdoptAnimals({
@@ -59,6 +17,16 @@ export default function Home() {
                 sortDirection: 'LATEST',
             }),
         select: (data) => data.data.animal.data,
+    });
+
+    const { data: boardData, isLoading: boardLoading } = useQuery({
+        queryKey: ['boardList'],
+        queryFn: () =>
+            fetchBoardList({
+                size: 5,
+                sortDirection: 'LATEST',
+            }),
+        select: (data) => data.data.board.data,
     });
 
     return (
@@ -93,9 +61,12 @@ export default function Home() {
                     </div>
                 </Link>
                 <div className="flex flex-col gap-4">
-                    {testMissingSmallData.slice(0, 3).map((data, idx) => (
-                        <MissingSmallCard key={idx} {...data} />
-                    ))}
+                    {boardData &&
+                        boardData.map((data) => (
+                            <Link href={`missing/detail/${data.boardId}`}>
+                                <MissingSmallCard key={data.boardId} {...data} />
+                            </Link>
+                        ))}
                 </div>
             </div>
         </div>

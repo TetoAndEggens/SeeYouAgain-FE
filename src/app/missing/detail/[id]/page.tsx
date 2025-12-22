@@ -24,7 +24,7 @@ const LostDetailPage = ({ params }: MissingDetailPageProps) => {
     const router = useRouter();
     const { id } = use(params);
     const { data: missingDetail, isLoading } = useQuery({
-        queryKey: ['adoptAnimals'],
+        queryKey: ['boardListById'],
         queryFn: () => fetchBoardById(Number(id)),
         select: (data) => data.data,
     });

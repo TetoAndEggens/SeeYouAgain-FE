@@ -22,7 +22,7 @@ export type BoardData = {
     profile: string;
     createdAt: string;
     updatedAt: string;
-    tags: Tag[];
+    tags: string[];
     isBookmarked: boolean;
 };
 
