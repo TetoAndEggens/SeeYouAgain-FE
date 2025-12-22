@@ -45,6 +45,7 @@ export interface AnimalFetchParams {
     cursorId?: number | null;
     size?: number;
     sortDirection?: 'LATEST' | 'OLDEST';
+    type?: 'WITNESS' | 'MISSING' | null;
     startDate?: string;
     endDate?: string;
     species?: 'DOG' | 'CAT' | 'ETC';

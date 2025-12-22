@@ -1,19 +1,24 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import CustomSelect from '@/components/layout/Selector';
 import { MissingLargeCard } from '@/components/features/missing/MissingLargeCard';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBoardList } from '@/api/board';
+import { AnimalTypeType, SortByType } from '@/types/common';
+import { CustomSelect } from '@/components/features/adopt/CustomSelect';
 
 export default function MissingPage() {
+    const [sortBy, setSortBy] = useState<SortByType>('LATEST');
+    const [animalType, setAnimalType] = useState<AnimalTypeType>('default');
+
     const { data: boardData, isLoading } = useQuery({
-        queryKey: ['boardList'],
+        queryKey: ['boardList', sortBy, animalType],
         queryFn: () =>
             fetchBoardList({
                 size: 10,
-                sortDirection: 'LATEST',
+                sortDirection: sortBy,
+                type: animalType === 'default' ? null : animalType,
             }),
         select: (data) => data.data.board.data,
     });
@@ -28,39 +33,20 @@ export default function MissingPage() {
                     <div className="flex gap-2">
                         <CustomSelect
                             options={[
-                                {
-                                    items: [
-                                        {
-                                            value: '실종',
-                                            name: '실종',
-                                        },
-                                        {
-                                            value: '목격',
-                                            name: '목격',
-                                        },
-                                    ],
-                                },
+                                { value: 'default', label: '전체' },
+                                { value: 'MISSING', label: '실종' },
+                                { value: 'WITNESS', label: '목격' },
                             ]}
-                            placeholder="실종"
-                            defaultValue="실종"
+                            value={animalType}
+                            onChange={setAnimalType}
                         />
                         <CustomSelect
                             options={[
-                                {
-                                    items: [
-                                        {
-                                            value: '최신순',
-                                            name: '최신순',
-                                        },
-                                        {
-                                            value: '오래된 순',
-                                            name: '오래된 순',
-                                        },
-                                    ],
-                                },
+                                { value: 'LATEST', label: '최신순' },
+                                { value: 'OLDEST', label: '오래된순' },
                             ]}
-                            placeholder="최신순"
-                            defaultValue="최신순"
+                            value={sortBy}
+                            onChange={setSortBy}
                         />
                     </div>
                 </div>
