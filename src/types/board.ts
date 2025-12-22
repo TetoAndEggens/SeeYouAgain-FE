@@ -12,7 +12,7 @@ export type BoardData = {
     town: string;
     latitude: number;
     longitude: number;
-    animalType: string;
+    animalType: 'MISSING' | 'WITNESS';
     memberNickname: string;
     profile: string;
     createdAt: string;
