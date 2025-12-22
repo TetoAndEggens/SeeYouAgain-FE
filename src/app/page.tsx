@@ -63,7 +63,7 @@ export default function Home() {
                 <div className="flex flex-col gap-4">
                     {boardData &&
                         boardData.map((data) => (
-                            <Link href={`missing/detail/${data.boardId}`}>
+                            <Link key={data.boardId} href={`missing/detail/${data.boardId}`}>
                                 <MissingSmallCard key={data.boardId} {...data} />
                             </Link>
                         ))}
