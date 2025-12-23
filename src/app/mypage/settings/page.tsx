@@ -1,22 +1,89 @@
 'use client';
 
-import React from 'react';
+import {useEffect, useState} from 'react';
 import Switch from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Tag from '@/components/ui/tag';
 import { X } from 'lucide-react';
+import { useFcm } from '@/hook/fcm/useFcm';
+import { NotificationPermissionDialog } from '@/components/features/notification/NotificationPermissionDialog';
+import { toast } from 'sonner';
 
 const SettingsPage = () => {
-    const [missingTag, setMissingTag] = React.useState<string>('');
-    const [missingTags, setMissingTags] = React.useState<string[]>([]);
-    const [adoptTag, setAdopTag] = React.useState<string>('');
-    const [adoptTags, setAdopTags] = React.useState<string[]>([]);
+    const [missingTag, setMissingTag] = useState<string>('');
+    const [missingTags, setMissingTags] = useState<string[]>([]);
+    const [adoptTag, setAdopTag] = useState<string>('');
+    const [adoptTags, setAdopTags] = useState<string[]>([]);
+    const [showPermissionDialog, setShowPermissionDialog] = useState<boolean>(false);
 
-    React.useEffect(() => {
+    // FCM 관련 상태
+    const { permission, isSupported, getFcmToken, removeFcmToken } = useFcm();
+    const [isPushEnabled, setIsPushEnabled] = useState<boolean>(false);
+    const [notificationSettings, setNotificationSettings] = useState({
+        newAdopt: false,
+        missing: false,
+        chat: false,
+    });
+
+    // 초기 알림 권한 상태 확인
+    useEffect(() => {
+        if (permission === 'granted') {
+            setIsPushEnabled(true);
+        } else {
+            setIsPushEnabled(false);
+        }
+    }, [permission]);
+
+    useEffect(() => {
         setMissingTags(['말티즈', '7살', '치아 안 좋음', '중성화']);
         setAdopTags(['말티즈', '7살', '치아 안 좋음', '중성화']);
     }, []);
+
+    // 푸시 알림 토글 핸들러
+    const handlePushToggle = async (checked: boolean) => {
+        if (!isSupported) {
+            toast.error('이 브라우저는 알림을 지원하지 않습니다.');
+            return;
+        }
+
+        if (checked) {
+            // 알림 켜기
+            if (permission === 'granted') {
+                await getFcmToken();
+                setIsPushEnabled(true);
+                toast.success('알림이 활성화되었습니다.');
+            } else if (permission === 'denied') {
+                toast.error('알림 권한이 차단되었습니다. 브라우저 설정에서 허용해주세요.');
+            } else {
+                // 권한 요청 다이얼로그 표시
+                setShowPermissionDialog(true);
+            }
+        } else {
+            // 알림 끄기
+            try {
+                await removeFcmToken();
+                setIsPushEnabled(false);
+                toast.success('알림이 비활성화되었습니다.');
+            } catch (error) {
+                console.error('알림 비활성화 실패:', error);
+                toast.error('알림 비활성화에 실패했습니다.');
+            }
+        }
+    };
+
+    // 개별 알림 설정 토글
+    const handleNotificationSettingToggle = (key: keyof typeof notificationSettings) => {
+        if (!isPushEnabled) {
+            toast.error('먼저 푸시 알림을 활성화해주세요.');
+            return;
+        }
+        setNotificationSettings((prev) => ({
+            ...prev,
+            [key]: !prev[key],
+        }));
+        // TODO: 백엔드에 설정 저장
+    };
 
     const addMissingTag = () => {
         setMissingTags([...missingTags, missingTag]);
@@ -48,6 +115,8 @@ const SettingsPage = () => {
                         <p className="">새로운 동물 정보를 받아보세요</p>
                     </div>
                     <Switch
+                        checked={isPushEnabled}
+                        onCheckedChange={handlePushToggle}
                         className="h-7 w-12"
                         thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
                     />
@@ -137,6 +206,9 @@ const SettingsPage = () => {
                             <p className="">매일 새로 등록되는 동물 정보</p>
                         </div>
                         <Switch
+                            checked={notificationSettings.newAdopt}
+                            onCheckedChange={() => handleNotificationSettingToggle('newAdopt')}
+                            disabled={!isPushEnabled}
                             className="h-7 w-12"
                             thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
                         />
@@ -147,6 +219,9 @@ const SettingsPage = () => {
                             <p className="">실종 및 목격 정보 업데이트</p>
                         </div>
                         <Switch
+                            checked={notificationSettings.missing}
+                            onCheckedChange={() => handleNotificationSettingToggle('missing')}
+                            disabled={!isPushEnabled}
                             className="h-7 w-12"
                             thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
                         />
@@ -157,12 +232,27 @@ const SettingsPage = () => {
                             <p className="">새로운 채팅 메시지 알림</p>
                         </div>
                         <Switch
+                            checked={notificationSettings.chat}
+                            onCheckedChange={() => handleNotificationSettingToggle('chat')}
+                            disabled={!isPushEnabled}
                             className="h-7 w-12"
                             thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
                         />
                     </div>
                 </div>
             </div>
+
+            {/* 알림 권한 요청 다이얼로그 */}
+            <NotificationPermissionDialog
+                open={showPermissionDialog}
+                onOpenChange={(open) => {
+                    setShowPermissionDialog(open);
+                    // 다이얼로그가 닫힐 때 권한 상태 다시 확인
+                    if (!open && permission === 'granted') {
+                        setIsPushEnabled(true);
+                    }
+                }}
+            />
         </div>
     );
 };
