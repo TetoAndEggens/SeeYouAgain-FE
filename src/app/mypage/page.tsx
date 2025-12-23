@@ -6,15 +6,33 @@ import React from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useWithdrawal } from '@/hook/auth/useWithdrawal';
+import { deleteFcmToken } from '@/api/fcm';
 
 const MyPage = () => {
     const { logout } = useAuthStore();
     const router = useRouter();
     const { handleWithdrawal, isLoading } = useWithdrawal();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         const confirmed = confirm('로그아웃 하시겠습니까?');
         if (confirmed) {
+            try {
+                // FCM 토큰 삭제
+                const deviceId = localStorage.getItem('fcm_device_id');
+                if (deviceId) {
+                    await deleteFcmToken(deviceId);
+                    console.log('FCM 토큰 삭제 완료');
+                }
+            } catch (error: any) {
+                // 404 에러는 무시 (이미 토큰이 없는 상태)
+                if (error?.response?.status === 404) {
+                    console.log('FCM 토큰이 이미 삭제되었거나 존재하지 않습니다.');
+                } else {
+                    console.error('FCM 토큰 삭제 실패:', error);
+                }
+                // 토큰 삭제 실패해도 로그아웃은 진행
+            }
+
             logout();
             router.push('/login');
         }
