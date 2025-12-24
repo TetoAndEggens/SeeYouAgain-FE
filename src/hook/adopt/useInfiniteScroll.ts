@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 interface UseInfinityScrollProps {
     hasNextPage: boolean;
     isFetchingNextPage: boolean;
-    fetchNextPage: () => Promise<any> | void;
+    fetchNextPage: () => Promise<unknown> | void;
 }
 export const useInfiniteScroll = ({
     hasNextPage,
