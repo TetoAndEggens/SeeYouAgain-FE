@@ -1,6 +1,7 @@
 const Titles = ['실종', '보호', '목격', '기타'] as const;
 export type Title = (typeof Titles)[number];
 
+// 채팅 조회용 파라미터 타입
 export interface CommonParam {
     cursorId?: string | null;
     size?: number;
@@ -9,6 +10,7 @@ export interface CommonParam {
 
 export type ChatRoomParam = CommonParam;
 
+// 채팅 목록 데이터 타입
 export interface ChatRoomData {
     chatRooms: {
         data: [
@@ -32,10 +34,12 @@ export interface ChatRoomData {
     };
 }
 
+// 채팅 내역 조회용 파라미터 타입
 export interface MessageParam extends CommonParam {
     chatRoomId: number;
 }
 
+// 채팅 내역 데이터 타입
 export interface Message {
     messages: {
         data: [
@@ -52,4 +56,14 @@ export interface Message {
         hasNext: boolean;
         empty: boolean;
     };
+}
+
+// 웹소켓 연결에 사용되는 data type
+export interface ChatMessageDto {
+    chatRoomId: number;
+    boardId: number;
+    senderId: number;
+    receiverId: number;
+    content: string;
+    time: string;
 }
