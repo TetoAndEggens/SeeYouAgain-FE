@@ -7,6 +7,16 @@ import { Search } from '@/components/layout/Search';
 import { useChatRoomData, useUnread } from '@/hook/chat/useChatList';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
+import { connect, disconnect } from '@/lib/stompClient';
+
+interface dataType {
+    id: number;
+    avatar: string;
+    userName: string;
+    lastMessage: string;
+    lastMessageTime: string;
+    unreadCount: number;
+}
 
 const ChatListPage = () => {
     const chatRooms = useChatRoomData();
@@ -29,6 +39,16 @@ const ChatListPage = () => {
             : (visibleRooms?.data ?? []);
 
     const isLoading = !visibleRooms && tab === 'all' ? !chatRooms : !visibleRooms; // 수정: 탭 기준 로딩 판정
+    // const visiblaList = React.useMemo(() => {
+    //     if (!data) return [];
+    //     if (tab === 'all') return data;
+    //     return data.filter((item) => item.unreadCount > 0);
+    // }, [data, tab]);
+
+    React.useEffect(() => {
+        connect();
+        return () => disconnect();
+    }, []);
 
     return (
         <div className="flex w-full flex-col">

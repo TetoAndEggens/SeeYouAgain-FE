@@ -10,7 +10,6 @@ import { useQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import { connect, disconnect } from '@/lib/stompClient';
 
 const testMissingSmallData = [
     {
