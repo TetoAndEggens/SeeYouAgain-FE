@@ -47,12 +47,24 @@ const ReportPage = () => {
                 <p>신고 대상</p>
                 <div>
                     <MissingLargeCard
-                        cardType="missing"
-                        name="test"
-                        tags={[]}
-                        location="test"
-                        date="test"
-                        image="https://placedog.net/500/280"
+                        title={''}
+                        animalType={'MISSING'}
+                        breedType={''}
+                        tags={['']}
+                        city={''}
+                        town={''}
+                        createdAt={''}
+                        profile={''}
+                        boardId={0}
+                        species="DOG"
+                        sex="M"
+                        neuteredState="Y"
+                        address={''}
+                        latitude={0}
+                        longitude={0}
+                        memberNickname={''}
+                        updatedAt={''}
+                        isBookmarked={true}
                     />
                 </div>
             </div>
