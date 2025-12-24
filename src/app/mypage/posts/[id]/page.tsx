@@ -14,7 +14,7 @@ const PostDetail = () => {
     const id = Number(param.id);
 
     const testData: {
-        cardType: 'missing' | 'sighting';
+        cardType: 'default' | 'MISSING' | 'WITNESS';
         title: string;
         userName: string;
         tags: string[];
@@ -23,7 +23,7 @@ const PostDetail = () => {
         image: string;
     }[] = [
         {
-            cardType: 'missing',
+            cardType: 'MISSING',
             title: '복돌이',
             userName: '홍길동',
             tags: ['말티즈', '3살', '중성화', '암컷'],
@@ -32,7 +32,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/500/280',
         },
         {
-            cardType: 'missing',
+            cardType: 'MISSING',
             title: '초코',
             userName: '홍길동',
             tags: ['푸들', '2살', '갈색', '암컷'],
@@ -41,7 +41,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/501/281',
         },
         {
-            cardType: 'sighting',
+            cardType: 'WITNESS',
             title: '하루',
             userName: '홍길동',
             tags: ['믹스', '목걸이 없음', '겁이 많음'],
@@ -50,7 +50,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/502/282',
         },
         {
-            cardType: 'missing',
+            cardType: 'MISSING',
             title: '몽이',
             userName: '홍길동',
             tags: ['시바견', '4살', '수컷', '하네스 착용'],
@@ -59,7 +59,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/503/283',
         },
         {
-            cardType: 'sighting',
+            cardType: 'WITNESS',
             title: '두부',
             userName: '홍길동',
             tags: ['하얀털', '귀가 큰 편', '사람을 잘 따름'],
@@ -68,7 +68,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/504/284',
         },
         {
-            cardType: 'missing',
+            cardType: 'MISSING',
             title: '보리',
             userName: '홍길동',
             tags: ['코기', '5살', '수컷', '꼬리 짧음'],
@@ -77,7 +77,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/505/285',
         },
         {
-            cardType: 'sighting',
+            cardType: 'WITNESS',
             title: '라라',
             userName: '홍길동',
             tags: ['검은색 목줄', '소형견', '낯가림 있음'],
@@ -86,7 +86,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/506/286',
         },
         {
-            cardType: 'missing',
+            cardType: 'MISSING',
             title: '콩이',
             userName: '홍길동',
             tags: ['치와와', '1살', '암컷', '장난감 좋아함'],
@@ -95,7 +95,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/507/287',
         },
         {
-            cardType: 'sighting',
+            cardType: 'WITNESS',
             title: '탄이',
             userName: '홍길동',
             tags: ['블랙탄', '중형견', '목에 파란 목줄'],
@@ -104,7 +104,7 @@ const PostDetail = () => {
             image: 'https://placedog.net/508/288',
         },
         {
-            cardType: 'missing',
+            cardType: 'MISSING',
             title: '미미',
             userName: '홍길동',
             tags: ['말티즈', '7살', '치아 안 좋음', '중성화'],
@@ -140,18 +140,11 @@ const PostDetail = () => {
             </div>
             <div className="flex flex-col gap-2 pb-0">
                 <Tag variant={testData[id].cardType} size="sm" className="w-fit">
-                    {testData[id].cardType === 'missing' ? '실종' : '목격'}
+                    {testData[id].cardType === 'MISSING' ? '실종' : '목격'}
                 </Tag>
                 <Form
                     className="border-0 p-0"
                     title={testData[id].title}
-                    children={
-                        <p className="">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia illum
-                            fugiat unde voluptatum natus excepturi fugit corporis tenetur nisi qui?
-                            Delectus distinctio sint ut? Consectetur eius earum quis porro odit!
-                        </p>
-                    }
                     tagChildren={
                         <div className="flex gap-2">
                             {testData[id].tags.map((tag) => (
@@ -161,33 +154,31 @@ const PostDetail = () => {
                             ))}
                         </div>
                     }
-                />
+                >
+                    <p className="">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia illum fugiat
+                        unde voluptatum natus excepturi fugit corporis tenetur nisi qui? Delectus
+                        distinctio sint ut? Consectetur eius earum quis porro odit!
+                    </p>
+                </Form>
             </div>
-            <Form
-                className="border-0 p-0"
-                title="상세 정보"
-                children={
-                    <div className="flex flex-col gap-2">
-                        <div>
-                            <InformationDetail item={{ title: '품종', context: '말티즈' }} />
-                        </div>
-                        <div className="flex gap-2">
-                            <InformationDetail item={{ title: '성별', context: '수컷' }} />
-                            <InformationDetail item={{ title: '색상', context: '노랑' }} />
-                        </div>
+            <Form className="border-0 p-0" title="상세 정보">
+                <div className="flex flex-col gap-2">
+                    <div>
+                        <InformationDetail item={{ title: '품종', context: '말티즈' }} />
                     </div>
-                }
-            />
-            <Form
-                className="gap-2 border-0 p-0"
-                title="목격 위치"
-                children={
-                    <div className="flex flex-col gap-2">
-                        <div className="h-50 w-full rounded-lg bg-gray-500">지도</div>
-                        <div className="">{testData[id].location}</div>
+                    <div className="flex gap-2">
+                        <InformationDetail item={{ title: '성별', context: '수컷' }} />
+                        <InformationDetail item={{ title: '색상', context: '노랑' }} />
                     </div>
-                }
-            />
+                </div>
+            </Form>
+            <Form className="gap-2 border-0 p-0" title="목격 위치">
+                <div className="flex flex-col gap-2">
+                    <div className="h-50 w-full rounded-lg bg-gray-500">지도</div>
+                    <div className="">{testData[id].location}</div>
+                </div>
+            </Form>
         </div>
     );
 };
