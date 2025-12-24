@@ -7,10 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { MissingLargeCard } from '@/components/features/missing/MissingLargeCard';
 import { Trash2, CircleX } from 'lucide-react';
-import { BoardData } from '@/types/board';
 
 interface posts {
-    cardType: 'default' | 'MISSING' | 'WITNESS';
+    cardType: 'missing' | 'sighting';
     name: string;
     tags: string[];
     location: string;
@@ -28,7 +27,7 @@ const MyPostsPage = () => {
     React.useEffect(() => {
         const data: posts[] = [
             {
-                cardType: 'MISSING',
+                cardType: 'missing',
                 name: '복돌이',
                 tags: ['말티즈', '3살', '중성화', '암컷'],
                 location: '서울 강남구 역삼동',
@@ -36,7 +35,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/500/280',
             },
             {
-                cardType: 'MISSING',
+                cardType: 'missing',
                 name: '초코',
                 tags: ['푸들', '2살', '갈색', '암컷'],
                 location: '서울 마포구 합정동',
@@ -44,7 +43,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/501/281',
             },
             {
-                cardType: 'WITNESS',
+                cardType: 'sighting',
                 name: '하루',
                 tags: ['믹스', '목걸이 없음', '겁이 많음'],
                 location: '서울 송파구 잠실동',
@@ -52,7 +51,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/502/282',
             },
             {
-                cardType: 'MISSING',
+                cardType: 'missing',
                 name: '몽이',
                 tags: ['시바견', '4살', '수컷', '하네스 착용'],
                 location: '경기 성남시 분당구',
@@ -60,7 +59,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/503/283',
             },
             {
-                cardType: 'WITNESS',
+                cardType: 'sighting',
                 name: '두부',
                 tags: ['하얀털', '귀가 큰 편', '사람을 잘 따름'],
                 location: '서울 용산구 이태원동',
@@ -68,7 +67,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/504/284',
             },
             {
-                cardType: 'MISSING',
+                cardType: 'missing',
                 name: '보리',
                 tags: ['코기', '5살', '수컷', '꼬리 짧음'],
                 location: '인천 연수구 송도동',
@@ -76,7 +75,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/505/285',
             },
             {
-                cardType: 'WITNESS',
+                cardType: 'sighting',
                 name: '라라',
                 tags: ['검은색 목줄', '소형견', '낯가림 있음'],
                 location: '서울 강서구 마곡동',
@@ -84,7 +83,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/506/286',
             },
             {
-                cardType: 'MISSING',
+                cardType: 'missing',
                 name: '콩이',
                 tags: ['치와와', '1살', '암컷', '장난감 좋아함'],
                 location: '경기 고양시 일산동구',
@@ -92,7 +91,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/507/287',
             },
             {
-                cardType: 'WITNESS',
+                cardType: 'sighting',
                 name: '탄이',
                 tags: ['블랙탄', '중형견', '목에 파란 목줄'],
                 location: '서울 동작구 상도동',
@@ -100,7 +99,7 @@ const MyPostsPage = () => {
                 image: 'https://placedog.net/508/288',
             },
             {
-                cardType: 'MISSING',
+                cardType: 'missing',
                 name: '미미',
                 tags: ['말티즈', '7살', '치아 안 좋음', '중성화'],
                 location: '부산 해운대구',
@@ -129,11 +128,11 @@ const MyPostsPage = () => {
                         )}
                         {useCheck ? (
                             <div className="w-full cursor-pointer select-none">
-                                <MissingLargeCard {...(item as unknown as BoardData)} />
+                                <MissingLargeCard {...item} />
                             </div>
                         ) : (
                             <Link href={`posts/${index}`} className="w-full">
-                                <MissingLargeCard {...(item as unknown as BoardData)} />
+                                <MissingLargeCard {...item} />
                             </Link>
                         )}
                     </div>

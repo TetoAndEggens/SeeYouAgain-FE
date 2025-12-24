@@ -79,14 +79,14 @@ const MissingWritePage = () => {
                         </Button>
                     </div>
                 </Form>
-                <Form important title="제목">
+                <Form importent title="제목">
                     <Input
                         placeholder="예: 흰색 말티즈를 찾습니다"
                         value={formData.title}
                         onChange={(e) => handleChangeInput('title', e.target.value)}
                     />
                 </Form>
-                <Form important title="상세 내용">
+                <Form importent title="상세 내용">
                     <Textarea
                         placeholder={'실종 / 목격 상황을 자세히 설명해주세요.'}
                         className="h-[6rem] items-start"
@@ -170,7 +170,7 @@ const MissingWritePage = () => {
                         )}
                     </div>
                 </Form>
-                <Form important title="위치">
+                <Form importent title="위치">
                     <div className="relative">
                         <Map // 지도를 표시할 Container
                             center={{ lat: 33.450701, lng: 126.570667 }}
