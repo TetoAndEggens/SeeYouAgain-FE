@@ -9,6 +9,51 @@ import { MissingSmallCardSkeleton } from '@/components/features/missing/MissingS
 import { useQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import React from 'react';
+import { connect, disconnect } from '@/lib/stompClient';
+
+const testMissingSmallData = [
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'sighting' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+    {
+        cardType: 'missing' as const,
+        name: '복돌이',
+        tags: ['암컷', '3kg', '파란 목줄'],
+        location: '서울 강남구',
+        date: '2시간 전',
+        image: 'https://placedog.net/500/280',
+    },
+];
 
 export default function Home() {
     const { data: adoptData, isLoading: adoptLoading } = useQuery({
