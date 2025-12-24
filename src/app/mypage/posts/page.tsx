@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { MissingLargeCard } from '@/components/features/missing/MissingLargeCard';
 import { Trash2, CircleX } from 'lucide-react';
+import { BoardData } from '@/types/board';
 
 interface posts {
     cardType: 'missing' | 'sighting';
@@ -128,11 +129,11 @@ const MyPostsPage = () => {
                         )}
                         {useCheck ? (
                             <div className="w-full cursor-pointer select-none">
-                                <MissingLargeCard {...item} />
+                                <MissingLargeCard {...(item as unknown as BoardData)} />
                             </div>
                         ) : (
                             <Link href={`posts/${index}`} className="w-full">
-                                <MissingLargeCard {...item} />
+                                <MissingLargeCard {...(item as unknown as BoardData)} />
                             </Link>
                         )}
                     </div>
