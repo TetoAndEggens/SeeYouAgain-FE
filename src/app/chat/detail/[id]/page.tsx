@@ -3,6 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useMessage } from '@/hook/chat/useMessage';
+// import { useChatListData, useChatDetailData } from '@/hook/chat/useChatListData';
 import { ChatMessage } from '@/components/layout/ChatMessage';
 import { ChevronLeft, Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -21,6 +22,11 @@ const ChatRoomPage = ({ params }: Props) => {
         size: 20,
         sortDirection: 'LATEST',
     });
+    // const { data: listData } = useChatListData();
+    const { id } = React.use(params);
+    // const list = listData[id - 1];
+    // const { data } = useChatDetailData();
+    // console.log('listData : ', listData[id]);
 
     return (
         <div>
@@ -34,6 +40,7 @@ const ChatRoomPage = ({ params }: Props) => {
                         <ChevronLeft size={24} />
                     </button>
                     <button onClick={() => router.back()} className="cursor-pointer">
+                        {/* <p className="text-lg font-bold">{list.userName}</p> */}
                         {/* <p className="text-lg font-bold">{list.userName}</p> */}
                     </button>
                 </div>
@@ -60,6 +67,31 @@ const ChatRoomPage = ({ params }: Props) => {
                         );
                     })
                 )}
+                <div>
+                    {/* <ChatPost title={list.title} post={list.post} className="rounded-lg border" /> */}
+                </div>
+                {/* {data.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            <div className="flex justify-center">
+                                <p className="bg-gray-20 m-4 rounded-lg border px-4 py-2">
+                                    {item.date}
+                                </p>
+                            </div>
+                            {item.content.map((content, contentIdx) => {
+                                return (
+                                    <div key={contentIdx}>
+                                        <ChatMessage
+                                            message={content.message}
+                                            mine={content.isMe}
+                                            time={content.time}
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    );
+                })} */}
             </div>
 
             <div className="sticky bottom-0 flex items-center gap-4 bg-white p-2">
