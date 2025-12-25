@@ -5,15 +5,15 @@
 importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js');
 
-// Firebase 설정 - 나중에 실제 값으로 교체 필요
 const firebaseConfig = {
-  apiKey: "AIzaSyDY7joSh60nLTmffB5ImgAbFBBay9S51Rc",
-  authDomain: "seeyouagain-c3dd7.firebaseapp.com",
-  projectId: "seeyouagain-c3dd7",
-  storageBucket: "seeyouagain-c3dd7.firebasestorage.app",
-  messagingSenderId: "128709372328",
-  appId: "1:128709372328:web:2d91ef1aeb9fcd98f3559d"
+  apiKey: 'AIzaSyCvM_PCuP8ebKKkzQybBXxp7ROZWJw6Kt4',
+  authDomain: 'seeyouagain-4c7fd.firebaseapp.com',
+  projectId: 'seeyouagain-4c7fd',
+  storageBucket: 'seeyouagain-4c7fd.firebasestorage.app',
+  messagingSenderId: '766195192478',
+  appId: '1:766195192478:web:389929d80c8ca737b4a18f',
 };
+
 
 // Firebase 초기화
 firebase.initializeApp(firebaseConfig);
