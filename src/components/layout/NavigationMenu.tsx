@@ -54,7 +54,7 @@ export function NavigationMenu() {
                             href="/adopt"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
-                                pathname === '' ? 'text-[#FFB84D]' : ''
+                                pathname === '/adopt' ? 'text-[#FFB84D]' : ''
                             )}
                         >
                             <HeartHandshake
@@ -84,7 +84,7 @@ export function NavigationMenu() {
                             href="/map"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
-                                pathname === '' ? 'text-[#FFB84D]' : ''
+                                pathname === '/map' ? 'text-[#FFB84D]' : ''
                             )}
                         >
                             <Map
