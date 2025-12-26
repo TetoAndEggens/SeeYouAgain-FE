@@ -61,6 +61,10 @@ export const connect = () => {
     client.activate();
 };
 
+export function geteMessage() {
+    if (!client.connected) return;
+}
+
 export function sendMessage(data: ChatMessageDto) {
     if (!client.connected) return;
 
