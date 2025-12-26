@@ -1,3 +1,21 @@
-import { ChatRoomData, Message } from '@/types/chat';
+import React from 'react';
+import { getRooms } from '@/api/chat';
+import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
-export default function useChatRoomData() {}
+export const useChatRoomData = (params?: ChatRoomParam) => {
+    const [chatRooms, setChatRooms] = React.useState<ChatRoomData[]>([]);
+
+    React.useEffect(() => {
+        const getChatRooms = async () => {
+            try {
+                const data = await getRooms(params);
+                console.log('data : ', data);
+                setChatRooms(data);
+            } catch {}
+        };
+
+        getChatRooms();
+    }, []);
+
+    return chatRooms;
+};

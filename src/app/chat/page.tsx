@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Search } from '@/components/layout/Search';
-import { useChatListData } from '@/hook/chat/useChatListData';
+import { useChatRoomData } from '@/hook/chat/useChatListData';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
 
@@ -18,14 +18,9 @@ interface dataType {
 }
 
 const ChatListPage = () => {
-    const { data } = useChatListData();
+    const data = useChatRoomData();
     const router = useRouter();
     const [tab, setTab] = React.useState<'all' | 'unread'>('all');
-    const visiblaList = React.useMemo(() => {
-        if (!data) return [];
-        if (tab === 'all') return data;
-        return data.filter((item) => item.unreadCount > 0);
-    }, [data, tab]);
 
     return (
         <div className="flex w-full flex-col">
@@ -52,7 +47,7 @@ const ChatListPage = () => {
                     </p>
                 </div>
             </div>
-            {visiblaList.map((item, index) => {
+            {/* {visiblaList.map((item, index) => {
                 return (
                     <div key={index} className="mb-2 flex flex-col items-center shadow-md">
                         <ChatPreview
@@ -76,7 +71,7 @@ const ChatListPage = () => {
                         </div>
                     </div>
                 );
-            })}
+            })} */}
         </div>
     );
 };
