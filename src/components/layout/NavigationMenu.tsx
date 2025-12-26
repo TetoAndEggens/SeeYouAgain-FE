@@ -51,7 +51,7 @@ export function NavigationMenu() {
                     </li>
                     <li>
                         <Link
-                            href="#"
+                            href="/adopt"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
                                 pathname === '' ? 'text-[#FFB84D]' : ''
@@ -59,7 +59,7 @@ export function NavigationMenu() {
                         >
                             <HeartHandshake
                                 strokeWidth={1}
-                                color={pathname === '' ? '#FFB84D' : 'black'}
+                                color={pathname === '/adopt' ? '#FFB84D' : 'black'}
                             />
                             입양
                         </Link>
@@ -81,13 +81,16 @@ export function NavigationMenu() {
                     </li>
                     <li>
                         <Link
-                            href="#"
+                            href="/map"
                             className={cn(
                                 'flex flex-1 flex-col items-center px-2 py-1 text-gray-700 hover:font-bold hover:text-gray-900',
                                 pathname === '' ? 'text-[#FFB84D]' : ''
                             )}
                         >
-                            <Map strokeWidth={1} color={pathname === '' ? '#FFB84D' : 'black'} />
+                            <Map
+                                strokeWidth={1}
+                                color={pathname === '/map' ? '#FFB84D' : 'black'}
+                            />
                             지도
                         </Link>
                     </li>
