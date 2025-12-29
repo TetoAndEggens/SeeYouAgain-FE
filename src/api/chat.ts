@@ -1,10 +1,9 @@
 import axiosInstance from '@/lib/axios';
 import { ChatRoomParam, ChatRoomData, MessageParam, Message } from '@/types/chat';
-import { ServerResponseType } from '@/types/common';
 
 export const getRooms = async (
     params: ChatRoomParam = { cursorId: null, size: 10, sortDirection: 'LATEST' }
-): Promise<ChatRoomData[]> => {
+): Promise<ChatRoomData> => {
     const { data } = await axiosInstance.get('chat/rooms', { params });
     console.log('getRooms : ', data);
     return data;
@@ -16,8 +15,8 @@ export const createRooms = async (boardId: number) => {
     return data;
 };
 
-export const getMessage = async (params: MessageParam) => {
-    const { data } = await axiosInstance.get(`chat/romms/${params.chatRoomId}/messages`, {
+export const getMessage = async (params: MessageParam): Promise<Message> => {
+    const { data } = await axiosInstance.get<Message>(`chat/romms/${params.chatRoomId}/messages`, {
         params,
     });
     console.log('getMessage : ', data);
