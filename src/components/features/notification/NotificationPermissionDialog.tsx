@@ -27,15 +27,11 @@ export const NotificationPermissionDialog = ({
     const handleEnableNotification = async () => {
         try {
             setError(null);
-            console.log('1. 알림 권한 요청 시작...');
 
             const granted = await requestPermission();
-            console.log('2. 권한 요청 결과:', granted);
 
             if (granted) {
-                console.log('3. FCM 토큰 발급 시작...');
                 const token = await getFcmToken();
-                console.log('4. FCM 토큰 발급 완료:', token ? '성공' : '실패');
 
                 if (token) {
                     onOpenChange(false);
