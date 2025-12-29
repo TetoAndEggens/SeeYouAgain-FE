@@ -51,6 +51,18 @@ export const connect = () => {
         console.error('Additional details:', frame.body);
     };
 
+    client.onWebSocketError = (evt) => {
+        console.error('WebSocket error:', evt);
+    };
+
+    client.onWebSocketClose = (evt) => {
+        console.error('WebSocket close:', {
+            code: evt.code,
+            reason: evt.reason,
+            wasClean: evt.wasClean,
+        });
+    };
+
     // 연결 해제 이벤트 핸들러
     client.onDisconnect = (frame) => {
         console.log('Disconnected:', frame);
