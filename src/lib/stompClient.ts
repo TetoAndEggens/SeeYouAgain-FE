@@ -16,7 +16,9 @@ const data: ChatMessageDto = {
 const client = new Client({
     webSocketFactory: () => {
         // SockJS 엔드포인트 설정
-        return new SockJS('https://dev-api.seeyouagain.store/ws-stomp');
+        return new SockJS('https://dev-api.seeyouagain.store/ws-stomp', undefined, {
+            transports: ['websocket'],
+        });
     },
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
