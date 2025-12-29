@@ -5,7 +5,7 @@ import { registerFcmToken, deleteFcmToken } from '@/api/fcm';
 import { toast } from 'sonner';
 
 // 디바이스 ID 생성 또는 가져오기
-const getDeviceId = (): string => {
+export const getDeviceId = (): string => {
     const DEVICE_ID_KEY = 'fcm_device_id';
     let deviceId = localStorage.getItem(DEVICE_ID_KEY);
 
