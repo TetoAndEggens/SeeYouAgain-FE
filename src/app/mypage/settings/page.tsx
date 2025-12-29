@@ -47,11 +47,6 @@ const SettingsPage = () => {
         }
     }, []);
 
-    useEffect(() => {
-        setMissingTags(['말티즈', '7살', '치아 안 좋음', '중성화']);
-        setAdopTags(['말티즈', '7살', '치아 안 좋음', '중성화']);
-    }, []);
-
     // 푸시 알림 토글 핸들러
     const handlePushToggle = async (checked: boolean) => {
         if (!isSupported) {
@@ -157,12 +152,8 @@ const SettingsPage = () => {
                     <div className="flex items-center gap-2">
                         <Input
                             value={missingTag}
-                            onChange={(e) => {
-                                console.log('e.target.value : ', e.target.value);
-                                setMissingTag(e.target.value);
-                            }}
+                            onChange={(e) => setMissingTag(e.target.value)}
                             onKeyUp={(e) => {
-                                console.log('e : ', e.key);
                                 if (e.key === 'Enter') addMissingTag();
                             }}
                         />
@@ -177,10 +168,7 @@ const SettingsPage = () => {
                                 variant="default"
                                 size="sm"
                                 isDelete={true}
-                                onDelete={() => {
-                                    console.log('삭제 태그:', item);
-                                    deleteMissingTag(item);
-                                }}
+                                onDelete={() => deleteMissingTag(item)}
                             >
                                 {item}
                             </Tag>
@@ -195,12 +183,8 @@ const SettingsPage = () => {
                     <div className="flex items-center gap-2">
                         <Input
                             value={adoptTag}
-                            onChange={(e) => {
-                                console.log('e.target.value : ', e.target.value);
-                                setAdopTag(e.target.value);
-                            }}
+                            onChange={(e) => setAdopTag(e.target.value)}
                             onKeyUp={(e) => {
-                                console.log('e : ', e.key);
                                 if (e.key === 'Enter') addAdoptTag();
                             }}
                         />
@@ -215,10 +199,7 @@ const SettingsPage = () => {
                                 variant="default"
                                 size="sm"
                                 isDelete={true}
-                                onDelete={() => {
-                                    console.log('삭제 태그:', item);
-                                    deleteAdoptTag(item);
-                                }}
+                                onDelete={() => deleteAdoptTag(item)}
                             >
                                 {item}
                             </Tag>
