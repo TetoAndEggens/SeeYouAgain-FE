@@ -1,16 +1,16 @@
 import React from 'react';
 import { getRooms } from '@/api/chat';
-import { ChatRoomParam, ChatRoomData } from '@/types/chat';
+import { ChatRoomParam, ChatRoomsPage } from '@/types/chat';
 
-export const useChatRoomData = (params?: ChatRoomParam) => {
-    const [chatRooms, setChatRooms] = React.useState<ChatRoomData[]>([]);
+export const useChatRoomData = (params?: ChatRoomParam): ChatRoomsPage | undefined => {
+    const [chatRooms, setChatRooms] = React.useState<ChatRoomsPage>();
 
     React.useEffect(() => {
         const getChatRooms = async () => {
             try {
-                const data = await getRooms(params);
-                console.log('data : ', data);
-                setChatRooms(data);
+                const { chatRooms } = await getRooms(params);
+                console.log('data : ', chatRooms);
+                setChatRooms(chatRooms);
             } catch {}
         };
 

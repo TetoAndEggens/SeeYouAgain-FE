@@ -1,3 +1,21 @@
-import { ChatRoomData, Message } from '@/types/chat';
+import React from 'react';
+import { getUnread } from '@/api/chat';
+import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
-export default function useUnread() {}
+export const useUnread = (param: ChatRoomParam) => {
+    const [chatUnread, setChatUnread] = React.useState<ChatRoomData[]>([]);
+
+    React.useEffect(() => {
+        const getChatUnread = async () => {
+            try {
+                const data = await getUnread(param);
+                console.log('getChatUnread data : ', data);
+                setChatUnread(data);
+            } catch {}
+        };
+
+        getChatUnread();
+    }, []);
+
+    return chatUnread;
+};

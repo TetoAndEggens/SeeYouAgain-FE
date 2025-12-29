@@ -7,18 +7,11 @@ import { Search } from '@/components/layout/Search';
 import { useChatRoomData } from '@/hook/chat/useChatListData';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
-
-interface dataType {
-    id: number;
-    avatar: string;
-    userName: string;
-    lastMessage: string;
-    lastMessageTime: string;
-    unreadCount: number;
-}
+import { ChatRoomData } from '@/types/chat';
 
 const ChatListPage = () => {
-    const data = useChatRoomData();
+    const chatRooms = useChatRoomData();
+    console.log('chat page chatRooms : ', chatRooms);
     const router = useRouter();
     const [tab, setTab] = React.useState<'all' | 'unread'>('all');
 
@@ -47,6 +40,41 @@ const ChatListPage = () => {
                     </p>
                 </div>
             </div>
+            {!chatRooms ? (
+                <div className="p-4 text-center">로딩 중입니다.</div>
+            ) : chatRooms.size === 0 ? (
+                <div className="p-4 text-center">채팅방이 없습니다.</div>
+            ) : (
+                chatRooms.data.map((item, index) => {
+                    return (
+                        <div key={index} className="mb-2 flex flex-col items-center shadow-md">
+                            <ChatPreview
+                                // avatarSrc={item.avatar}
+                                // avartarAlt={item.avatar}
+                                userName={item.otherMemberNickname}
+                                lastMessage={item.lastMessage}
+                                timestamp={item.lastMessageTime}
+                                unreadCount={item.unreadCount}
+                                onClick={() => router.push(`/chat/detail/${item.chatRoomId}`)}
+                            />
+                            <div
+                                className={cn(
+                                    'flex w-full justify-center',
+                                    item.unreadCount !== undefined && item.unreadCount > 0
+                                        ? 'bg-[#FFF9F0]'
+                                        : 'bg-white'
+                                )}
+                            >
+                                <ChatPost
+                                    title={item.contentType}
+                                    post={item.boardTitle}
+                                    className="w-[80%]"
+                                />
+                            </div>
+                        </div>
+                    );
+                })
+            )}
             {/* {visiblaList.map((item, index) => {
                 return (
                     <div key={index} className="mb-2 flex flex-col items-center shadow-md">
