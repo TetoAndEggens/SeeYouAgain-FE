@@ -10,10 +10,12 @@ import { NotificationPermissionDialog } from '@/components/features/notification
 import { toast } from 'sonner';
 import { useNotificationStore } from '@/store/notificationStore';
 import { useKeyword } from '@/hook/settings/useKeyword';
+import { useNotificationSettings } from '@/hook/settings/useNotificationSettings';
 
 const SettingsPage = () => {
     const [showPermissionDialog, setShowPermissionDialog] = useState<boolean>(false);
 
+    //키워드 관련
     const {
         missingKeyword,
         missingKeywords,
@@ -31,11 +33,10 @@ const SettingsPage = () => {
     // FCM 관련 상태
     const { permission, isSupported, getFcmToken, removeFcmToken } = useFcm();
     const { isPushEnabled, checkPushStatus, setPushEnabled } = useNotificationStore();
-    const [notificationSettings, setNotificationSettings] = useState({
-        newAdopt: false,
-        missing: false,
-        chat: false,
-    });
+
+    // 알림 설정 관련
+    const { notificationSettings, handleNotificationSettingToggle, resetNotificationSettings } =
+        useNotificationSettings(isPushEnabled);
 
     // 초기 알림 권한 상태 및 서버 토큰 상태 확인
     useEffect(() => {
@@ -45,18 +46,6 @@ const SettingsPage = () => {
             setPushEnabled(false);
         }
     }, [permission, checkPushStatus, setPushEnabled]);
-
-    // 초기 알림 설정 불러오기
-    useEffect(() => {
-        const savedSettings = localStorage.getItem('notification-settings');
-        if (savedSettings) {
-            try {
-                setNotificationSettings(JSON.parse(savedSettings));
-            } catch (error) {
-                console.error('알림 설정 불러오기 실패:', error);
-            }
-        }
-    }, []);
 
     // 푸시 알림 토글 핸들러
     const handlePushToggle = async (checked: boolean) => {
@@ -86,13 +75,7 @@ const SettingsPage = () => {
                 setPushEnabled(false);
 
                 // 개별 알림 설정도 모두 초기화
-                const resetSettings = {
-                    newAdopt: false,
-                    missing: false,
-                    chat: false,
-                };
-                setNotificationSettings(resetSettings);
-                localStorage.setItem('notification-settings', JSON.stringify(resetSettings));
+                resetNotificationSettings();
 
                 toast.success('알림이 비활성화되었습니다.');
             } catch (error) {
@@ -100,23 +83,6 @@ const SettingsPage = () => {
                 toast.error('알림 비활성화에 실패했습니다.');
             }
         }
-    };
-
-    // 개별 알림 설정 토글
-    const handleNotificationSettingToggle = (key: keyof typeof notificationSettings) => {
-        if (!isPushEnabled) {
-            toast.error('먼저 푸시 알림을 활성화해주세요.');
-            return;
-        }
-        setNotificationSettings((prev) => {
-            const newSettings = {
-                ...prev,
-                [key]: !prev[key],
-            };
-            // localStorage에 저장
-            localStorage.setItem('notification-settings', JSON.stringify(newSettings));
-            return newSettings;
-        });
     };
 
     return (
