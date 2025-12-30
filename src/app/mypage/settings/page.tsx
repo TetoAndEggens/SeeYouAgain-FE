@@ -9,13 +9,24 @@ import { useFcm } from '@/hook/fcm/useFcm';
 import { NotificationPermissionDialog } from '@/components/features/notification/NotificationPermissionDialog';
 import { toast } from 'sonner';
 import { useNotificationStore } from '@/store/notificationStore';
+import { useKeyword } from '@/hook/settings/useKeyword';
 
 const SettingsPage = () => {
-    const [missingTag, setMissingTag] = useState<string>('');
-    const [missingTags, setMissingTags] = useState<string[]>([]);
-    const [adoptTag, setAdopTag] = useState<string>('');
-    const [adoptTags, setAdopTags] = useState<string[]>([]);
     const [showPermissionDialog, setShowPermissionDialog] = useState<boolean>(false);
+
+    const {
+        missingKeyword,
+        missingKeywords,
+        adoptKeyword,
+        adoptKeywords,
+        isAddingKeyword,
+        isDeletingKeywordId,
+
+        handleAddKeyword,
+        handleDeleteKeyword,
+        setMissingKeyword,
+        setAdoptKeyword,
+    } = useKeyword();
 
     // FCM 관련 상태
     const { permission, isSupported, getFcmToken, removeFcmToken } = useFcm();
@@ -108,24 +119,6 @@ const SettingsPage = () => {
         });
     };
 
-    const addMissingTag = () => {
-        setMissingTags([...missingTags, missingTag]);
-        setMissingTag('');
-    };
-
-    const deleteMissingTag = (item: string) => {
-        setMissingTags(missingTags.filter((tag) => tag !== item));
-    };
-
-    const addAdoptTag = () => {
-        setAdopTags([...adoptTags, adoptTag]);
-        setAdopTag('');
-    };
-
-    const deleteAdoptTag = (item: string) => {
-        setAdopTags(adoptTags.filter((tag) => tag !== item));
-    };
-
     return (
         <div>
             <div className="px-5 py-4 text-center">
@@ -151,26 +144,33 @@ const SettingsPage = () => {
                     </div>
                     <div className="flex items-center gap-2">
                         <Input
-                            value={missingTag}
-                            onChange={(e) => setMissingTag(e.target.value)}
+                            value={missingKeyword}
+                            onChange={(e) => setMissingKeyword(e.target.value)}
                             onKeyUp={(e) => {
-                                if (e.key === 'Enter') addMissingTag();
+                                if (e.key === 'Enter' && !isAddingKeyword) {
+                                    handleAddKeyword(missingKeyword, 'WITNESS');
+                                }
                             }}
+                            disabled={isAddingKeyword}
                         />
-                        <Button size={'sm'} onClick={addMissingTag}>
-                            등록
+                        <Button
+                            size={'sm'}
+                            onClick={() => handleAddKeyword(missingKeyword, 'WITNESS')}
+                            disabled={isAddingKeyword}
+                        >
+                            {isAddingKeyword ? '등록 중...' : '등록'}
                         </Button>
                     </div>
                     <div className="flex w-full flex-wrap gap-2">
-                        {missingTags.map((item, index) => (
+                        {missingKeywords.map((item, index) => (
                             <Tag
                                 key={index}
                                 variant="default"
                                 size="sm"
-                                isDelete={true}
-                                onDelete={() => deleteMissingTag(item)}
+                                isDelete={isDeletingKeywordId !== item.id}
+                                onDelete={() => handleDeleteKeyword(item.id, 'WITNESS')}
                             >
-                                {item}
+                                {isDeletingKeywordId === item.id ? '삭제 중...' : item.keyword}
                             </Tag>
                         ))}
                     </div>
@@ -182,26 +182,33 @@ const SettingsPage = () => {
                     </div>
                     <div className="flex items-center gap-2">
                         <Input
-                            value={adoptTag}
-                            onChange={(e) => setAdopTag(e.target.value)}
+                            value={adoptKeyword}
+                            onChange={(e) => setAdoptKeyword(e.target.value)}
                             onKeyUp={(e) => {
-                                if (e.key === 'Enter') addAdoptTag();
+                                if (e.key === 'Enter' && !isAddingKeyword) {
+                                    handleAddKeyword(adoptKeyword, 'ABANDONED');
+                                }
                             }}
+                            disabled={isAddingKeyword}
                         />
-                        <Button size={'sm'} onClick={addAdoptTag}>
-                            등록
+                        <Button
+                            size={'sm'}
+                            onClick={() => handleAddKeyword(adoptKeyword, 'ABANDONED')}
+                            disabled={isAddingKeyword}
+                        >
+                            {isAddingKeyword ? '등록 중...' : '등록'}
                         </Button>
                     </div>
                     <div className="flex w-full flex-wrap gap-2">
-                        {adoptTags.map((item, index) => (
+                        {adoptKeywords.map((item, index) => (
                             <Tag
                                 key={index}
                                 variant="default"
                                 size="sm"
-                                isDelete={true}
-                                onDelete={() => deleteAdoptTag(item)}
+                                isDelete={isDeletingKeywordId !== item.id}
+                                onDelete={() => handleDeleteKeyword(item.id, 'ABANDONED')}
                             >
-                                {item}
+                                {isDeletingKeywordId === item.id ? '삭제 중...' : item.keyword}
                             </Tag>
                         ))}
                     </div>
