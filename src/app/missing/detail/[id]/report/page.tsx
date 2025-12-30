@@ -5,58 +5,24 @@ import { MissingLargeCard } from '@/components/features/missing/MissingLargeCard
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import CustomSelect from '@/components/layout/Selector';
 import { TriangleAlert } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBoardById } from '@/api/board';
 import { Form } from '@/components/layout/Form';
 
-const list = [
+const reportOptions = [
     {
-        title: '스팸/광고',
-        describe: '상업적 광고, 홍보글, 도배성 게시글',
-        reason: 'SPAM',
-    },
-    {
-        title: '욕설/비방',
-        describe: '욕설, 비방, 혐오 표현',
-        reason: 'ABUSE',
-    },
-    {
-        title: '음란물/성적 콘텐츠',
-        describe: '성적인 내용, 부적절한 이미지',
-        reason: 'SEXUAL_CONTENT',
-    },
-    {
-        title: '개인정보 노출',
-        describe: '타인의 개인정보 무단 게재',
-        reason: 'PRIVACY_VIOLATION',
-    },
-    {
-        title: '불법 콘텐츠',
-        describe: '동물 학대, 불법 거래 등',
-        reason: 'ILLEGAL_CONTENT',
-    },
-    {
-        title: '사기/허위 정보',
-        describe: '거짓 실종 신고, 금전 요구, 사기성 게시글',
-        reason: 'FRAUD',
-    },
-    {
-        title: '폭력적 콘텐츠',
-        describe: '폭력적이거나 잔인한 내용',
-        reason: 'VIOLENCE',
-    },
-    {
-        title: '기타',
-        describe: '위 항목에 해당하지 않는 신고 사유',
-        reason: 'ETC',
+        items: [
+            { value: 'SPAM', name: '스팸/광고' },
+            { value: 'ABUSE', name: '욕설/비방' },
+            { value: 'SEXUAL_CONTENT', name: '음란물/성적 콘텐츠' },
+            { value: 'PRIVACY_VIOLATION', name: '개인정보 노출' },
+            { value: 'ILLEGAL_CONTENT', name: '불법 콘텐츠' },
+            { value: 'FRAUD', name: '사기/허위 정보' },
+            { value: 'VIOLENCE', name: '폭력적 콘텐츠' },
+            { value: 'ETC', name: '기타' },
+        ],
     },
 ];
 
@@ -101,21 +67,11 @@ const ReportPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </Form>
 
                 <Form title="신고 항목" important>
-                    <Select>
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="신고 항목을 선택해주세요" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {list.map((item, index) => (
-                                <SelectItem key={index} value={item.reason}>
-                                    <div className="flex flex-col items-start">
-                                        <p className="font-medium">{item.title}</p>
-                                        <p className="text-xs text-gray-500">{item.describe}</p>
-                                    </div>
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <CustomSelect
+                        options={reportOptions}
+                        placeholder="신고 항목을 선택해주세요"
+                        onValueChange={(value) => setReason(value)}
+                    />
                 </Form>
 
                 <Form title="상세 내용">
@@ -143,7 +99,7 @@ const ReportPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Button
                     className="w-full"
                     onClick={() => console.log('신고 접수하기')}
-                    disabled={!isConfirmed}
+                    disabled={!isConfirmed || reason === ''}
                 >
                     신고하기
                 </Button>
