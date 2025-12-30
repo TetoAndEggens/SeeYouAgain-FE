@@ -24,7 +24,7 @@ const LostDetailPage = ({ params }: MissingDetailPageProps) => {
     const router = useRouter();
     const { id } = use(params);
     const { data: missingDetail, isLoading } = useQuery({
-        queryKey: ['boardListById'],
+        queryKey: ['boardListById', id],
         queryFn: () => fetchBoardById(Number(id)),
         select: (data) => data.data,
     });
@@ -53,7 +53,10 @@ const LostDetailPage = ({ params }: MissingDetailPageProps) => {
                         </p>
                     </div>
                 </div>
-                <div className="bg-gray-10 flex items-center gap-1 rounded-lg border border-gray-300 p-2">
+                <div
+                    className="bg-gray-10 flex cursor-pointer items-center gap-1 rounded-lg border border-gray-300 p-2"
+                    onClick={() => router.push(`/missing/detail/${id}/report`)}
+                >
                     <Siren strokeWidth={1} color="#fe4444" />
                     <p className="text-gray-40">신고</p>
                 </div>
@@ -67,9 +70,9 @@ const LostDetailPage = ({ params }: MissingDetailPageProps) => {
                     <p>{missingDetail.content}</p>
                     <hr className="bg-gray-10" />
                     <div className="flex gap-2">
-                        {missingDetail.tags.map((tagItem) => (
-                            <Tag key={tagItem.tagId} variant="default" size="sm">
-                                {tagItem.tag}
+                        {missingDetail.tags.map((tag) => (
+                            <Tag key={tag} variant="default" size="sm">
+                                {tag}
                             </Tag>
                         ))}
                     </div>

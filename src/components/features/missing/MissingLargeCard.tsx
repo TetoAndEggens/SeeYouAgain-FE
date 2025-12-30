@@ -1,7 +1,17 @@
 import Tag from '@/components/ui/tag';
 import { formatRelativeTime } from '@/lib/utils';
-import { BoardData } from '@/types/board';
 import { Clock, MapPin } from 'lucide-react';
+
+type MissingLargeCardProps = {
+    title: string;
+    animalType: 'MISSING' | 'WITNESS';
+    breedType: string;
+    tags: string[];
+    city: string;
+    town: string;
+    createdAt: string;
+    profile: string;
+};
 
 export function MissingLargeCard({
     title,
@@ -12,7 +22,7 @@ export function MissingLargeCard({
     town,
     createdAt,
     profile,
-}: BoardData) {
+}: MissingLargeCardProps) {
     const imageUrl = profile || '/logo-placeholder.webp';
 
     return (

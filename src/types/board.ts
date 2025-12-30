@@ -1,10 +1,5 @@
 import { CursorPageResponse } from './common';
 
-export type Tag = {
-    tagId: number;
-    tag: string;
-};
-
 export type BoardData = {
     boardId: number;
     title: string;
@@ -44,7 +39,7 @@ export type BoardDetailData = {
     memberNickname: string;
     createdAt: string;
     updatedAt: string;
-    tags: Tag[];
+    tags: string[];
     profiles: string[];
     isBookmarked: boolean;
 };
