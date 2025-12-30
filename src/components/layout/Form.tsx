@@ -11,7 +11,7 @@ interface FormProps {
 
 export function Form({ title, className, important, children, tagChildren }: FormProps) {
     return (
-        <div className={cn('flex w-full shrink-0 flex-col gap-4 rounded-lg px-2', className)}>
+        <div className={cn('flex w-full shrink-0 flex-col gap-4 rounded-lg', className)}>
             <p className="text-lg font-bold">
                 {title}{' '}
                 {important && (
