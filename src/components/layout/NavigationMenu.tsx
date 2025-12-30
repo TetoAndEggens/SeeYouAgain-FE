@@ -11,9 +11,8 @@ const exceptUrls = [
     '/signup',
     '/test',
     '/missing/detail',
-    '/missing/report',
+    '/missing/write',
     '/chat/detail',
-    '/report',
 ]; // 예외 URL 목록
 
 function isExceptUrl(pathname: string) {

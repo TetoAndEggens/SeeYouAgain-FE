@@ -20,7 +20,7 @@ const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
     '/map': { variant: 'default', title: '다시 만날 U' },
     '/adopt/': { variant: 'backOnly', title: '' },
     '/adopt': { variant: 'default', title: '입양 동물 찾기' },
-    '/missing/report': { variant: 'close', title: '글쓰기' },
+    '/missing/write': { variant: 'close', title: '글쓰기' },
     '/missing/detail/': { variant: 'back', title: '실종 동물 찾기' },
     '/missing': { variant: 'default', title: '실종 동물 찾기' },
     '/chat/detail/': { variant: 'hidden' },
@@ -30,11 +30,15 @@ const ROUTE_RULES: Record<string, { variant: Variant; title?: string }> = {
     '/mypage/settings': { variant: 'back', title: '알림 설정' },
     '/mypage/posts': { variant: 'back', title: '내가 쓴 글' },
     '/mypage': { variant: 'default', title: '마이페이지' },
-    '/report': { variant: 'close', title: '신고하기' },
 };
 
 function HeaderControl(pathname: string | null) {
     const currentPath = pathname || '/';
+
+    // 신고 페이지 체크 (동적 라우트)
+    if (currentPath.endsWith('/report')) {
+        return { variant: 'close' as Variant, title: '신고하기' };
+    }
 
     const matcheUrl = Object.entries(ROUTE_RULES)
         .filter(([pattern]) => {
