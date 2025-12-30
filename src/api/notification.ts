@@ -14,7 +14,7 @@ export const postKeyword = async (
     return data;
 };
 
-export const getKeyword = async (): Promise<ServerResponseType<KeywordResponse>> => {
+export const getKeyword = async (): Promise<ServerResponseType<KeywordResponse[]>> => {
     const { data } = await axiosInstance.get('notification/keyword');
     return data;
 };
