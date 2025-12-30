@@ -10,6 +10,8 @@ import { TriangleAlert } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBoardById } from '@/api/board';
 import { Form } from '@/components/layout/Form';
+import { postViolation } from '@/api/report';
+import { useRouter } from 'next/navigation';
 
 const reportOptions = [
     {
@@ -28,9 +30,11 @@ const reportOptions = [
 
 const ReportPage = ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = use(params);
+    const router = useRouter();
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [reason, setReason] = useState('');
     const [detailReason, setDetailReason] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { data: missingDetail } = useQuery({
         queryKey: ['boardListById', id],
@@ -38,6 +42,25 @@ const ReportPage = ({ params }: { params: Promise<{ id: string }> }) => {
         select: (data) => data.data,
     });
 
+    const handleSubmitReport = async () => {
+        if (!reason || !detailReason || !isConfirmed) return;
+
+        setIsSubmitting(true);
+        try {
+            await postViolation({
+                boardId: Number(id),
+                reason,
+                detailReason,
+                board: true,
+            });
+            alert('신고가 접수되었습니다.');
+            router.back();
+        } catch (error) {
+            alert('신고 접수에 실패했습니다. 다시 시도해주세요.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     return (
         <div className="relative flex h-full flex-col">
             <div className="flex flex-1 flex-col gap-4 p-4">
@@ -98,10 +121,10 @@ const ReportPage = ({ params }: { params: Promise<{ id: string }> }) => {
             <div className="sticky bottom-0 bg-white p-4">
                 <Button
                     className="w-full"
-                    onClick={() => console.log('신고 접수하기')}
-                    disabled={!isConfirmed || reason === ''}
+                    onClick={handleSubmitReport}
+                    disabled={!isConfirmed || !reason || !detailReason || isSubmitting}
                 >
-                    신고하기
+                    {isSubmitting ? '신고 접수 중...' : '신고하기'}
                 </Button>
             </div>
         </div>
