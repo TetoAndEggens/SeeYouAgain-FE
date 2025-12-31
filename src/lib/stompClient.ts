@@ -3,14 +3,6 @@ import SockJS from 'sockjs-client';
 import { ChatMessageDto } from '@/types/chat';
 
 const senderId = 1;
-const data: ChatMessageDto = {
-    chatRoomId: 1,
-    boardId: 1,
-    senderId: 1,
-    receiverId: 2,
-    content: '이거 얼마에요?',
-    time: '2026-01-01T00:00:01',
-};
 
 // STOMP 클라이언트 생성
 const client = new Client({
@@ -63,6 +55,10 @@ export const connect = () => {
             reason: evt.reason,
             wasClean: evt.wasClean,
         });
+    };
+
+    client.debug = (str) => {
+        console.log('[STOMP Debug]:', str);
     };
 
     // 연결 해제 이벤트 핸들러
