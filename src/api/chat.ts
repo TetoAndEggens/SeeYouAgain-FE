@@ -23,7 +23,9 @@ export const getMessage = async (params: MessageParam): Promise<Message> => {
     return data;
 };
 
-export const getUnread = async (params: ChatRoomParam) => {
+export const getUnread = async (
+    params: ChatRoomParam = { cursorId: null, size: 10, sortDirection: 'LATEST' }
+) => {
     const { data } = await axiosInstance.get('chat/rooms/unread', { params });
     console.log('getUnread : ', data);
     return data;

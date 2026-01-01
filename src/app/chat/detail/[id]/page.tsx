@@ -4,9 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useMessage } from '@/hook/chat/useMessage';
 import { ChatMessage } from '@/components/layout/ChatMessage';
-import { ChatPost } from '@/components/layout/ChatPost';
-import { ChevronLeft } from 'lucide-react';
-import { CirclePlus, Send } from 'lucide-react';
+import { ChevronLeft, Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 type Props = {
@@ -16,7 +14,8 @@ type Props = {
 const ChatRoomPage = ({ params }: Props) => {
     const router = useRouter();
     const chatRoomId = Number(params.id);
-    const messages = useMessage({
+
+    const { chatMessage, isLoading, isError } = useMessage({
         chatRoomId,
         cursorId: null,
         size: 20,
@@ -39,18 +38,16 @@ const ChatRoomPage = ({ params }: Props) => {
                     </button>
                 </div>
             </div>
+
             <div>
-                {/* <div>
-                    <ChatPost title={list.title} post={list.post} className="rounded-lg border" />
-                </div> */}
-                {!messages ? (
+                {isLoading ? (
                     <div className="p-4 text-center">로딩 중입니다.</div>
-                ) : messages.data.length === 0 ? (
+                ) : isError ? (
+                    <div className="p-4 text-center">메시지를 불러오지 못했습니다.</div>
+                ) : !chatMessage || chatMessage.data.length === 0 ? (
                     <div className="p-4 text-center">메시지가 없습니다.</div>
                 ) : (
-                    messages.data.map((m) => {
-                        // mine 판단은 실제 내 사용자 ID 기준으로 비교하셔야 합니다.
-                        // const mine = m.senderId === myMemberId;
+                    chatMessage.data.map((m) => {
                         const mine = false; // 수정 필요(임시)
 
                         return (
@@ -64,8 +61,8 @@ const ChatRoomPage = ({ params }: Props) => {
                     })
                 )}
             </div>
+
             <div className="sticky bottom-0 flex items-center gap-4 bg-white p-2">
-                {/* <CirclePlus /> */}
                 <Input />
                 <Send />
             </div>
