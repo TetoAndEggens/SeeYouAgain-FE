@@ -112,22 +112,24 @@ export const useFcm = () => {
                 toast.error('FCM 토큰을 발급받지 못했습니다.');
                 return null;
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('[FCM] 토큰 발급 중 오류:', error);
-            console.error('[FCM] 에러 코드:', error?.code);
-            console.error('[FCM] 에러 메시지:', error?.message);
+
+            const firebaseError = error as { code?: string; message?: string };
+            console.error('[FCM] 에러 코드:', firebaseError.code);
+            console.error('[FCM] 에러 메시지:', firebaseError.message);
 
             // Firebase 에러 코드별 처리
-            if (error?.code === 'messaging/unsupported-browser') {
+            if (firebaseError.code === 'messaging/unsupported-browser') {
                 toast.error('이 브라우저는 알림을 지원하지 않습니다.');
-            } else if (error?.code === 'messaging/permission-blocked') {
+            } else if (firebaseError.code === 'messaging/permission-blocked') {
                 toast.error('알림 권한이 차단되었습니다.');
-            } else if (error?.code === 'messaging/failed-service-worker-registration') {
+            } else if (firebaseError.code === 'messaging/failed-service-worker-registration') {
                 toast.error('Service Worker 등록에 실패했습니다.');
-            } else if (error?.message?.includes('API key')) {
+            } else if (firebaseError.message?.includes('API key')) {
                 toast.error('Firebase 설정이 올바르지 않습니다. 관리자에게 문의하세요.');
             } else {
-                toast.error('알림 설정에 실패했습니다: ' + (error?.message || '알 수 없는 오류'));
+                toast.error('알림 설정에 실패했습니다: ' + (firebaseError.message || '알 수 없는 오류'));
             }
             return null;
         } finally {
@@ -141,9 +143,10 @@ export const useFcm = () => {
             const deviceId = getDeviceId();
             await deleteFcmToken(deviceId);
             setToken(null);
-        } catch (error: any) {
+        } catch (error: unknown) {
             // 404 에러는 무시 (이미 토큰이 없는 상태)
-            if (error?.response?.status === 404) {
+            const axiosError = error as { response?: { status?: number } };
+            if (axiosError.response?.status === 404) {
                 setToken(null);
                 return;
             }
