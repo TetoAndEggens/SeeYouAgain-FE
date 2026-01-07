@@ -4,13 +4,12 @@ import React from 'react';
 import { Avatar } from '@/components/layout/Avatar';
 import { cn } from '@/lib/utils';
 
-const Titles = ['실종', '보호', '목격', '기타'] as const;
+const Titles = ['MISSING', 'WITNESS', 'ABANDONED'] as const;
 export type Title = (typeof Titles)[number];
 const TitleStyle: Record<Title, string> = {
-    실종: 'bg-destructive text-white',
-    보호: 'bg-accent text-white',
-    목격: 'bg-blue-500 text-white',
-    기타: 'bg-gray-500 text-white',
+    MISSING: 'bg-destructive text-white', // 실종
+    WITNESS: 'bg-blue-500 text-white', // 목격
+    ABANDONED: 'bg-gray-500 text-white', // 기타
 };
 
 interface ChatPostProps extends React.HTMLAttributes<HTMLDivElement> {
