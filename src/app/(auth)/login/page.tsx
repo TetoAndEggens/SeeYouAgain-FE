@@ -27,17 +27,17 @@ const LoginPage = () => {
 
     const handleKakaoLogin = () => {
         const redirectUri = window.location.origin;
-        window.location.href = `https://dev-api.seeyouagain.store/oauth2/authorization/kakao?redirect_uri=${encodeURIComponent(redirectUri)}`;
+        window.location.href = `https://prod-api.seeyouagain.store/oauth2/authorization/kakao?redirect_uri=${encodeURIComponent(redirectUri)}`;
     };
 
     const handleNaverLogin = () => {
         const redirectUri = window.location.origin;
-        window.location.href = `https://dev-api.seeyouagain.store/oauth2/authorization/naver?redirect_uri=${encodeURIComponent(redirectUri)}`;
+        window.location.href = `https://prod-api.seeyouagain.store/oauth2/authorization/naver?redirect_uri=${encodeURIComponent(redirectUri)}`;
     };
 
     const handleGoogleLogin = () => {
         const redirectUri = window.location.origin;
-        window.location.href = `https://dev-api.seeyouagain.store/oauth2/authorization/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
+        window.location.href = `https://prod-api.seeyouagain.store/oauth2/authorization/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
     };
 
     return (

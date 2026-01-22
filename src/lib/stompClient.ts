@@ -8,7 +8,7 @@ const senderId = 1;
 const client = new Client({
     webSocketFactory: () => {
         // SockJS 엔드포인트 설정
-        return new SockJS('https://dev-api.seeyouagain.store/ws-stomp', undefined, {
+        return new SockJS('https://prod-api.seeyouagain.store/ws-stomp', undefined, {
             transports: ['websocket'],
         });
     },
