@@ -3,11 +3,13 @@ import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
+import { useFcm } from '@/hook/fcm/useFcm';
 
 export const useWithdrawal = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { logout } = useAuthStore();
     const router = useRouter();
+    const { removeFcmToken } = useFcm();
 
     const handleWithdrawal = async () => {
         const confirmed = confirm(
@@ -22,6 +24,8 @@ export const useWithdrawal = () => {
                 password: 'tjddnr123@',
                 reason: '서비스 이용 불편',
             });
+            // FCM 토큰 삭제
+            await removeFcmToken();
             logout();
             alert('회원탈퇴가 완료되었습니다.');
             router.push('/login');

@@ -6,14 +6,14 @@ importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js');
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCvM_PCuP8ebKKkzQybBXxp7ROZWJw6Kt4',
-  authDomain: 'seeyouagain-4c7fd.firebaseapp.com',
-  projectId: 'seeyouagain-4c7fd',
-  storageBucket: 'seeyouagain-4c7fd.firebasestorage.app',
-  messagingSenderId: '766195192478',
-  appId: '1:766195192478:web:389929d80c8ca737b4a18f',
+    apiKey: 'AIzaSyCvM_PCuP8ebKKkzQybBXxp7ROZWJw6Kt4',
+    authDomain: 'seeyouagain-4c7fd.firebaseapp.com',
+    projectId: 'seeyouagain-4c7fd',
+    storageBucket: 'seeyouagain-4c7fd.firebasestorage.app',
+    messagingSenderId: '766195192478',
+    appId: '1:766195192478:web:389929d80c8ca737b4a18f',
+    measurementId: 'G-BHMN9MNPB9',
 };
-
 
 // Firebase 초기화
 firebase.initializeApp(firebaseConfig);
