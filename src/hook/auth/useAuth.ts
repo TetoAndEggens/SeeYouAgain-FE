@@ -14,6 +14,9 @@ export const useAuth = () => {
                 login();
             } catch (error) {
                 logout();
+                if (typeof window !== 'undefined') {
+                    window.location.href = '/login';
+                }
             } finally {
                 setLoading(false);
             }
