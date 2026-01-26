@@ -21,29 +21,28 @@ export const NotificationPermissionDialog = ({
     open,
     onOpenChange,
 }: NotificationPermissionDialogProps) => {
-    const { requestPermission, getFcmToken, isLoading } = useFcm();
+    const { requestPermission } = useFcm();
     const [error, setError] = React.useState<string | null>(null);
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
     const handleEnableNotification = async () => {
         try {
             setError(null);
+            setIsLoading(true);
 
             const granted = await requestPermission();
 
             if (granted) {
-                const token = await getFcmToken();
-
-                if (token) {
-                    onOpenChange(false);
-                } else {
-                    setError('토큰 발급에 실패했습니다. Firebase 설정을 확인해주세요.');
-                }
+                // 권한 허용 성공 - AuthProvider가 자동으로 FCM 토큰 등록
+                onOpenChange(false);
             } else {
                 setError('알림 권한이 거부되었습니다.');
             }
         } catch (err) {
             console.error('알림 설정 중 오류:', err);
             setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');
+        } finally {
+            setIsLoading(false);
         }
     };
 

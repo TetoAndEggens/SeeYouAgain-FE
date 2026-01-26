@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: 'https://dev-api.seeyouagain.store/:path*',
+                destination: 'https://prod-api.seeyouagain.store/:path*',
             },
         ];
     },

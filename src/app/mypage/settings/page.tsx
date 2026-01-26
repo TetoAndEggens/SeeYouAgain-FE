@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { useNotificationStore } from '@/store/notificationStore';
 import { useKeyword } from '@/hook/settings/useKeyword';
 import { useNotificationSettings } from '@/hook/settings/useNotificationSettings';
+import { updatePushSetting } from '@/api/member';
 
 const SettingsPage = () => {
     const [showPermissionDialog, setShowPermissionDialog] = useState<boolean>(false);
@@ -31,7 +32,7 @@ const SettingsPage = () => {
     } = useKeyword();
 
     // FCM 관련 상태
-    const { permission, isSupported, getFcmToken, removeFcmToken } = useFcm();
+    const { permission, isSupported } = useFcm();
     const { isPushEnabled, checkPushStatus, setPushEnabled } = useNotificationStore();
 
     // 알림 설정 관련
@@ -57,10 +58,14 @@ const SettingsPage = () => {
         if (checked) {
             // 알림 켜기
             if (permission === 'granted') {
-                const token = await getFcmToken();
-                if (token) {
+                try {
+                    // 서버에 푸시 알림 활성화 요청
+                    await updatePushSetting({ isPushEnabled: true });
                     setPushEnabled(true);
                     toast.success('알림이 활성화되었습니다.');
+                } catch (error) {
+                    console.error('알림 활성화 실패:', error);
+                    toast.error('알림 활성화에 실패했습니다.');
                 }
             } else if (permission === 'denied') {
                 toast.error('알림 권한이 차단되었습니다. 브라우저 설정에서 허용해주세요.');
@@ -71,7 +76,8 @@ const SettingsPage = () => {
         } else {
             // 알림 끄기
             try {
-                await removeFcmToken();
+                // 서버에 푸시 알림 비활성화 요청 (FCM 토큰은 유지)
+                await updatePushSetting({ isPushEnabled: false });
                 setPushEnabled(false);
 
                 // 개별 알림 설정도 모두 초기화
@@ -227,11 +233,18 @@ const SettingsPage = () => {
             {/* 알림 권한 요청 다이얼로그 */}
             <NotificationPermissionDialog
                 open={showPermissionDialog}
-                onOpenChange={(open) => {
+                onOpenChange={async (open) => {
                     setShowPermissionDialog(open);
                     // 다이얼로그가 닫힐 때 권한 상태 다시 확인
                     if (!open && permission === 'granted') {
-                        setPushEnabled(true);
+                        try {
+                            // 서버에 푸시 알림 활성화 요청
+                            await updatePushSetting({ isPushEnabled: true });
+                            setPushEnabled(true);
+                        } catch (error) {
+                            console.error('푸시 알림 활성화 실패:', error);
+                            toast.error('푸시 알림 활성화에 실패했습니다.');
+                        }
                     }
                 }}
             />

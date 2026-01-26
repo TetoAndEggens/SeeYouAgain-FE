@@ -24,29 +24,3 @@ export interface FcmTokenResponse {
     lastUsedAt: string;
     createdAt: string;
 }
-
-// FCM 토큰 목록 조회 응답
-export interface FcmTokenListResponse {
-    tokens: FcmToken[];
-}
-
-// FCM 알림 페이로드
-export interface FcmNotificationPayload {
-    title: string;
-    body: string;
-    icon?: string;
-    image?: string;
-    badge?: string;
-    click_action?: string;
-}
-
-// FCM 데이터 페이로드
-export interface FcmDataPayload {
-    [key: string]: string;
-}
-
-// FCM 메시지
-export interface FcmMessage {
-    notification?: FcmNotificationPayload;
-    data?: FcmDataPayload;
-}
