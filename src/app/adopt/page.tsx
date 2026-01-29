@@ -9,6 +9,7 @@ import { useAdoptAnimals } from '@/hook/adopt/useAdoptAnimals';
 import { SortByType } from '@/types/common';
 import { useInfiniteScroll } from '@/hook/adopt/useInfiniteScroll';
 import NotFound from '@/components/layout/404';
+import { AdoptCardSkeleton } from '@/components/features/adopt/AdoptCardSkeleton';
 
 const AdoptPage = () => {
     const [sortBy, setSortBy] = useState<SortByType>('LATEST');
@@ -22,7 +23,6 @@ const AdoptPage = () => {
     } = useAdoptAnimals(sortBy);
     const { ref } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage });
 
-    if (isLoading) return <div>로딩중</div>;
     if (!adoptData) return <NotFound />;
 
     return (
@@ -47,11 +47,19 @@ const AdoptPage = () => {
                 </div>
             </div>
             <div className="bg-gray-10 m-[-1rem] grid grid-cols-2 gap-4 p-4 md:grid-cols-4 lg:grid-cols-5">
-                {adoptData.animals?.map((data) => (
-                    <Link key={data.animalId} href={`adopt/${data.animalId}`}>
-                        <AdoptCard {...data} />
-                    </Link>
-                ))}
+                {isLoading ? (
+                    <>
+                        <AdoptCardSkeleton />
+                        <AdoptCardSkeleton />
+                        <AdoptCardSkeleton />
+                    </>
+                ) : (
+                    adoptData.animals?.map((data) => (
+                        <Link key={data.animalId} href={`adopt/${data.animalId}`}>
+                            <AdoptCard {...data} />
+                        </Link>
+                    ))
+                )}
                 {hasNextPage && (
                     <div ref={ref} className="col-span-full flex items-center justify-center py-8">
                         {isFetchingNextPage ? (

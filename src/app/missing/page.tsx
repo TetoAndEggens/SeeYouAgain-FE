@@ -8,6 +8,7 @@ import { fetchBoardList } from '@/api/board';
 import { AnimalTypeType, SortByType } from '@/types/common';
 import { CustomSelect } from '@/components/features/adopt/CustomSelect';
 import NotFound from '@/components/layout/404';
+import { MissingLargeCardSkeleton } from '@/components/features/missing/MissingLargeCardSkeleton';
 
 export default function MissingPage() {
     const [sortBy, setSortBy] = useState<SortByType>('LATEST');
@@ -55,7 +56,14 @@ export default function MissingPage() {
                 </div>
             </div>
             <div className="bg-gray-10 flex-1 p-4">
-                {boardData &&
+                {isLoading ? (
+                    <div className="flex flex-col gap-4">
+                        {[...Array(5)].map((_, i) => (
+                            <MissingLargeCardSkeleton key={i} />
+                        ))}
+                    </div>
+                ) : (
+                    boardData &&
                     boardData.map((data) => (
                         <Link
                             key={`missing-${data.boardId}`}
@@ -63,7 +71,8 @@ export default function MissingPage() {
                         >
                             <MissingLargeCard {...data} />
                         </Link>
-                    ))}
+                    ))
+                )}
             </div>
         </div>
     );
