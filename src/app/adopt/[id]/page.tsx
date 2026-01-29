@@ -1,6 +1,8 @@
 'use client';
 
+import { use, useEffect } from 'react';
 import { fetchAdoptAnimalsById } from '@/api/animal';
+import { usePost } from '@/hook/posts/useMyPosts';
 import { Form } from '@/components/layout/Form';
 import { ImageCarousel } from '@/components/layout/ImageCarousel';
 import { InformationDetail } from '@/components/layout/InformationDetail';
@@ -9,7 +11,8 @@ import Tag from '@/components/ui/tag';
 import { calculateAgeFromYear } from '@/lib/date-utils';
 import { formatSex } from '@/lib/format-utils';
 import { useQuery } from '@tanstack/react-query';
-import { use } from 'react';
+import { Heart } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface AdoptDetailPageProps {
     params: Promise<{ id: string }>;
@@ -23,8 +26,37 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
         select: (data) => data.data,
     });
 
+    const { check, postBookmark, isBookmarked } = usePost();
+
+    useEffect(() => {
+        if (id) {
+            isBookmarked(Number(id));
+        }
+    }, [id, isBookmarked]);
+
     if (isLoading) return <div>로딩중</div>;
-    if (!adoptDetail) return <div>404</div>; //추후에 대체
+    if (!adoptDetail)
+        return (
+            <div>
+                <Button
+                    className="group border-none bg-white hover:bg-transparent!"
+                    variant="outline"
+                    size="icon-lg"
+                    onClick={() => postBookmark(Number(id))}
+                >
+                    <Heart
+                        color={`${check ? 'red' : 'black'}`}
+                        fill={`${check ? 'red' : 'none'}`}
+                        className={cn(
+                            'size-6 transition-none',
+                            check
+                                ? 'group-hover:fill-transparent! group-hover:stroke-black!'
+                                : 'group-hover:fill-red-500! group-hover:stroke-red-500!'
+                        )}
+                    />
+                </Button>
+            </div>
+        ); //추후에 대체
 
     return (
         <div className="relative">
@@ -81,6 +113,23 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
             </div>
             <div className="sticky right-0 bottom-0 left-0 bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-2">
+                    <Button
+                        className="group border-none bg-white hover:bg-transparent!"
+                        variant="outline"
+                        size="icon-lg"
+                        onClick={() => postBookmark(Number(id))}
+                    >
+                        <Heart
+                            color={`${check ? 'red' : 'black'}`}
+                            fill={`${check ? 'red' : 'none'}`}
+                            className={cn(
+                                'size-6 transition-none',
+                                check
+                                    ? 'group-hover:fill-transparent! group-hover:stroke-black!'
+                                    : 'group-hover:fill-red-500! group-hover:stroke-red-500!'
+                            )}
+                        />
+                    </Button>
                     <Button className="flex-1">입양 문의하기</Button>
                 </div>
             </div>
