@@ -50,6 +50,11 @@ export default function Home() {
                                 <AdoptCard className="w-48" {...data} />
                             </Link>
                         ))}
+                    {!adoptData && (
+                        <div className="flex w-full flex-col items-center justify-center py-12 text-gray-400">
+                            <p className="mt-4 text-lg">아직 등록된 친구가 없어요</p>
+                        </div>
+                    )}
                     <div></div>
                 </div>
             </div>
@@ -67,6 +72,11 @@ export default function Home() {
                                 <MissingSmallCard key={data.boardId} {...data} />
                             </Link>
                         ))}
+                    {!boardData && (
+                        <div className="flex w-full flex-col items-center justify-center py-12 text-gray-400">
+                            <p className="mt-4 text-lg">새로운 게시글이 없어요</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

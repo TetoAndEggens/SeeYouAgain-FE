@@ -8,6 +8,7 @@ import { CustomSelect } from '@/components/features/adopt/CustomSelect';
 import { useAdoptAnimals } from '@/hook/adopt/useAdoptAnimals';
 import { SortByType } from '@/types/common';
 import { useInfiniteScroll } from '@/hook/adopt/useInfiniteScroll';
+import NotFound from '@/components/layout/404';
 
 const AdoptPage = () => {
     const [sortBy, setSortBy] = useState<SortByType>('LATEST');
@@ -22,7 +23,7 @@ const AdoptPage = () => {
     const { ref } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage });
 
     if (isLoading) return <div>로딩중</div>;
-    if (!adoptData) return <div>404</div>;
+    if (!adoptData) return <NotFound />;
 
     return (
         <div className="mt-3 flex flex-col gap-8 px-4 py-4">
@@ -60,6 +61,11 @@ const AdoptPage = () => {
                         ) : (
                             <div className="h-10" />
                         )}
+                    </div>
+                )}
+                {!adoptData && (
+                    <div className="flex h-full w-full flex-col items-center justify-center py-12 text-gray-400">
+                        <p className="mt-4 text-lg">새로운 게시글이 없어요</p>
                     </div>
                 )}
             </div>
