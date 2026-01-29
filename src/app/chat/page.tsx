@@ -28,15 +28,15 @@ const ChatListPage = () => {
     const visibleRooms = tab === 'all' ? chatRooms : unRead;
 
     // 수정: “읽지 않음” 탭에서 API가 비어있거나 미사용이라면, 전체 목록에서 unreadCount로 필터링해 fallback 제공
-    const fallbackUnreadList =
-        tab === 'unread' && chatRooms
-            ? chatRooms.data.filter((item) => (item.unreadCount ?? 0) > 0)
-            : [];
+    // const fallbackUnreadList =
+    //     tab === 'unread' && chatRooms
+    //         ? chatRooms.data.filter((item) => (item.unreadCount ?? 0) > 0)
+    //         : [];
 
-    const visibleList =
-        tab === 'unread'
-            ? (visibleRooms?.data ?? fallbackUnreadList) // 수정: unread는 API 우선, 없으면 fallback
-            : (visibleRooms?.data ?? []);
+    // const visibleList =
+    //     tab === 'unread'
+    //         ? (visibleRooms?.data ?? fallbackUnreadList) // 수정: unread는 API 우선, 없으면 fallback
+    //         : (visibleRooms?.data ?? []);
 
     const isLoading = !visibleRooms && tab === 'all' ? !chatRooms : !visibleRooms; // 수정: 탭 기준 로딩 판정
     // const visiblaList = React.useMemo(() => {
@@ -78,7 +78,7 @@ const ChatListPage = () => {
                 </div>
             </div>
 
-            {isLoading ? ( // 수정: 탭 기준 로딩 표시
+            {/* {isLoading ? ( // 수정: 탭 기준 로딩 표시
                 <div className="p-4 text-center">로딩 중입니다.</div>
             ) : visibleList.length === 0 ? ( // 수정: 탭 기준 빈 목록 표시
                 <div className="p-4 text-center">
@@ -116,7 +116,7 @@ const ChatListPage = () => {
                         </div>
                     );
                 })
-            )}
+            )} */}
         </div>
     );
 };
