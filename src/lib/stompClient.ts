@@ -7,9 +7,9 @@ const senderId = 1;
 // STOMP 클라이언트 생성
 const client = new Client({
     webSocketFactory: () => {
-        // SockJS 엔드포인트 설정
-        return new SockJS('https://prod-api.seeyouagain.store/ws-stomp', undefined, {
-            // transports: ['websocket'],
+        return new SockJS('https://prod-api.seeyouagain.store/ws-stomp', null, {
+            // iframe transport 제외
+            transports: ['websocket', 'xhr-streaming', 'xhr-polling'],
         });
     },
     reconnectDelay: 5000,
