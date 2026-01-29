@@ -3,6 +3,7 @@
 import { use, useEffect } from 'react';
 import { fetchAdoptAnimalsById } from '@/api/animal';
 import { useBookmark } from '@/hook/bookmark/useBookmark';
+import NotFound from '@/components/layout/404';
 import { Form } from '@/components/layout/Form';
 import { ImageCarousel } from '@/components/layout/ImageCarousel';
 import { InformationDetail } from '@/components/layout/InformationDetail';
@@ -35,7 +36,7 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
     }, [id, isBookmarked]);
 
     if (isLoading) return <div>로딩중</div>;
-    if (!adoptDetail) return <div>404</div>; //추후에 대체
+    if (!adoptDetail) return <NotFound />;
 
     return (
         <div className="relative">

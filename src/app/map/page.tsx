@@ -11,6 +11,7 @@ import { fetchAnimalMap } from '@/api/animal';
 import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
 import type { MapBounds } from '@/types/map';
+import NotFound from '@/components/layout/404';
 
 const MapPage = () => {
     const mapState = useMapState();
@@ -63,8 +64,7 @@ const MapPage = () => {
     if (loading)
         return <div className="flex h-full items-center justify-center">지도 로딩중..</div>;
 
-    if (error)
-        return <div className="flex h-full items-center justify-center">카카오맵 로딩 에러</div>;
+    if (error) return <NotFound />;
 
     return (
         <div className="relative h-full w-full">
