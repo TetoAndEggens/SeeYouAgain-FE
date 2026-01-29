@@ -23,7 +23,7 @@ const ChatRoomPage = ({ params }: Props) => {
         sortDirection: 'LATEST',
     });
     // const { data: listData } = useChatListData();
-    const { id } = React.use(params);
+    // const { id } = React.use(params);
     // const list = listData[id - 1];
     // const { data } = useChatDetailData();
     // console.log('listData : ', listData[id]);
@@ -47,7 +47,7 @@ const ChatRoomPage = ({ params }: Props) => {
             </div>
 
             <div>
-                {isLoading ? (
+                {/* {isLoading ? (
                     <div className="p-4 text-center">로딩 중입니다.</div>
                 ) : isError ? (
                     <div className="p-4 text-center">메시지를 불러오지 못했습니다.</div>
@@ -66,7 +66,7 @@ const ChatRoomPage = ({ params }: Props) => {
                             />
                         );
                     })
-                )}
+                )} */}
                 <div>
                     {/* <ChatPost title={list.title} post={list.post} className="rounded-lg border" /> */}
                 </div>
