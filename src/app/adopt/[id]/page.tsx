@@ -35,28 +35,7 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
     }, [id, isBookmarked]);
 
     if (isLoading) return <div>로딩중</div>;
-    if (!adoptDetail)
-        return (
-            <div>
-                <Button
-                    className="group border-none bg-white hover:bg-transparent!"
-                    variant="outline"
-                    size="icon-lg"
-                    onClick={() => postBookmark(Number(id))}
-                >
-                    <Heart
-                        color={`${check ? 'red' : 'black'}`}
-                        fill={`${check ? 'red' : 'none'}`}
-                        className={cn(
-                            'size-6 transition-none',
-                            check
-                                ? 'group-hover:fill-transparent! group-hover:stroke-black!'
-                                : 'group-hover:fill-red-500! group-hover:stroke-red-500!'
-                        )}
-                    />
-                </Button>
-            </div>
-        ); //추후에 대체
+    if (!adoptDetail) return <div>404</div>; //추후에 대체
 
     return (
         <div className="relative">
