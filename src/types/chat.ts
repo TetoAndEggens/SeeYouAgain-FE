@@ -10,28 +10,30 @@ export interface CommonParam {
 
 export type ChatRoomParam = CommonParam;
 
-// 채팅 목록 데이터 타입
+export interface ChatData {
+    chatRoomId: number;
+    boardId: number;
+    boardTitle: string;
+    contentType: Title;
+    senderId: number;
+    receiverId: number;
+    otherMemberNickname: string;
+    lastMessage: string;
+    lastMessageTime: string;
+    unreadCount: number;
+}
+
 export interface ChatRoomData {
-    chatRooms: {
-        data: [
-            {
-                chatRoomId: number;
-                boardId: number;
-                boardTitle: string;
-                contentType: string;
-                senderId: number;
-                receiverId: number;
-                otherMemberNickname: string;
-                lastMessage: string;
-                lastMessageTime: string;
-                unreadCount: number;
-            },
-        ];
-        size: number;
-        nextCursor: number;
-        hasNext: boolean;
-        empty: boolean;
-    };
+    data: ChatData[];
+    size: number;
+    nextCursor: number;
+    hasNext: boolean;
+    empty: boolean;
+}
+
+// 채팅 목록 데이터 타입
+export interface ChatRoomResponse {
+    chatRooms: ChatRoomData;
 }
 
 // 채팅 내역 조회용 파라미터 타입
@@ -39,23 +41,25 @@ export interface MessageParam extends CommonParam {
     chatRoomId: number;
 }
 
-// 채팅 내역 데이터 타입
 export interface Message {
-    messages: {
-        data: [
-            {
-                messageId: number;
-                senderId: number;
-                content: string;
-                isRead: boolean;
-                createdAt: string;
-            },
-        ];
-        size: 1073741824;
-        nextCursor: 9007199254740991;
-        hasNext: boolean;
-        empty: boolean;
-    };
+    messageId: number;
+    senderId: number;
+    content: string;
+    isRead: boolean;
+    createdAt: string;
+}
+
+export interface MessageData {
+    data: Message[];
+    size: number;
+    nextCursor: number;
+    hasNext: boolean;
+    empty: boolean;
+}
+
+// 채팅 내역 데이터 타입
+export interface MessageResponse {
+    messages: MessageData;
 }
 
 // 웹소켓 연결에 사용되는 data type
