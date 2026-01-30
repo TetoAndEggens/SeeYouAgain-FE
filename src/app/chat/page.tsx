@@ -8,42 +8,17 @@ import { useChatRoomData, useUnread } from '@/hook/chat/useChatList';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
 import { connect, disconnect } from '@/lib/stompClient';
-
-interface dataType {
-    id: number;
-    avatar: string;
-    userName: string;
-    lastMessage: string;
-    lastMessageTime: string;
-    unreadCount: number;
-}
+import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
 const ChatListPage = () => {
-    const chatRooms = useChatRoomData();
-    const unRead = useUnread(); // 기존 변수명 유지
+    const chatRooms: ChatRoomData | undefined = useChatRoomData();
+    const unRead: ChatRoomData | undefined = useUnread(); // 기존 변수명 유지
     const router = useRouter();
     const [tab, setTab] = React.useState<'all' | 'unread'>('all');
 
-    // 수정: 탭에 따라 보여줄 데이터 선택
     const visibleRooms = tab === 'all' ? chatRooms : unRead;
 
-    // 수정: “읽지 않음” 탭에서 API가 비어있거나 미사용이라면, 전체 목록에서 unreadCount로 필터링해 fallback 제공
-    // const fallbackUnreadList =
-    //     tab === 'unread' && chatRooms
-    //         ? chatRooms.data.filter((item) => (item.unreadCount ?? 0) > 0)
-    //         : [];
-
-    // const visibleList =
-    //     tab === 'unread'
-    //         ? (visibleRooms?.data ?? fallbackUnreadList) // 수정: unread는 API 우선, 없으면 fallback
-    //         : (visibleRooms?.data ?? []);
-
-    const isLoading = !visibleRooms && tab === 'all' ? !chatRooms : !visibleRooms; // 수정: 탭 기준 로딩 판정
-    // const visiblaList = React.useMemo(() => {
-    //     if (!data) return [];
-    //     if (tab === 'all') return data;
-    //     return data.filter((item) => item.unreadCount > 0);
-    // }, [data, tab]);
+    const isLoading = !visibleRooms && tab === 'all' ? !chatRooms : !visibleRooms;
 
     React.useEffect(() => {
         connect();
@@ -78,14 +53,14 @@ const ChatListPage = () => {
                 </div>
             </div>
 
-            {/* {isLoading ? ( // 수정: 탭 기준 로딩 표시
+            {isLoading ? (
                 <div className="p-4 text-center">로딩 중입니다.</div>
-            ) : visibleList.length === 0 ? ( // 수정: 탭 기준 빈 목록 표시
+            ) : !visibleRooms ? (
                 <div className="p-4 text-center">
                     {tab === 'all' ? '채팅방이 없습니다.' : '읽지 않은 채팅이 없습니다.'}
                 </div>
             ) : (
-                visibleList.map((item) => {
+                visibleRooms.data.map((item) => {
                     return (
                         <div
                             key={item.chatRoomId}
@@ -116,7 +91,7 @@ const ChatListPage = () => {
                         </div>
                     );
                 })
-            )} */}
+            )}
         </div>
     );
 };
