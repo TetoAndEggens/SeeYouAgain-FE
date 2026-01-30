@@ -7,23 +7,17 @@ import { Search } from '@/components/layout/Search';
 import { useChatRoomData, useUnread } from '@/hook/chat/useChatList';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
-import { connect, disconnect } from '@/lib/stompClient';
 import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
 const ChatListPage = () => {
     const chatRooms: ChatRoomData | undefined = useChatRoomData();
     const unRead: ChatRoomData | undefined = useUnread(); // 기존 변수명 유지
-    const router = useRouter();
     const [tab, setTab] = React.useState<'all' | 'unread'>('all');
+    const router = useRouter();
 
     const visibleRooms = tab === 'all' ? chatRooms : unRead;
 
     const isLoading = !visibleRooms && tab === 'all' ? !chatRooms : !visibleRooms;
-
-    React.useEffect(() => {
-        connect();
-        return () => disconnect();
-    }, []);
 
     return (
         <div className="flex w-full flex-col">
