@@ -18,15 +18,10 @@ const ChatRoomPage = ({ params }: Props) => {
 
     const { chatMessage, isLoading, isError } = useMessage({
         chatRoomId,
-        cursorId: null,
+        cursorId: null, // 수정: useInfiniteQuery에서 pageParam으로 관리하지만, 기존 호출 흐름을 유지하려면 null로 두셔도 됩니다.
         size: 20,
         sortDirection: 'LATEST',
     });
-    // const { data: listData } = useChatListData();
-    // const { id } = React.use(params);
-    // const list = listData[id - 1];
-    // const { data } = useChatDetailData();
-    // console.log('listData : ', listData[id]);
 
     return (
         <div>
@@ -41,13 +36,12 @@ const ChatRoomPage = ({ params }: Props) => {
                     </button>
                     <button onClick={() => router.back()} className="cursor-pointer">
                         {/* <p className="text-lg font-bold">{list.userName}</p> */}
-                        {/* <p className="text-lg font-bold">{list.userName}</p> */}
                     </button>
                 </div>
             </div>
 
             <div>
-                {/* {isLoading ? (
+                {isLoading ? (
                     <div className="p-4 text-center">로딩 중입니다.</div>
                 ) : isError ? (
                     <div className="p-4 text-center">메시지를 불러오지 못했습니다.</div>
@@ -66,19 +60,19 @@ const ChatRoomPage = ({ params }: Props) => {
                             />
                         );
                     })
-                )} */}
+                )}
                 <div>
                     {/* <ChatPost title={list.title} post={list.post} className="rounded-lg border" /> */}
                 </div>
-                {/* {data.map((item, index) => {
+                {chatMessage?.data.map((item, index) => {
                     return (
                         <div key={index}>
                             <div className="flex justify-center">
                                 <p className="bg-gray-20 m-4 rounded-lg border px-4 py-2">
-                                    {item.date}
+                                    {item.createdAt}
                                 </p>
                             </div>
-                            {item.content.map((content, contentIdx) => {
+                            {/* {item.content.map((content, contentIdx) => {
                                 return (
                                     <div key={contentIdx}>
                                         <ChatMessage
@@ -88,10 +82,10 @@ const ChatRoomPage = ({ params }: Props) => {
                                         />
                                     </div>
                                 );
-                            })}
+                            })} */}
                         </div>
                     );
-                })} */}
+                })}
             </div>
 
             <div className="sticky bottom-0 flex items-center gap-4 bg-white p-2">
