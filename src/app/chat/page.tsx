@@ -4,20 +4,34 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Search } from '@/components/layout/Search';
-import { useChatRoomData, useUnread } from '@/hook/chat/useChatList';
+import { useChatRoomData, useUnreadRoomData } from '@/hook/chat/useChatList';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
 import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
 const ChatListPage = () => {
-    const chatRooms: ChatRoomData | undefined = useChatRoomData();
-    const unRead: ChatRoomData | undefined = useUnread(); // 기존 변수명 유지
+    const {
+        data: chatRooms,
+        fetchNextPage: fetchReadNextPage,
+        hasNextPage: hasReadNextPage,
+        isFetchingNextPage: isFetchingReadNextPage,
+        isLoading: isReadLoading,
+        isError: isReadError,
+    } = useChatRoomData({ cursorId: null, size: 10, sortDirection: 'LATEST' });
+
+    const {
+        data: unRead,
+        fetchNextPage: fetchUnreadNextPage,
+        hasNextPage: hasUnreadNextPage,
+        isFetchingNextPage: isFetchingUnreadNextPage,
+        isLoading: isUnreadLoading,
+        isError: isUnreadError,
+    } = useUnreadRoomData({ cursorId: null, size: 10, sortDirection: 'LATEST' });
+
     const [tab, setTab] = React.useState<'all' | 'unread'>('all');
     const router = useRouter();
 
     const visibleRooms = tab === 'all' ? chatRooms : unRead;
-
-    const isLoading = !visibleRooms && tab === 'all' ? !chatRooms : !visibleRooms;
 
     return (
         <div className="flex w-full flex-col">
@@ -47,7 +61,7 @@ const ChatListPage = () => {
                 </div>
             </div>
 
-            {isLoading ? (
+            {isReadLoading || isUnreadLoading ? (
                 <div className="p-4 text-center">로딩 중입니다.</div>
             ) : !visibleRooms ? (
                 <div className="p-4 text-center">
