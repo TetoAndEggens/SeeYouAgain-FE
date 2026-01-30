@@ -1,9 +1,9 @@
 import React from 'react';
 import { getRooms, getUnread } from '@/api/chat';
-import { ChatRoomParam, ChatRoomsPage } from '@/types/chat';
+import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
-export const useChatRoomData = (params?: ChatRoomParam): ChatRoomsPage | undefined => {
-    const [chatRooms, setChatRooms] = React.useState<ChatRoomsPage>();
+export const useChatRoomData = (params?: ChatRoomParam): ChatRoomData | undefined => {
+    const [chatRooms, setChatRooms] = React.useState<ChatRoomData>();
 
     React.useEffect(() => {
         let ignore = false;
@@ -28,8 +28,8 @@ export const useChatRoomData = (params?: ChatRoomParam): ChatRoomsPage | undefin
     return chatRooms;
 };
 
-export const useUnread = (param?: ChatRoomParam): ChatRoomsPage | undefined => {
-    const [chatUnread, setChatUnread] = React.useState<ChatRoomsPage>();
+export const useUnread = (param?: ChatRoomParam): ChatRoomData | undefined => {
+    const [chatUnread, setChatUnread] = React.useState<ChatRoomData>();
 
     React.useEffect(() => {
         let ignore = false;

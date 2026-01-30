@@ -1,9 +1,9 @@
 import React from 'react';
 import { getMessage } from '@/api/chat';
-import { MessageParam, MessagesPage } from '@/types/chat';
+import { MessageParam, MessageData } from '@/types/chat';
 
 export const useMessage = (param: MessageParam) => {
-    const [chatMessage, setChatMessage] = React.useState<MessagesPage | null>(null);
+    const [chatMessage, setChatMessage] = React.useState<MessageData | null>(null);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
     const [isError, setIsError] = React.useState<boolean>(false);
 
