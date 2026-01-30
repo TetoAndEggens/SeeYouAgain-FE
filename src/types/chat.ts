@@ -3,7 +3,7 @@ export type Title = (typeof Titles)[number];
 
 // 채팅 조회용 파라미터 타입
 export interface CommonParam {
-    cursorId?: string | null;
+    cursorId?: number | null;
     size?: number;
     sortDirection?: 'LATEST' | 'OLDEST';
 }

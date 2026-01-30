@@ -16,7 +16,7 @@ export const createRooms = async (boardId: number): Promise<number> => {
 };
 
 export const getMessage = async (params: MessageParam): Promise<MessageResponse> => {
-    const { data } = await axiosInstance.get(`chat/romms/${params.chatRoomId}/messages`, {
+    const { data } = await axiosInstance.get(`chat/rooms/${params.chatRoomId}/messages`, {
         params,
     });
     console.log('getMessage : ', data);
