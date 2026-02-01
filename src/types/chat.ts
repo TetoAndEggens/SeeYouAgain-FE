@@ -62,6 +62,12 @@ export interface MessageResponse {
     messages: MessageData;
 }
 
+// 채팅 전송 Dto
+export interface ChatSendDto {
+    chatRoomId: number;
+    content: string;
+}
+
 // 웹소켓 연결에 사용되는 data type
 export interface ChatMessageDto {
     chatRoomId: number;
@@ -70,4 +76,9 @@ export interface ChatMessageDto {
     receiverId: number;
     content: string;
     time: string;
+}
+
+// 읽음 알림 수신
+export interface ChatReadReceiveDto {
+    messageId: number;
 }

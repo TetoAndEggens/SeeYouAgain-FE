@@ -1,8 +1,6 @@
 import { Client, Message, StompSubscription } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { ChatMessageDto } from '@/types/chat';
-
-const senderId = 1;
+import { ChatSendDto } from '@/types/chat';
 
 // STOMP 클라이언트 생성
 const client = new Client({
@@ -19,27 +17,29 @@ const client = new Client({
 
 client.debug = (str) => console.log('[stomp debug]', str);
 
-let subscription: StompSubscription | null = null;
+// 개인 메시지 읽음 및 알림 구독
+let chatSubscription: StompSubscription | null = null;
+let readSubscription: StompSubscription | null = null;
 
-export const connect = () => {
-    if (client.active) return;
+// 구독 콜백
+let onChatMessage: ((payload: any) => void) | null = null;
+let onReadNotification: ((payload: { messageId: number }) => void) | null = null;
 
-    // 연결 이벤트 핸들러
+// 핸들 중복 세팅 방지
+let handlersBound = false;
+
+const bindHandlersOnce = () => {
+    if (handlersBound) return;
+    handlersBound = true;
+
     client.onConnect = (frame) => {
         console.log('Connected:', frame);
 
-        if (subscription) {
-            subscription.unsubscribe();
-            subscription = null;
+        if (onChatMessage) {
+            subscribePersonal(onChatMessage, onReadNotification ?? undefined);
         }
-
-        // 토픽 구독
-        subscription = client.subscribe(`/queue/chat-${senderId}`, (message: Message) => {
-            console.log('Received message:', message.body);
-        });
     };
 
-    // 연결 실패 이벤트 핸들러
     client.onStompError = (frame) => {
         console.error('Broker reported error:', frame.headers['message']);
         console.error('Additional details:', frame.body);
@@ -57,39 +57,103 @@ export const connect = () => {
         });
     };
 
-    client.debug = (str) => {
-        console.log('[STOMP Debug]:', str);
-    };
-
-    // 연결 해제 이벤트 핸들러
     client.onDisconnect = (frame) => {
         console.log('Disconnected:', frame);
-        // 연결 해제 시 수행할 추가 작업
     };
+};
 
-    // 클라이언트 연결
+export const connect = () => {
+    bindHandlersOnce();
+
+    if (client.active) return;
+
     client.activate();
 };
 
-export function geteMessage() {
-    if (!client.connected) return;
-}
+// 채팅방 구독 함수
+export const subscribePersonal = (
+    chatHandler: (payload: any) => void,
+    readHandler?: (payload: { messageId: number }) => void
+) => {
+    bindHandlersOnce();
+    onChatMessage = chatHandler;
+    onReadNotification = readHandler ?? null;
 
-export function sendMessage(data: ChatMessageDto) {
+    // 연결이 안 되어 있으면 연결부터 시작
+    if (!client.active) connect();
+
+    // connected가 아니면, onConnect에서 재호출
+    if (!client.connected) return;
+
+    // 기존 구독 해제
+    if (chatSubscription) {
+        chatSubscription.unsubscribe();
+        chatSubscription = null;
+    }
+
+    if (readSubscription) {
+        readSubscription.unsubscribe();
+        readSubscription = null;
+    }
+
+    // 개인 채팅 메시지 수신 구독 코드
+    chatSubscription = client.subscribe('/member/queue/chat', (message: Message) => {
+        try {
+            chatHandler(JSON.parse(message.body));
+        } catch {
+            chatHandler({ content: message.body });
+        }
+    });
+
+    // 읽음 알림 수신 구독 코드
+    if (readHandler) {
+        readSubscription = client.subscribe('/member/queue/chat/read', (message: Message) => {
+            try {
+                readHandler(JSON.parse(message.body));
+            } catch {
+                readHandler({ messageId: 0 });
+            }
+        });
+    }
+};
+
+// 채팅방 구독 해제 함수
+export const unsubscribePersonal = () => {
+    if (chatSubscription) {
+        chatSubscription.unsubscribe();
+        chatSubscription = null;
+    }
+    if (readSubscription) {
+        readSubscription.unsubscribe();
+        readSubscription = null;
+    }
+
+    onChatMessage = null;
+    onReadNotification = null;
+};
+
+// 채팅 전송 코드
+export const sendChatMessage = (data: ChatSendDto) => {
     if (!client.connected) return;
 
     client.publish({
         destination: '/pub/chat/send',
-        body: JSON.stringify(data), // 수정: DTO를 JSON으로
+        body: JSON.stringify(data),
     });
-}
+};
 
-// 임의로 연결 해제를 원할 때 사용할 함수
-export function disconnect(force: boolean = false) {
-    if (subscription) {
-        subscription.unsubscribe();
-        subscription = null;
-    }
+// 읽음 처리 전송 코드
+export const sendRead = (data: { messageId: number }) => {
+    if (!client.connected) return;
 
+    client.publish({
+        destination: '/pub/chat/read',
+        body: JSON.stringify(data),
+    });
+};
+
+// 연결 해제
+export const disconnect = (force: boolean = false) => {
+    unsubscribePersonal();
     client.deactivate({ force });
-}
+};
