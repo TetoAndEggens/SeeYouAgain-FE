@@ -22,7 +22,7 @@ let chatSubscription: StompSubscription | null = null;
 let readSubscription: StompSubscription | null = null;
 
 // 구독 콜백
-let onChatMessage: ((payload: any) => void) | null = null;
+let onChatMessage: ((payload: unknown) => void) | null = null;
 let onReadNotification: ((payload: { messageId: number }) => void) | null = null;
 
 // 핸들 중복 세팅 방지
@@ -72,7 +72,7 @@ export const connect = () => {
 
 // 채팅방 구독 함수
 export const subscribePersonal = (
-    chatHandler: (payload: any) => void,
+    chatHandler: (payload: unknown) => void,
     readHandler?: (payload: { messageId: number }) => void
 ) => {
     bindHandlersOnce();
@@ -99,9 +99,10 @@ export const subscribePersonal = (
     // 개인 채팅 메시지 수신 구독 코드
     chatSubscription = client.subscribe('/member/queue/chat', (message: Message) => {
         try {
-            chatHandler(JSON.parse(message.body));
+            const parsed: unknown = JSON.parse(message.body);
+            chatHandler(parsed);
         } catch {
-            chatHandler({ content: message.body });
+            chatHandler(message.body);
         }
     });
 
@@ -109,9 +110,23 @@ export const subscribePersonal = (
     if (readHandler) {
         readSubscription = client.subscribe('/member/queue/chat/read', (message: Message) => {
             try {
-                readHandler(JSON.parse(message.body));
+                const parsed: unknown = JSON.parse(message.body);
+
+                if (
+                    typeof parsed === 'object' &&
+                    parsed !== null &&
+                    'messageId' in parsed &&
+                    typeof (parsed as Record<string, unknown>).messageId === 'number'
+                ) {
+                    readHandler({
+                        messageId: (parsed as Record<string, unknown>).messageId as number,
+                    });
+                    return;
+                }
+
+                // messageId만 온다고 했으니, 파싱은 됐지만 형태가 다르면 호출하지 않습니다.
             } catch {
-                readHandler({ messageId: 0 });
+                // 파싱 실패 시에도 호출하지 않습니다.
             }
         });
     }
