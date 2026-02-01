@@ -30,26 +30,65 @@ const ChatRoomPage = ({ params }: Props) => {
         sortDirection: 'LATEST',
     });
 
+    // const { data: listData } = useChatListData();
+    // const { id } = React.use(params);
+    // const list = listData[id - 1];
+    // const { data } = useChatDetailData();
+    // console.log('listData : ', listData[id]);
+
     const [inputValue, setInputValue] = React.useState<string>('');
     const [liveMessages, setLiveMessages] = React.useState<MessageItem[]>([]);
+
+    const isRecord = (v: unknown): v is Record<string, unknown> =>
+        typeof v === 'object' && v !== null;
+
+    const toNumber = (v: unknown): number | null => {
+        if (typeof v === 'number' && Number.isFinite(v)) return v;
+        if (typeof v === 'string' && v.trim() !== '') {
+            const n = Number(v);
+            return Number.isFinite(n) ? n : null;
+        }
+        return null;
+    };
+
+    const toString = (v: unknown): string | null => {
+        if (typeof v === 'string') return v;
+        return null;
+    };
+
+    const toBoolean = (v: unknown): boolean | null => {
+        if (typeof v === 'boolean') return v;
+        return null;
+    };
 
     React.useEffect(() => {
         connect();
 
         // 개인 채널 구독 코드
-        subscribePersonal((payload: any) => {
-            if (payload?.chatRoomId !== undefined && Number(payload.chatRoomId) !== chatRoomId)
-                return;
+        subscribePersonal((payload: unknown) => {
+            const payloadRoomId = isRecord(payload) ? toNumber(payload.chatRoomId) : null;
+            if (payloadRoomId !== null && payloadRoomId !== chatRoomId) return;
 
-            const content = typeof payload === 'string' ? payload : payload?.content;
+            const content =
+                typeof payload === 'string'
+                    ? payload
+                    : isRecord(payload)
+                      ? toString(payload.content)
+                      : null;
+
             if (!content) return;
 
             const nextItem: MessageItem = {
-                messageId: payload?.messageId ?? Date.now(),
-                senderId: payload?.senderId ?? 0,
+                messageId: isRecord(payload)
+                    ? (toNumber(payload.messageId) ?? Date.now())
+                    : Date.now(),
+                senderId: isRecord(payload) ? (toNumber(payload.senderId) ?? 0) : 0,
                 content,
-                isRead: payload?.isRead ?? false,
-                createdAt: payload?.createdAt ?? payload?.time ?? new Date().toISOString(),
+                isRead: isRecord(payload) ? (toBoolean(payload.isRead) ?? false) : false,
+                createdAt:
+                    (isRecord(payload) ? toString(payload.createdAt) : null) ??
+                    (isRecord(payload) ? toString(payload.time) : null) ??
+                    new Date().toISOString(),
             };
 
             setLiveMessages((prev) => [...prev, nextItem]);
@@ -91,11 +130,32 @@ const ChatRoomPage = ({ params }: Props) => {
                     </button>
                     <button onClick={() => router.back()} className="cursor-pointer">
                         {/* <p className="text-lg font-bold">{list.userName}</p> */}
+                        {/* <p className="text-lg font-bold">{list.userName}</p> */}
                     </button>
                 </div>
             </div>
 
             <div className="flex-1 overflow-y-auto">
+                {/* {isLoading ? (
+                    <div className="p-4 text-center">로딩 중입니다.</div>
+                ) : isError ? (
+                    <div className="p-4 text-center">메시지를 불러오지 못했습니다.</div>
+                ) : !chatMessage || chatMessage.data.length === 0 ? (
+                    <div className="p-4 text-center">메시지가 없습니다.</div>
+                ) : (
+                    chatMessage.data.map((m) => {
+                        const mine = false; // 수정 필요(임시)
+
+                        return (
+                            <ChatMessage
+                                key={m.messageId}
+                                message={m.content}
+                                mine={mine}
+                                time={m.createdAt}
+                            />
+                        );
+                    })
+                )} */}
                 {isLoading ? (
                     <div className="p-4 text-center">로딩 중입니다.</div>
                 ) : isError ? (
@@ -121,8 +181,7 @@ const ChatRoomPage = ({ params }: Props) => {
                     {/* <ChatPost title={list.title} post={list.post} className="rounded-lg border" /> */}
                 </div>
 
-                {/* 날짜 표시 테스트 코드 */}
-                {/* {chatMessage?.data.map((item, index) => {
+                {chatMessage?.data.map((item, index) => {
                     return (
                         <div key={index}>
                             <div className="flex justify-center">
@@ -130,9 +189,20 @@ const ChatRoomPage = ({ params }: Props) => {
                                     {item.createdAt}
                                 </p>
                             </div>
+                            {/* {item.content.map((content, contentIdx) => {
+                                return (
+                                    <div key={contentIdx}>
+                                        <ChatMessage
+                                            message={content.message}
+                                            mine={content.isMe}
+                                            time={content.time}
+                                        />
+                                    </div>
+                                );
+                            })} */}
                         </div>
                     );
-                })} */}
+                })}
             </div>
 
             <div className="flex shrink-0 items-center gap-4 bg-white p-2">
