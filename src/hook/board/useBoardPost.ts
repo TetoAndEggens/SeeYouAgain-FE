@@ -123,57 +123,6 @@ export const useBoardPost = () => {
         });
     };
 
-    const getMyPost = (params: MyPostParam) => {
-        const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
-            useInfiniteQuery<
-                MyPostResponseData,
-                Error,
-                MyPostBoard,
-                (string | number | undefined)[],
-                number | null
-            >({
-                queryKey: ['myPost', params?.sortDirection, params?.size],
-                initialPageParam: null,
-                queryFn: ({ pageParam = null }) => {
-                    return fetchMyPosts({
-                        cursorId: pageParam,
-                        size: params?.size ?? 10,
-                        sortDirection: params?.sortDirection,
-                    });
-                },
-                getNextPageParam: (lastPage) => {
-                    return lastPage.board.hasNext ? lastPage.board.nextCursor : undefined;
-                },
-                select: (data) => {
-                    const boardCount = data.pages[0]?.boardCount ?? 0;
-                    const dataList = data.pages.flatMap((page) => page.board.data);
-                    const last = data.pages[data.pages.length - 1]?.board;
-
-                    return {
-                        boardCount,
-                        data: dataList,
-                        size: last?.size ?? params?.size ?? 10,
-                        nextCursor: last?.nextCursor ?? 0,
-                        hasNext: last?.hasNext ?? false,
-                        empty: dataList.length === 0,
-                    };
-                },
-            });
-
-        const boardCount = data?.boardCount ?? 0;
-        const dataList = data?.data ?? [];
-
-        return {
-            data: dataList,
-            boardCount,
-            fetchNextPage,
-            hasNextPage,
-            isFetchingNextPage,
-            isLoading,
-            isError,
-        };
-    };
-
     return {
         isSubmitting,
         selectedImages,
@@ -187,6 +136,56 @@ export const useBoardPost = () => {
         handleChangeInput,
         handleAddTag,
         handleDeleteTag,
-        getMyPost,
+    };
+};
+
+export const useMyPost = (params: MyPostParam) => {
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
+        useInfiniteQuery<
+            MyPostResponseData,
+            Error,
+            MyPostBoard,
+            (string | number | undefined)[],
+            number | null
+        >({
+            queryKey: ['myPost', params?.sortDirection, params?.size],
+            initialPageParam: null,
+            queryFn: ({ pageParam = null }) => {
+                return fetchMyPosts({
+                    cursorId: pageParam,
+                    size: params?.size ?? 10,
+                    sortDirection: params?.sortDirection,
+                });
+            },
+            getNextPageParam: (lastPage) => {
+                return lastPage.board.hasNext ? lastPage.board.nextCursor : undefined;
+            },
+            select: (data) => {
+                const boardCount = data.pages[0]?.boardCount ?? 0;
+                const dataList = data.pages.flatMap((page) => page.board.data);
+                const last = data.pages[data.pages.length - 1]?.board;
+
+                return {
+                    boardCount,
+                    data: dataList,
+                    size: last?.size ?? params?.size ?? 10,
+                    nextCursor: last?.nextCursor ?? 0,
+                    hasNext: last?.hasNext ?? false,
+                    empty: dataList.length === 0,
+                };
+            },
+        });
+
+    const boardCount = data?.boardCount ?? 0;
+    const dataList = (data?.data ?? []) as MyPostData[];
+
+    return {
+        data: dataList,
+        boardCount,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        isError,
     };
 };
