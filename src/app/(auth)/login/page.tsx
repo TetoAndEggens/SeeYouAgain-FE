@@ -45,7 +45,7 @@ const LoginPage = () => {
             <div className="mb-20">
                 <Image src="/logo.webp" alt="로고" width={140} height={140} />
             </div>
-            <div className="mb-15 flex w-[300px] flex-col gap-2">
+            <div className="mb-15 flex w-75 flex-col gap-2">
                 <Input
                     placeholder="아이디"
                     value={loginId}
@@ -68,7 +68,7 @@ const LoginPage = () => {
                     <Link href={'/signup'}>회원가입</Link>
                 </div>
             </div>
-            <div className="flex w-[300px] flex-col gap-3">
+            <div className="flex w-75 flex-col gap-3">
                 <KakaoLoginButton onClick={handleKakaoLogin} />
                 <NaverLoginButton onClick={handleNaverLogin} />
                 <GoogleLoginButton onClick={handleGoogleLogin} />
