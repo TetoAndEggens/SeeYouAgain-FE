@@ -1,6 +1,13 @@
 export type MyPostsParam = {};
 
-export type MyPostsData = {};
+export type MyPostsData = {
+    cardType: 'missing' | 'sighting';
+    name: string;
+    tags: string[];
+    location: string;
+    date: string;
+    image: string;
+};
 
 export type MyBookmarkData = {
     bookMarkId: number;

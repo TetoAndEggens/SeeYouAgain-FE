@@ -2,13 +2,13 @@ import Tag from '@/components/ui/tag';
 import { formatRelativeTime } from '@/lib/utils';
 import { Clock, MapPin } from 'lucide-react';
 
-type MissingLargeCardProps = {
+export type MissingLargeCardProps = {
     title: string;
     animalType: 'MISSING' | 'WITNESS';
-    breedType: string;
-    tags: string[];
-    city: string;
-    town: string;
+    breedType?: string;
+    tags?: string[] | undefined;
+    city?: string;
+    town?: string;
     createdAt: string;
     profile: string;
 };
@@ -56,7 +56,7 @@ export function MissingLargeCard({
             </div>
             <hr />
             <div className="flex gap-2">
-                {tags.map((tag) => (
+                {tags?.map((tag) => (
                     <Tag key={tag} variant="default" size="sm">
                         {tag}
                     </Tag>

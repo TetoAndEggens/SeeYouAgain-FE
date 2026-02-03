@@ -1,9 +1,9 @@
 import React from 'react';
-import { postMyBookMarkData, fetchMyBookMarkList } from '@/api/posts';
-import { MyBookmarkData } from '@/types/posts';
+import { postMyBookMarkData, fetchMyBookMarkList } from '@/api/bookmark';
+import { MyBookmarkData } from '@/types/bookmark';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const usePost = () => {
+export const useBookmark = () => {
     const [check, setCheck] = React.useState<boolean>(false);
 
     const queryClient = useQueryClient();
