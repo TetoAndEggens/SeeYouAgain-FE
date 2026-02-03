@@ -10,13 +10,11 @@ import {
     MissingLargeCard,
 } from '@/components/features/missing/MissingLargeCard';
 import { Trash2, CircleX } from 'lucide-react';
-import { useBoardPost } from '@/hook/board/useBoardPost';
+import { useMyPost } from '@/hook/board/useBoardPost';
 
 const MyPostsPage = () => {
-    const { getMyPost } = useBoardPost();
-
     const { data, boardCount, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
-        getMyPost({
+        useMyPost({
             cursorId: null,
             size: 10,
             sortDirection: 'LATEST',
