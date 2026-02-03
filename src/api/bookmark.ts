@@ -1,11 +1,6 @@
 import axiosInstance from '@/lib/axios';
 import { ServerResponseType } from '@/types/common';
-import { MyBookmarkList } from '@/types/posts';
-
-export const fetchMyPosts = async () => {
-    const { data } = await axiosInstance.get('');
-    return data;
-};
+import { MyBookmarkList } from '@/types/bookmark';
 
 export const postMyBookMarkData = async (id: number): Promise<number> => {
     const { status } = await axiosInstance.post(`bookmark/animals/${id}`);

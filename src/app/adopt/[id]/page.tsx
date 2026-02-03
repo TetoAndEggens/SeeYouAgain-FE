@@ -2,7 +2,7 @@
 
 import { use, useEffect } from 'react';
 import { fetchAdoptAnimalsById } from '@/api/animal';
-import { usePost } from '@/hook/posts/useMyPosts';
+import { useBookmark } from '@/hook/bookmark/useBookmark';
 import { Form } from '@/components/layout/Form';
 import { ImageCarousel } from '@/components/layout/ImageCarousel';
 import { InformationDetail } from '@/components/layout/InformationDetail';
@@ -26,7 +26,7 @@ const AdoptDetailPage = ({ params }: AdoptDetailPageProps) => {
         select: (data) => data.data,
     });
 
-    const { check, postBookmark, isBookmarked } = usePost();
+    const { check, postBookmark, isBookmarked } = useBookmark();
 
     useEffect(() => {
         if (id) {

@@ -71,3 +71,35 @@ export type BoardDataResponse = {
     boardCount: number;
     board: CursorPageResponse<BoardData>;
 };
+
+// board/my-list response type---
+export type MyPostParam = {
+    cursorId?: number | null;
+    size?: number;
+    sortDirection?: 'LATEST' | 'OLDEST';
+};
+
+export type MyPostData = {
+    boardId: number;
+    animalType: 'MISSING' | 'WITNESS';
+    title: string;
+    address: string;
+    createdAt: string;
+    updatedAt: string;
+    tags?: string[];
+    profile: string;
+};
+
+export type MyPostBoard = {
+    boardCount?: number;
+    data: MyPostData[];
+    size: number;
+    nextCursor: number;
+    hasNext: boolean;
+    empty: boolean;
+};
+
+export type MyPostResponseData = {
+    boardCount: number;
+    board: MyPostBoard;
+};
