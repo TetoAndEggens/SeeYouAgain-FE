@@ -1,4 +1,4 @@
-export type MyPostsParam = {};
+// export type MyPostsParam = {};
 
 export type MyPostsData = {
     cardType: 'missing' | 'sighting';
