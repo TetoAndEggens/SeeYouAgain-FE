@@ -1,12 +1,18 @@
+// 파일명: src/lib/stompClient.ts
+
 import { Client, Message, StompSubscription } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { ChatSendDto } from '@/types/chat';
+import type { ChatSendDto, ChatReadReceiveDto, ChatMessageDto } from '@/types/chat';
+
+// 서버 코드 기준으로 구독 destination 확정
+const CHAT_SUBSCRIBE_DEST = '/member/queue/chat';
+const READ_SUBSCRIBE_DEST = '/member/queue/chat/read';
 
 // STOMP 클라이언트 생성
 const client = new Client({
     webSocketFactory: () => {
+        // 서버가 withSockJS()를 쓰므로 SockJS로 연결
         return new SockJS('https://prod-api.seeyouagain.store/ws-stomp', null, {
-            // iframe transport 제외
             transports: ['websocket', 'xhr-streaming', 'xhr-polling'],
         });
     },
@@ -15,17 +21,18 @@ const client = new Client({
     heartbeatOutgoing: 4000,
 });
 
+// debug 로그
 client.debug = (str) => console.log('[stomp debug]', str);
 
-// 개인 메시지 읽음 및 알림 구독
+// 구독이 2개이므로 분리
 let chatSubscription: StompSubscription | null = null;
 let readSubscription: StompSubscription | null = null;
 
-// 구독 콜백
-let onChatMessage: ((payload: unknown) => void) | null = null;
-let onReadNotification: ((payload: { messageId: number }) => void) | null = null;
+// 연결 전 subscribe 호출을 대비해 핸들러 저장
+let onChatMessage: ((payload: ChatMessageDto) => void) | null = null;
+let onReadNotification: ((payload: ChatReadReceiveDto) => void) | null = null;
 
-// 핸들 중복 세팅 방지
+// 핸들러 중복 등록 방지
 let handlersBound = false;
 
 const bindHandlersOnce = () => {
@@ -35,6 +42,7 @@ const bindHandlersOnce = () => {
     client.onConnect = (frame) => {
         console.log('Connected:', frame);
 
+        // 재연결 시 자동 재구독
         if (onChatMessage) {
             subscribePersonal(onChatMessage, onReadNotification ?? undefined);
         }
@@ -62,6 +70,7 @@ const bindHandlersOnce = () => {
     };
 };
 
+// 연결 함수
 export const connect = () => {
     bindHandlersOnce();
 
@@ -70,69 +79,46 @@ export const connect = () => {
     client.activate();
 };
 
-// 채팅방 구독 함수
+// 구독 함수
 export const subscribePersonal = (
-    chatHandler: (payload: unknown) => void,
-    readHandler?: (payload: { messageId: number }) => void
+    chatHandler: (payload: ChatMessageDto) => void,
+    readHandler?: (payload: ChatReadReceiveDto) => void
 ) => {
     bindHandlersOnce();
+
+    // 핸들러 저장
     onChatMessage = chatHandler;
     onReadNotification = readHandler ?? null;
 
-    // 연결이 안 되어 있으면 연결부터 시작
+    // 연결 먼저 확인
     if (!client.active) connect();
-
-    // connected가 아니면, onConnect에서 재호출
     if (!client.connected) return;
 
-    // 기존 구독 해제
+    // 중복 구독 방지
     if (chatSubscription) {
         chatSubscription.unsubscribe();
         chatSubscription = null;
     }
-
     if (readSubscription) {
         readSubscription.unsubscribe();
         readSubscription = null;
     }
 
-    // 개인 채팅 메시지 수신 구독 코드
-    chatSubscription = client.subscribe('/member/queue/chat', (message: Message) => {
-        try {
-            const parsed: unknown = JSON.parse(message.body);
-            chatHandler(parsed);
-        } catch {
-            chatHandler(message.body);
-        }
+    // 서버 JSON에 맞게 전달
+    chatSubscription = client.subscribe(CHAT_SUBSCRIBE_DEST, (message: Message) => {
+        const parsed = JSON.parse(message.body) as ChatMessageDto;
+        chatHandler(parsed);
     });
 
-    // 읽음 알림 수신 구독 코드
     if (readHandler) {
-        readSubscription = client.subscribe('/member/queue/chat/read', (message: Message) => {
-            try {
-                const parsed: unknown = JSON.parse(message.body);
-
-                if (
-                    typeof parsed === 'object' &&
-                    parsed !== null &&
-                    'messageId' in parsed &&
-                    typeof (parsed as Record<string, unknown>).messageId === 'number'
-                ) {
-                    readHandler({
-                        messageId: (parsed as Record<string, unknown>).messageId as number,
-                    });
-                    return;
-                }
-
-                // messageId만 온다고 했으니, 파싱은 됐지만 형태가 다르면 호출하지 않습니다.
-            } catch {
-                // 파싱 실패 시에도 호출하지 않습니다.
-            }
+        readSubscription = client.subscribe(READ_SUBSCRIBE_DEST, (message: Message) => {
+            const parsed = JSON.parse(message.body) as ChatReadReceiveDto;
+            readHandler(parsed);
         });
     }
 };
 
-// 채팅방 구독 해제 함수
+// 구독 해제 함수
 export const unsubscribePersonal = () => {
     if (chatSubscription) {
         chatSubscription.unsubscribe();
@@ -147,7 +133,7 @@ export const unsubscribePersonal = () => {
     onReadNotification = null;
 };
 
-// 채팅 전송 코드
+// 서버 @MessageMapping("/chat/send")에 맞는 publish 목적지
 export const sendChatMessage = (data: ChatSendDto) => {
     if (!client.connected) return;
 
@@ -157,7 +143,7 @@ export const sendChatMessage = (data: ChatSendDto) => {
     });
 };
 
-// 읽음 처리 전송 코드
+// 읽음 처리 publish
 export const sendRead = (data: { messageId: number }) => {
     if (!client.connected) return;
 
