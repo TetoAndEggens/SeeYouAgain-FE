@@ -35,7 +35,8 @@ export const useMessage = (param: MessageParam) => {
         select: (data) => {
             const mergedData = data.pages.flatMap((page) => page.messages.data);
             const last = data.pages[data.pages.length - 1]?.messages;
-
+            console.log('useMessage select mergedData : ', mergedData);
+            console.log('useMessage select last : ', last);
             return {
                 data: mergedData,
                 size: last?.size ?? param.size ?? 20,

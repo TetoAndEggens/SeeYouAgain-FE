@@ -71,11 +71,11 @@ export interface ChatSendDto {
 // 웹소켓 연결에 사용되는 data type
 export interface ChatMessageDto {
     chatRoomId: number;
-    boardId: number;
+    messageId: number;
     senderId: number;
-    receiverId: number;
     content: string;
-    time: string;
+    isRead: boolean;
+    createdAt: string;
 }
 
 // 읽음 알림 수신
