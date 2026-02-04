@@ -31,5 +31,5 @@ export const postBoard = async (
 
 export const fetchMyPosts = async (params: MyPostParam): Promise<MyPostResponseData> => {
     const { data } = await axiosInstance.get('board/my-list', { params });
-    return data;
+    return data.data;
 };
