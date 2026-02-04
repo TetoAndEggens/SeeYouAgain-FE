@@ -47,6 +47,7 @@ const ChatRoomPage = ({ params }: Props) => {
                 senderId: payload.senderId,
                 content: payload.content,
                 isRead: payload.isRead,
+                isMyChat: payload.isMyChat,
                 createdAt: payload.createdAt,
             };
 
@@ -102,13 +103,11 @@ const ChatRoomPage = ({ params }: Props) => {
                     <div className="p-4 text-center">메시지가 없습니다.</div>
                 ) : (
                     mergedMessages.map((m) => {
-                        const mine = false;
-
                         return (
                             <ChatMessage
                                 key={m.messageId}
                                 message={m.content}
-                                mine={mine}
+                                mine={m.isMyChat}
                                 time={m.createdAt}
                             />
                         );
