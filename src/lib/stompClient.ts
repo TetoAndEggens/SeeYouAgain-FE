@@ -1,6 +1,6 @@
 // 파일명: src/lib/stompClient.ts
 
-import { Client, Message, StompSubscription } from '@stomp/stompjs';
+import { Client, Message, StompSubscription, type IFrame } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import type { ChatSendDto, ChatReadReceiveDto, ChatMessageDto } from '@/types/chat';
 
@@ -22,7 +22,7 @@ const client = new Client({
 });
 
 // debug 로그
-client.debug = (str) => console.log('[stomp debug]', str);
+client.debug = (str: string) => console.log('[stomp debug]', str);
 
 // 구독이 2개이므로 분리
 let chatSubscription: StompSubscription | null = null;
@@ -39,7 +39,7 @@ const bindHandlersOnce = () => {
     if (handlersBound) return;
     handlersBound = true;
 
-    client.onConnect = (frame) => {
+    client.onConnect = (frame: IFrame) => {
         console.log('Connected:', frame);
 
         // 재연결 시 자동 재구독
@@ -48,16 +48,16 @@ const bindHandlersOnce = () => {
         }
     };
 
-    client.onStompError = (frame) => {
+    client.onStompError = (frame: IFrame) => {
         console.error('Broker reported error:', frame.headers['message']);
         console.error('Additional details:', frame.body);
     };
 
-    client.onWebSocketError = (evt) => {
+    client.onWebSocketError = (evt: Event) => {
         console.error('WebSocket error:', evt);
     };
 
-    client.onWebSocketClose = (evt) => {
+    client.onWebSocketClose = (evt: CloseEvent) => {
         console.error('WebSocket close:', {
             code: evt.code,
             reason: evt.reason,
@@ -65,7 +65,7 @@ const bindHandlersOnce = () => {
         });
     };
 
-    client.onDisconnect = (frame) => {
+    client.onDisconnect = (frame: IFrame) => {
         console.log('Disconnected:', frame);
     };
 };
@@ -106,7 +106,9 @@ export const subscribePersonal = (
 
     // 서버 JSON에 맞게 전달
     chatSubscription = client.subscribe(CHAT_SUBSCRIBE_DEST, (message: Message) => {
+        console.log('message : ', message);
         const parsed = JSON.parse(message.body) as ChatMessageDto;
+        console.log('parsed : ', parsed);
         chatHandler(parsed);
     });
 
