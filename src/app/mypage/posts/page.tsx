@@ -110,7 +110,7 @@ const MyPostsPage = () => {
         return (
             <>
                 {data.map((item, index) => (
-                    <div key={`posts-${item.boardId}`} className="flex items-center">
+                    <div key={`posts-${item.boardId}`} className="flex items-center gap-3">
                         {useCheck && (
                             <Checkbox
                                 checked={checkItem[index] ?? false}
@@ -203,8 +203,8 @@ const MyPostsPage = () => {
 
             <div>
                 {useCheck && (
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                    <div className="mb-4 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
                             <Checkbox
                                 checked={checkAll}
                                 className="size-6"
