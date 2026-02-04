@@ -15,7 +15,7 @@ export const useChatRoomData = (params: ChatRoomParam) => {
             queryKey: ['chatRoomData', params?.sortDirection, params?.size],
             queryFn: ({ pageParam = null }) =>
                 getRooms({
-                    cursorId: pageParam, // 수정: 다음 페이지 커서를 cursorId로 전달
+                    cursorId: pageParam,
                     size: params?.size ?? 10,
                     sortDirection: params?.sortDirection ?? 'LATEST',
                 }),
@@ -52,7 +52,7 @@ export const useUnreadRoomData = (params: ChatRoomParam) => {
             queryKey: ['chatUnreadRoomData', params?.sortDirection, params?.size],
             queryFn: ({ pageParam = null }) =>
                 getUnread({
-                    cursorId: pageParam, // 수정: 다음 페이지 커서를 cursorId로 전달
+                    cursorId: pageParam,
                     size: params?.size ?? 10,
                     sortDirection: params?.sortDirection ?? 'LATEST',
                 }),
