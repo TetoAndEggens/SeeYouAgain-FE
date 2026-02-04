@@ -46,6 +46,7 @@ export interface Message {
     senderId: number;
     content: string;
     isRead: boolean;
+    isMyChat: boolean;
     createdAt: string;
 }
 
@@ -75,6 +76,7 @@ export interface ChatMessageDto {
     senderId: number;
     content: string;
     isRead: boolean;
+    isMyChat: boolean;
     createdAt: string;
 }
 
