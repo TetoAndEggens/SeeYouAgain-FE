@@ -1,4 +1,3 @@
-// 파일명: src/hook/chat/useMessage.ts
 import { getMessage } from '@/api/chat';
 import { MessageParam, MessageData, MessageResponse } from '@/types/chat';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -25,7 +24,7 @@ export const useMessage = (param: MessageParam) => {
                 chatRoomId: param.chatRoomId,
                 cursorId: pageParam,
                 size: param.size ?? 20,
-                sortDirection: param.sortDirection ?? 'LATEST',
+                sortDirection: param.sortDirection ?? 'OLDEST',
             }),
 
         getNextPageParam: (lastPage) => {

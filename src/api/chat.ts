@@ -2,7 +2,7 @@ import axiosInstance from '@/lib/axios';
 import { ChatRoomParam, ChatRoomResponse, MessageParam, MessageResponse } from '@/types/chat';
 
 export const getRooms = async (
-    params: ChatRoomParam = { cursorId: null, size: 10, sortDirection: 'LATEST' }
+    params: ChatRoomParam = { cursorId: null, size: 10, sortDirection: 'OLDEST' }
 ): Promise<ChatRoomResponse> => {
     const { data } = await axiosInstance.get('chat/rooms', { params });
     console.log('getRooms : ', data);
@@ -24,7 +24,7 @@ export const getMessage = async (params: MessageParam): Promise<MessageResponse>
 };
 
 export const getUnread = async (
-    params: ChatRoomParam = { cursorId: null, size: 10, sortDirection: 'LATEST' }
+    params: ChatRoomParam = { cursorId: null, size: 10, sortDirection: 'OLDEST' }
 ): Promise<ChatRoomResponse> => {
     const { data } = await axiosInstance.get('chat/rooms/unread', { params });
     console.log('getUnread : ', data);
