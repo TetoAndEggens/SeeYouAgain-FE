@@ -2,11 +2,10 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { useMessage } from '@/hook/chat/useMessage';
-// import { useChatListData, useChatDetailData } from '@/hook/chat/useChatListData';
-import { ChatMessage } from '@/components/layout/ChatMessage';
 import { ChevronLeft, Send } from 'lucide-react';
+import { ChatMessage } from '@/components/layout/ChatMessage';
 import { Input } from '@/components/ui/input';
+import { useMessage } from '@/hook/chat/useMessage';
 import {
     connect,
     subscribePersonal,
@@ -21,14 +20,17 @@ type Props = {
 
 const ChatRoomPage = ({ params }: Props) => {
     const router = useRouter();
+    const ref = React.useRef<HTMLDivElement>(null);
+    const bottomRef = React.useRef<boolean>(true);
     const chatRoomId = Number(params.id);
 
-    const { chatMessage, isLoading, isError } = useMessage({
-        chatRoomId,
-        cursorId: null,
-        size: 20,
-        sortDirection: 'OLDEST',
-    });
+    const { chatMessage, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
+        useMessage({
+            chatRoomId,
+            cursorId: null,
+            size: 20,
+            sortDirection: 'OLDEST',
+        });
 
     const [inputValue, setInputValue] = React.useState<string>('');
     const [liveMessages, setLiveMessages] = React.useState<MessageItem[]>([]);
@@ -64,6 +66,28 @@ const ChatRoomPage = ({ params }: Props) => {
         return [...base, ...liveMessages];
     }, [chatMessage?.data, liveMessages]);
 
+    const onScroll = React.useCallback(() => {
+        const el = ref.current;
+        if (!el) return;
+
+        const bottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+
+        bottomRef.current = bottom < 80;
+
+        if (bottom < 200 && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+    React.useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+
+        if (!bottomRef.current) return;
+
+        el.scrollTop = el.scrollHeight;
+    }, [mergedMessages.length]);
+
     const onSend = () => {
         const content = inputValue.trim();
         if (!content) return;
@@ -88,13 +112,10 @@ const ChatRoomPage = ({ params }: Props) => {
                     >
                         <ChevronLeft size={24} />
                     </button>
-                    <button onClick={() => router.back()} className="cursor-pointer">
-                        {/* <p className="text-lg font-bold">{list.userName}</p> */}
-                    </button>
                 </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto" ref={ref} onScroll={onScroll}>
                 {isLoading ? (
                     <div className="p-4 text-center">로딩 중입니다.</div>
                 ) : isError ? (
