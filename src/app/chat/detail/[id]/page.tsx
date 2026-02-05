@@ -13,6 +13,7 @@ import {
     sendChatMessage,
 } from '@/lib/stompClient';
 import type { Message as MessageItem } from '@/types/chat';
+import { formatChatTime } from '@/lib/utils';
 
 type Props = {
     params: { id: string };
@@ -50,7 +51,7 @@ const ChatRoomPage = ({ params }: Props) => {
                 content: payload.content,
                 isRead: payload.isRead,
                 isMyChat: payload.isMyChat,
-                createdAt: payload.createdAt,
+                createdAt: formatChatTime(payload.createdAt),
             };
 
             setLiveMessages((prev) => [...prev, nextItem]);

@@ -1,8 +1,7 @@
 import { getMessage } from '@/api/chat';
-import { format, formatDistanceToNow } from 'date-fns';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { MessageParam, MessageData, MessageResponse, Message } from '@/types/chat';
-import { ko } from 'date-fns/locale';
+import { formatChatTime } from '@/lib/utils';
 
 export const useMessage = (param: MessageParam) => {
     const {
@@ -40,19 +39,7 @@ export const useMessage = (param: MessageParam) => {
                 let temp: Message[] = [];
 
                 temp = message.map((m) => {
-                    const day = new Date(m.createdAt);
-                    const diff = (now - day.getTime()) / 1000;
-                    let time: string;
-
-                    if (diff < 60 * 1) {
-                        time = '방금 전';
-                    } else if (diff < 60 * 60 * 24) {
-                        time = formatDistanceToNow(day, { addSuffix: true, locale: ko });
-                    } else {
-                        time = format(day, 'MM-dd a h:m', { locale: ko });
-                    }
-
-                    return { ...m, createdAt: time };
+                    return { ...m, createdAt: formatChatTime(m.createdAt) };
                 });
 
                 return temp;
