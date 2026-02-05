@@ -27,7 +27,7 @@ const ChatRoomPage = ({ params }: Props) => {
         chatRoomId,
         cursorId: null,
         size: 20,
-        sortDirection: 'LATEST',
+        sortDirection: 'OLDEST',
     });
 
     const [inputValue, setInputValue] = React.useState<string>('');

@@ -17,7 +17,7 @@ export const useChatRoomData = (params: ChatRoomParam) => {
                 getRooms({
                     cursorId: pageParam,
                     size: params?.size ?? 10,
-                    sortDirection: params?.sortDirection ?? 'LATEST',
+                    sortDirection: params?.sortDirection ?? 'OLDEST',
                 }),
             getNextPageParam: (lastPage) => {
                 return lastPage.chatRooms.hasNext ? lastPage.chatRooms.nextCursor : undefined;
@@ -54,7 +54,7 @@ export const useUnreadRoomData = (params: ChatRoomParam) => {
                 getUnread({
                     cursorId: pageParam,
                     size: params?.size ?? 10,
-                    sortDirection: params?.sortDirection ?? 'LATEST',
+                    sortDirection: params?.sortDirection ?? 'OLDEST',
                 }),
             getNextPageParam: (lastPage) => {
                 return lastPage.chatRooms.hasNext ? lastPage.chatRooms.nextCursor : undefined;

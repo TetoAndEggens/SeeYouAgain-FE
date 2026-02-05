@@ -1,20 +1,26 @@
 'use client';
 
 import React, { use } from 'react';
+import { useRouter } from 'next/navigation';
+// api
+import { fetchBoardById } from '@/api/board';
+// 컴포넌트
 import { Avatar } from '@/components/layout/Avatar';
 import Tag from '@/components/ui/tag';
 import { Form } from '@/components/layout/Form';
 import { InformationDetail } from '@/components/layout/InformationDetail';
 import { Button } from '@/components/ui/button';
-import { Siren } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchBoardById } from '@/api/board';
-import { useRouter } from 'next/navigation';
 import { ImageCarousel } from '@/components/layout/ImageCarousel';
 import { StaticMap } from '@/components/features/map/StaticMap';
 import { formatRelativeTime } from '@/lib/utils';
 import { formatSex } from '@/lib/format-utils';
+// 상태관리
+import { useQuery } from '@tanstack/react-query';
+// 훅
 import useKakaoLoader from '@/hook/map/useKakaoLoader';
+import { useCreateRooms } from '@/hook/chat/useCreateChat';
+// 아이콘
+import { Siren } from 'lucide-react';
 
 interface MissingDetailPageProps {
     params: Promise<{ id: string }>;
@@ -22,6 +28,7 @@ interface MissingDetailPageProps {
 const LostDetailPage = ({ params }: MissingDetailPageProps) => {
     const [loading, error] = useKakaoLoader();
     const router = useRouter();
+    const mutation = useCreateRooms();
     const { id } = use(params);
     const { data: missingDetail, isLoading } = useQuery({
         queryKey: ['boardListById', id],
@@ -30,7 +37,7 @@ const LostDetailPage = ({ params }: MissingDetailPageProps) => {
     });
 
     if (isLoading) return <div>로딩중</div>;
-    if (!missingDetail) return <div>404</div>; //추후에 대체
+    if (!missingDetail) return <div>404</div>;
 
     return (
         <div className="flex flex-col">
@@ -114,7 +121,7 @@ const LostDetailPage = ({ params }: MissingDetailPageProps) => {
                 </div>
             </Form>
             <div className="sticky bottom-0 z-10 bg-white p-4">
-                <Button className="w-full" onClick={() => router.push('/chat')}>
+                <Button className="w-full" onClick={() => mutation.mutate(Number(id))}>
                     채팅하기
                 </Button>
             </div>

@@ -35,6 +35,16 @@ let onReadNotification: ((payload: ChatReadReceiveDto) => void) | null = null;
 // 핸들러 중복 등록 방지
 let handlersBound = false;
 
+// 연결 함수
+export const connect = () => {
+    bindHandlersOnce();
+
+    if (client.active) return;
+
+    client.activate();
+};
+
+// client 이벤트 핸들러를 바인딩
 const bindHandlersOnce = () => {
     if (handlersBound) return;
     handlersBound = true;
@@ -68,15 +78,6 @@ const bindHandlersOnce = () => {
     client.onDisconnect = (frame: IFrame) => {
         console.log('Disconnected:', frame);
     };
-};
-
-// 연결 함수
-export const connect = () => {
-    bindHandlersOnce();
-
-    if (client.active) return;
-
-    client.activate();
 };
 
 // 구독 함수
