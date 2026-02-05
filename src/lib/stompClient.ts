@@ -1,5 +1,3 @@
-// 파일명: src/lib/stompClient.ts
-
 import { Client, Message, StompSubscription, type IFrame } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import type { ChatSendDto, ChatReadReceiveDto, ChatMessageDto } from '@/types/chat';
