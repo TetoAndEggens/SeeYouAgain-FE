@@ -29,3 +29,9 @@ export interface PhoneVerifyResponse {
         role: string;
     } | null;
 }
+
+export interface User {
+    nickName: string;
+    profile: string;
+    isPushEnabled: boolean;
+}

@@ -2,9 +2,10 @@ import { useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import axiosInstance from '@/lib/axios';
 import { usePathname } from 'next/navigation';
+import { getMemberInfo } from '@/api/member';
 
 export const useAuth = () => {
-    const { login, logout, setLoading, isAuthenticated } = useAuthStore();
+    const { login, logout, setLoading, setUser, isAuthenticated } = useAuthStore();
     const pathname = usePathname();
 
     useEffect(() => {
@@ -21,8 +22,12 @@ export const useAuth = () => {
             setLoading(true);
 
             try {
-                const { data } = await axiosInstance.post('/auth/reissue');
+                await axiosInstance.post('/auth/reissue');
+
+                const { data } = await getMemberInfo();
+
                 login();
+                setUser(data);
             } catch (error) {
                 logout();
                 // 이미 로그인 페이지가 아닐 때만 리다이렉트
