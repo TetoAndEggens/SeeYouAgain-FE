@@ -1,4 +1,5 @@
 import axiosInstance from '@/lib/axios';
+import { User } from '@/types/auth';
 import { ServerResponseType } from '@/types/common';
 
 /**
@@ -33,5 +34,10 @@ export const updatePushSetting = async (
  */
 export const getPushSetting = async (): Promise<ServerResponseType<PushSettingResponse>> => {
     const { data } = await axiosInstance.get('/member/push');
+    return data;
+};
+
+export const getMemberInfo = async (): Promise<ServerResponseType<User>> => {
+    const { data } = await axiosInstance.get('/member/me');
     return data;
 };

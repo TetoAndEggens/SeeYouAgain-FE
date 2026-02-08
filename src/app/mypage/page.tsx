@@ -9,8 +9,8 @@ import { useWithdrawal } from '@/hook/auth/useWithdrawal';
 import { useFcm } from '@/hook/fcm/useFcm';
 
 const MyPage = () => {
-    const { logout } = useAuthStore();
     const router = useRouter();
+    const { logout, user } = useAuthStore();
     const { handleWithdrawal, isLoading } = useWithdrawal();
     const { removeFcmToken } = useFcm();
 
@@ -26,10 +26,17 @@ const MyPage = () => {
     return (
         <div>
             <div className="flex items-center gap-4 p-6">
-                <div className="bg-gray-20 border- h-16 w-16 rounded-full"></div>
+                {user?.profile ? (
+                    <img
+                        src={user.profile}
+                        alt={user.nickName}
+                        className="h-16 w-16 rounded-full object-cover"
+                    />
+                ) : (
+                    <div className="bg-gray-20 h-16 w-16 rounded-full"></div>
+                )}
                 <div>
-                    <p className="mb-2 text-[1.25rem] font-bold">김유기</p>
-                    <p>test@email.com</p>
+                    <p className="text-[1.25rem] font-bold">{user?.nickName || '사용자'}</p>
                 </div>
             </div>
             <hr></hr>
