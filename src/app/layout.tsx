@@ -2,13 +2,12 @@
 import localFont from 'next/font/local';
 import './globals.css';
 
-import { cn } from '@/lib/utils';
 import { Header } from '../components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import { NavigationMenu } from '@/components/layout/NavigationMenu';
 import QueryProvider from '@/providers/QueryProvider';
 import { AuthProvider } from '@/providers/AuthProvider';
-import { Toaster } from 'sonner'; // 전역 toast 렌더링을 위해 Toaster를 추가했습니다.
+import { Toaster } from 'sonner';
 
 const pretendard = localFont({
     src: [
@@ -39,7 +38,7 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
     title: 'SeeYouAgain',
-    description: '?꾨줈?앺듃 ?ㅻ챸',
+    description: '프로젝트 설명',
     manifest: '/manifest.json',
     appleWebApp: {
         capable: true,
@@ -64,7 +63,6 @@ export default function RootLayout({
     return (
         <html lang="ko" className={pretendard.variable}>
             <body className={`${pretendard.className} flex h-screen flex-col`}>
-                {/* 濡쒓렇???곹깭 ?몄쬆???꾪븳 provider */}
                 <AuthProvider>
                     <Header />
                     <QueryProvider>
@@ -72,7 +70,7 @@ export default function RootLayout({
                     </QueryProvider>
                     <NavigationMenu />
                     <Sidebar />
-                    <Toaster richColors position="top-center" /> {/* 페이지 전환 시에도 toast가 보이도록 루트에 배치했습니다. */}
+                    <Toaster richColors position="top-center" />
                 </AuthProvider>
             </body>
         </html>
