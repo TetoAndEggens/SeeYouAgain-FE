@@ -1,42 +1,62 @@
-import React from 'react';
 import { getMessage } from '@/api/chat';
-import { MessageParam, MessagesPage } from '@/types/chat';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { MessageParam, MessageData, MessageResponse, Message } from '@/types/chat';
+import { formatChatTime } from '@/lib/utils';
 
 export const useMessage = (param: MessageParam) => {
-    const [chatMessage, setChatMessage] = React.useState<MessagesPage | null>(null);
-    const [isLoading, setIsLoading] = React.useState<boolean>(true);
-    const [isError, setIsError] = React.useState<boolean>(false);
+    const {
+        data: chatMessage,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        isError,
+    } = useInfiniteQuery<
+        MessageResponse,
+        Error,
+        MessageData,
+        (string | number | undefined)[],
+        number | null
+    >({
+        queryKey: ['chatMessage', param.chatRoomId, param.sortDirection, param.size],
 
-    React.useEffect(() => {
-        let ignore = false;
+        queryFn: ({ pageParam = null }) =>
+            getMessage({
+                chatRoomId: param.chatRoomId,
+                cursorId: pageParam,
+                size: param.size ?? 20,
+                sortDirection: param.sortDirection ?? 'OLDEST',
+            }),
 
-        const getChatMessage = async () => {
-            setIsLoading(true);
-            setIsError(false);
+        getNextPageParam: (lastPage) => {
+            return lastPage.messages.hasNext ? lastPage.messages.nextCursor : undefined;
+        },
 
-            try {
-                const data = await getMessage(param);
-                if (!ignore) {
-                    setChatMessage(data.messages);
-                }
-            } catch {
-                if (!ignore) {
-                    setIsError(true);
-                    setChatMessage(null);
-                }
-            } finally {
-                if (!ignore) {
-                    setIsLoading(false);
-                }
-            }
-        };
+        select: (data) => {
+            const now = Date.now();
+            const mergedData = data.pages.flatMap((page) => {
+                const message = page.messages.data;
+                let temp: Message[] = [];
 
-        getChatMessage();
+                temp = message.map((m) => {
+                    return { ...m, createdAt: formatChatTime(m.createdAt) };
+                });
 
-        return () => {
-            ignore = true; // 수정: cleanup
-        };
-    }, [param.chatRoomId, param.cursorId, param.size, param.sortDirection]);
+                return temp;
+            });
+            const last = data.pages[data.pages.length - 1]?.messages;
 
-    return { chatMessage, isLoading, isError };
+            return {
+                data: mergedData,
+                size: last?.size ?? param.size ?? 20,
+                nextCursor: last?.nextCursor ?? 0,
+                hasNext: last?.hasNext ?? false,
+                empty: mergedData.length === 0,
+            };
+        },
+
+        initialPageParam: null,
+    });
+
+    return { chatMessage, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError };
 };

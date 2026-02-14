@@ -5,8 +5,9 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '../components/layout/Header';
 import { NavigationMenu } from '@/components/layout/NavigationMenu';
-import QueryProvider from '@/providers/QueryProvider';
 import { AuthProvider } from '@/providers/AuthProvider';
+import QueryProvider from '@/providers/QueryProvider';
+import ChatSocketProvider from '@/providers/ChatSocketProvider';
 
 const pretendard = localFont({
     src: [
@@ -66,6 +67,7 @@ export default function RootLayout({
                 <AuthProvider>
                     <Header />
                     <QueryProvider>
+                        <ChatSocketProvider />
                         <main className="relative h-full overflow-y-auto">{children}</main>
                     </QueryProvider>
                     <NavigationMenu />

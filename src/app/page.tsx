@@ -9,6 +9,7 @@ import { MissingSmallCardSkeleton } from '@/components/features/missing/MissingS
 import { useQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import React from 'react';
 
 export default function Home() {
     const { data: adoptData, isLoading: adoptLoading } = useQuery({

@@ -1,15 +1,16 @@
 const Titles = ['MISSING', 'WITNESS', 'ABANDONED'] as const;
 export type Title = (typeof Titles)[number];
 
+// 채팅 조회용 파라미터 타입
 export interface CommonParam {
-    cursorId?: string | null;
+    cursorId?: number | null;
     size?: number;
     sortDirection?: 'LATEST' | 'OLDEST';
 }
 
 export type ChatRoomParam = CommonParam;
 
-export interface ChatRoomItem {
+export interface ChatData {
     chatRoomId: number;
     boardId: number;
     boardTitle: string;
@@ -22,38 +23,64 @@ export interface ChatRoomItem {
     unreadCount: number;
 }
 
-export interface ChatRoomsPage {
-    data: ChatRoomItem[];
+export interface ChatRoomData {
+    data: ChatData[];
     size: number;
-    nextCursor: number | null;
+    nextCursor: number;
     hasNext: boolean;
     empty: boolean;
 }
 
-export interface ChatRoomData {
-    chatRooms: ChatRoomsPage;
+// 채팅 목록 데이터 타입
+export interface ChatRoomResponse {
+    chatRooms: ChatRoomData;
 }
 
+// 채팅 내역 조회용 파라미터 타입
 export interface MessageParam extends CommonParam {
     chatRoomId: number;
 }
 
-export interface MessageItem {
+export interface Message {
     messageId: number;
     senderId: number;
     content: string;
     isRead: boolean;
+    isMyChat: boolean;
     createdAt: string;
 }
 
-export interface MessagesPage {
-    data: MessageItem[];
+export interface MessageData {
+    data: Message[];
     size: number;
-    nextCursor: number | null;
+    nextCursor: number;
     hasNext: boolean;
     empty: boolean;
 }
 
-export interface Message {
-    messages: MessagesPage;
+// 채팅 내역 데이터 타입
+export interface MessageResponse {
+    messages: MessageData;
+}
+
+// 채팅 전송 Dto
+export interface ChatSendDto {
+    chatRoomId: number;
+    content: string;
+}
+
+// 웹소켓 연결에 사용되는 data type
+export interface ChatMessageDto {
+    chatRoomId: number;
+    messageId: number;
+    senderId: number;
+    content: string;
+    isRead: boolean;
+    isMyChat: boolean;
+    createdAt: string;
+}
+
+// 읽음 알림 수신
+export interface ChatReadReceiveDto {
+    messageId: number;
 }

@@ -4,31 +4,34 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Search } from '@/components/layout/Search';
-import { useChatRoomData, useUnread } from '@/hook/chat/useChatList';
+import { useChatRoomData, useUnreadRoomData } from '@/hook/chat/useChatList';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
+import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
 const ChatListPage = () => {
-    const chatRooms = useChatRoomData();
-    const unRead = useUnread(); // 기존 변수명 유지
-    const router = useRouter();
+    const {
+        data: chatRooms,
+        fetchNextPage: fetchReadNextPage,
+        hasNextPage: hasReadNextPage,
+        isFetchingNextPage: isFetchingReadNextPage,
+        isLoading: isReadLoading,
+        isError: isReadError,
+    } = useChatRoomData({ cursorId: null, size: 10, sortDirection: 'LATEST' });
+
+    const {
+        data: unRead,
+        fetchNextPage: fetchUnreadNextPage,
+        hasNextPage: hasUnreadNextPage,
+        isFetchingNextPage: isFetchingUnreadNextPage,
+        isLoading: isUnreadLoading,
+        isError: isUnreadError,
+    } = useUnreadRoomData({ cursorId: null, size: 10, sortDirection: 'LATEST' });
+
     const [tab, setTab] = React.useState<'all' | 'unread'>('all');
+    const router = useRouter();
 
-    // 수정: 탭에 따라 보여줄 데이터 선택
     const visibleRooms = tab === 'all' ? chatRooms : unRead;
-
-    // 수정: “읽지 않음” 탭에서 API가 비어있거나 미사용이라면, 전체 목록에서 unreadCount로 필터링해 fallback 제공
-    const fallbackUnreadList =
-        tab === 'unread' && chatRooms
-            ? chatRooms.data.filter((item) => (item.unreadCount ?? 0) > 0)
-            : [];
-
-    const visibleList =
-        tab === 'unread'
-            ? (visibleRooms?.data ?? fallbackUnreadList) // 수정: unread는 API 우선, 없으면 fallback
-            : (visibleRooms?.data ?? []);
-
-    const isLoading = !visibleRooms && tab === 'all' ? !chatRooms : !visibleRooms; // 수정: 탭 기준 로딩 판정
 
     return (
         <div className="flex w-full flex-col">
@@ -58,14 +61,14 @@ const ChatListPage = () => {
                 </div>
             </div>
 
-            {isLoading ? ( // 수정: 탭 기준 로딩 표시
+            {isReadLoading || isUnreadLoading ? (
                 <div className="p-4 text-center">로딩 중입니다.</div>
-            ) : visibleList.length === 0 ? ( // 수정: 탭 기준 빈 목록 표시
+            ) : !visibleRooms ? (
                 <div className="p-4 text-center">
                     {tab === 'all' ? '채팅방이 없습니다.' : '읽지 않은 채팅이 없습니다.'}
                 </div>
             ) : (
-                visibleList.map((item) => {
+                visibleRooms.data.map((item) => {
                     return (
                         <div
                             key={item.chatRoomId}
