@@ -3,6 +3,7 @@
 import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Bell, Menu, ChevronLeft, X } from 'lucide-react';
+import { useSidebarStore } from '@/store/sidebar';
 
 type Variant = 'default' | 'back' | 'backOnly' | 'close' | 'hidden';
 
@@ -63,12 +64,18 @@ function HeaderControl(pathname: string | null) {
 export function Header() {
     const router = useRouter();
     const pathname = usePathname();
+    const { isOpen, openSidebar, closeSidebar } = useSidebarStore();
 
     const headerControl = React.useMemo(() => HeaderControl(pathname), [pathname]);
 
     if (headerControl.variant === 'hidden') return null;
 
     const variant = headerControl.variant as Variant;
+
+    function menuClick() {
+        console.log('isOpen : ', isOpen);
+        isOpen ? closeSidebar() : openSidebar();
+    }
 
     const iconConfig: Record<Variant, { leftIcons: Action[]; rightIcons: Action[] }> = {
         default: {
@@ -83,7 +90,7 @@ export function Header() {
                 {
                     key: 'menu',
                     ariaLabel: '메뉴',
-                    onClick: () => console.log('메뉴 클릭'),
+                    onClick: () => menuClick(),
                     icon: <Menu size={24} />,
                 },
             ],
@@ -107,7 +114,7 @@ export function Header() {
                 {
                     key: 'menu',
                     ariaLabel: '메뉴',
-                    onClick: () => console.log('메뉴 클릭'),
+                    onClick: () => menuClick(),
                     icon: <Menu size={24} />,
                 },
             ],

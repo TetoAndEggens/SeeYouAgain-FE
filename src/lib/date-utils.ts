@@ -1,7 +1,7 @@
 /**
- * ��D�| �%D � �t| İi��.
- * @param birthYear - ��D� (: 2025)
- * @returns � �t (�� (t)
+ * 출생 연도로 한국식 나이를 계산합니다.
+ * @param birthYear - 출생 연도
+ * @returns 현재 연도 기준 한국식 나이
  */
 export function calculateAgeFromYear(birthYear: number): number {
     const currentYear = new Date().getFullYear();
@@ -9,9 +9,9 @@ export function calculateAgeFromYear(birthYear: number): number {
 }
 
 /**
- * �D�|D �%D U\ � �t| İi��.
- * @param birthDate - �D�| (Date � � ISO 8��)
- * @returns � �t
+ * 출생일로 만 나이를 계산합니다.
+ * @param birthDate
+ * @returns 만 나이
  */
 export function calculateAge(birthDate: Date | string): number {
     const birth = typeof birthDate === 'string' ? new Date(birthDate) : birthDate;
@@ -20,7 +20,7 @@ export function calculateAge(birthDate: Date | string): number {
     let age = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
 
-    // �|t D� H ��<t -1
+    // 생일이 아직 지나지 않았으면 나이를 1 줄입니다.
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
         age--;
     }
