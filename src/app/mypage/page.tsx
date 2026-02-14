@@ -7,28 +7,12 @@ import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useWithdrawal } from '@/hook/auth/useWithdrawal';
 import { useFcm } from '@/hook/fcm/useFcm';
-import { toast } from 'sonner';
 
 const MyPage = () => {
     const router = useRouter();
-    const { isAuthenticated, isLoading: authLoading, logout, user } = useAuthStore();
+    const { logout, user } = useAuthStore();
     const { handleWithdrawal, isLoading } = useWithdrawal();
     const { removeFcmToken } = useFcm();
-
-    React.useEffect(() => {
-        router.prefetch('/login');
-    }, [router]);
-
-    React.useEffect(() => {
-        if (!authLoading && !isAuthenticated) {
-            toast.error('로그인이 필요합니다.');
-            router.replace('/login');
-        }
-    }, [authLoading, isAuthenticated, router]);
-
-    if (authLoading || !isAuthenticated) {
-        return null;
-    }
 
     const handleLogout = async () => {
         const confirmed = confirm('로그아웃 하시겠습니까?');
