@@ -33,7 +33,7 @@ export default function MissingPage() {
                 <div className="flex justify-start gap-1">
                     총 <p className="text-[#FFB84D]">{boardData.length}건</p>의 게시글
                 </div>
-                <div className="flexjustify-end">
+                <div className="flex justify-end">
                     <div className="flex gap-2">
                         <CustomSelect
                             options={[
