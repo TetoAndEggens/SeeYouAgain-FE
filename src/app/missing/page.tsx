@@ -55,7 +55,7 @@ export default function MissingPage() {
                     </div>
                 </div>
             </div>
-            <div className="bg-gray-10 flex-1 p-4">
+            <div className="bg-gray-10 flex flex-1 flex-col gap-4 p-4">
                 {isLoading ? (
                     <div className="flex flex-col gap-4">
                         {[...Array(5)].map((_, i) => (
