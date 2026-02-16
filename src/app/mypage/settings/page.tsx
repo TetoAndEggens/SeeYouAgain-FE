@@ -32,7 +32,7 @@ const SettingsPage = () => {
     } = useKeyword();
 
     // FCM 관련 상태
-    const { permission, isSupported } = useFcm();
+    const { permission, isSupported, token } = useFcm();
     const { isPushEnabled, checkPushStatus, setPushEnabled } = useNotificationStore();
 
     // 알림 설정 관련
@@ -228,6 +228,7 @@ const SettingsPage = () => {
                         />
                     </div>
                 </div>
+                {token && <p>{token}</p>}
             </div>
 
             {/* 알림 권한 요청 다이얼로그 */}
