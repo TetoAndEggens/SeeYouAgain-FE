@@ -2,18 +2,28 @@ import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { getMessaging, Messaging, isSupported } from 'firebase/messaging';
 
 // Firebase 설정 - 나중에 실제 값으로 교체 필요
+// const firebaseConfig = {
+//     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'YOUR_API_KEY',
+//     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'YOUR_AUTH_DOMAIN',
+//     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'YOUR_PROJECT_ID',
+//     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'YOUR_STORAGE_BUCKET',
+//     messagingSenderId:
+//         process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || 'YOUR_MESSAGING_SENDER_ID',
+//     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || 'YOUR_APP_ID',
+// };
+
 const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'YOUR_API_KEY',
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'YOUR_AUTH_DOMAIN',
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'YOUR_PROJECT_ID',
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'YOUR_STORAGE_BUCKET',
-    messagingSenderId:
-        process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || 'YOUR_MESSAGING_SENDER_ID',
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || 'YOUR_APP_ID',
+    apiKey: 'AIzaSyCvM_PCuP8ebKKkzQybBXxp7ROZWJw6Kt4',
+    authDomain: 'seeyouagain-4c7fd.firebaseapp.com',
+    projectId: 'seeyouagain-4c7fd',
+    storageBucket: 'seeyouagain-4c7fd.firebasestorage.app',
+    messagingSenderId: '766195192478',
+    appId: '1:766195192478:web:389929d80c8ca737b4a18f',
 };
 
 // VAPID Key - 나중에 실제 값으로 교체 필요
-export const VAPID_KEY = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || 'YOUR_VAPID_KEY';
+export const VAPID_KEY =
+    'BKj4QD-R66lRmsjs79_jW3Wf_nAZOfUo9I8OTHc-qVUhoKTj84bnjV8qxhlNawSAtiGhsZIUjMLdd1dVGgdMKjU';
 
 let app: FirebaseApp;
 let messaging: Messaging | null = null;
