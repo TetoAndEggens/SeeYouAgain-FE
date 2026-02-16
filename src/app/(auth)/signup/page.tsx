@@ -9,6 +9,8 @@ import { signup } from '@/api/auth';
 import { useSignupValidation } from '@/hook/auth/useSignupValidation';
 import { usePhoneVerification } from '@/hook/auth/usePhoneVerification';
 import { useSocialSignup } from '@/hook/auth/useSocialSignup';
+import { toast } from 'sonner';
+import { Copy, Mail, CheckCircle2, Loader2 } from 'lucide-react';
 
 const SignupPage = () => {
     const [formData, setFormData] = useState<SignupRequest>({
@@ -40,6 +42,9 @@ const SignupPage = () => {
         setVerificationCode,
         sendVerificationCode,
         confirmVerificationCode,
+        verificationInfo,
+        openEmailApp,
+        checkVerificationStatus,
     } = usePhoneVerification();
 
     const handleSendVerification = async () => {
@@ -100,8 +105,8 @@ const SignupPage = () => {
     }, [tempUuid]);
 
     return (
-        <div className="flex h-full flex-col justify-between px-4 py-5">
-            <div className="flex flex-col gap-10">
+        <div className="flex h-full flex-col px-4 py-5">
+            <div className="flex flex-col gap-6">
                 <div className="relative">
                     <div className="flex gap-4">
                         <Input
@@ -186,7 +191,80 @@ const SignupPage = () => {
                         {errors.phoneNumber}
                     </div>
                 </div>
-                {isVerificationSent && (
+                {isVerificationSent && verificationInfo && (
+                    <div className="flex flex-col gap-3 rounded-lg border-2 border-blue-200 bg-blue-50 p-4">
+                        {/* 안내 문구 */}
+                        <div className="text-center">
+                            <p className="text-sm font-semibold text-blue-900">
+                                아래 인증번호를 복사하여
+                            </p>
+                            <p className="text-sm font-semibold text-blue-900">
+                                이메일로 전송해주세요
+                            </p>
+                        </div>
+
+                        {/* 인증번호 표시 */}
+                        <div className="flex items-center justify-between rounded-md bg-white p-3 shadow-sm">
+                            <span className="font-mono text-xl font-bold text-blue-600">
+                                {verificationInfo.code}
+                            </span>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(verificationInfo.code);
+                                    toast.success('인증번호가 복사되었습니다!');
+                                }}
+                                className="gap-1"
+                            >
+                                <Copy className="h-4 w-4" />
+                                복사
+                            </Button>
+                        </div>
+
+                        {/* 발송 대상 이메일 */}
+                        <div className="rounded-md bg-white p-2.5 text-center">
+                            <p className="text-xs text-gray-600">발송 대상</p>
+                            <p className="font-mono text-sm font-medium text-gray-800">
+                                {verificationInfo.targetEmail}
+                            </p>
+                        </div>
+
+                        {/* 이메일 앱 열기 버튼 */}
+                        <Button onClick={openEmailApp} className="w-full gap-2" variant="default">
+                            <Mail className="h-4 w-4" />
+                            이메일 앱 열기
+                        </Button>
+
+                        {/* 인증 상태 */}
+                        <div className="flex flex-col gap-2">
+                            {isPhoneVerified ? (
+                                <div className="flex items-center justify-center gap-2 rounded-md bg-green-50 p-2.5 text-sm font-medium text-green-700">
+                                    <CheckCircle2 className="h-5 w-5" />
+                                    인증이 완료되었습니다!
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="flex items-center justify-center gap-2 py-1 text-sm text-gray-600">
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                        <span>인증 완료 대기 중...</span>
+                                    </div>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => checkVerificationStatus(formData.phoneNumber)}
+                                        className="h-8 text-xs"
+                                    >
+                                        수동으로 확인하기
+                                    </Button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {/* 기존 방식 (fallback) */}
+                {isVerificationSent && !verificationInfo && (
                     <div className="flex gap-4">
                         <Input
                             placeholder="인증번호 입력"
@@ -199,7 +277,9 @@ const SignupPage = () => {
                     </div>
                 )}
             </div>
-            <Button onClick={handleSubmit}>회원가입</Button>
+            <Button onClick={handleSubmit} className="mt-8 mb-4">
+                회원가입
+            </Button>
         </div>
     );
 };
