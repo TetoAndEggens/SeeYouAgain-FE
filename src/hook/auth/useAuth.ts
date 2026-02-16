@@ -32,7 +32,7 @@ export const useAuth = () => {
                 logout();
                 // 이미 로그인 페이지가 아닐 때만 리다이렉트
                 if (typeof window !== 'undefined' && !isPublicPath) {
-                    // window.location.href = '/login';
+                    window.location.href = '/login';
                 }
             } finally {
                 setLoading(false);
