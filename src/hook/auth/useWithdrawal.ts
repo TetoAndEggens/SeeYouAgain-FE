@@ -11,18 +11,17 @@ export const useWithdrawal = () => {
     const router = useRouter();
     const { removeFcmToken } = useFcm();
 
-    const handleWithdrawal = async () => {
-        const confirmed = confirm(
-            '정말 탈퇴하시겠습니까?\n탈퇴 후 모든 데이터가 삭제되며 복구할 수 없습니다.'
-        );
-
-        if (!confirmed) return false;
+    const handleWithdrawal = async (password: string, reason: string) => {
+        if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return false;
+        }
 
         setIsLoading(true);
         try {
             await withdrawal({
-                password: 'tjddnr123@',
-                reason: '서비스 이용 불편',
+                password,
+                reason,
             });
             // FCM 토큰 삭제
             await removeFcmToken();
@@ -33,6 +32,8 @@ export const useWithdrawal = () => {
         } catch (error) {
             console.error('회원탈퇴 실패:', error);
             if (error instanceof AxiosError && error.response?.status === 401) {
+                alert('비밀번호가 일치하지 않습니다.');
+            } else if (error instanceof AxiosError && error.response?.status === 403) {
                 alert('인증이 만료되었습니다. 다시 로그인해주세요.');
                 logout();
                 router.push('/login');

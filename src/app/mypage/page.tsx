@@ -2,17 +2,19 @@
 
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useWithdrawal } from '@/hook/auth/useWithdrawal';
 import { useFcm } from '@/hook/fcm/useFcm';
+import { WithdrawalDialog } from '@/components/features/mypage/WithdrawalDialog';
 
 const MyPage = () => {
     const router = useRouter();
     const { logout, user } = useAuthStore();
     const { handleWithdrawal, isLoading } = useWithdrawal();
     const { removeFcmToken } = useFcm();
+    const [showWithdrawalDialog, setShowWithdrawalDialog] = useState(false);
 
     const handleLogout = async () => {
         const confirmed = confirm('로그아웃 하시겠습니까?');
@@ -66,13 +68,26 @@ const MyPage = () => {
                     <span className="text-destructive">로그아웃</span>
                 </button>
                 <button
-                    onClick={handleWithdrawal}
+                    onClick={() => setShowWithdrawalDialog(true)}
                     disabled={isLoading}
                     className="border-gray-10 flex w-full justify-between border p-4 text-left disabled:opacity-50"
                 >
                     <span className="text-destructive">회원 탈퇴</span>
                 </button>
             </div>
+
+            {/* 회원탈퇴 다이얼로그 */}
+            <WithdrawalDialog
+                open={showWithdrawalDialog}
+                onOpenChange={setShowWithdrawalDialog}
+                onConfirm={async (password, reason) => {
+                    const success = await handleWithdrawal(password, reason);
+                    if (success) {
+                        setShowWithdrawalDialog(false);
+                    }
+                }}
+                isLoading={isLoading}
+            />
         </div>
     );
 };
