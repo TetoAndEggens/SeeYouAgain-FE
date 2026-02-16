@@ -5,16 +5,22 @@ import {
     verifyPhoneCode,
     linkSocialAccount,
 } from '@/api/auth';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
+import axiosInstance from '@/lib/axios';
 
 export const usePhoneVerification = () => {
     const [isVerificationSent, setIsVerificationSent] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
     const [isPhoneVerified, setIsPhoneVerified] = useState(false);
     const [currentPhoneType, setCurrentPhoneType] = useState<'social' | 'normal'>('normal');
+    const [verificationInfo, setVerificationInfo] = useState<{
+        code: string;
+        targetEmail: string;
+    } | null>(null);
+    const pollingInterval = useRef<NodeJS.Timeout | null>(null);
     const { login } = useAuthStore();
     const router = useRouter();
 
@@ -24,25 +30,34 @@ export const usePhoneVerification = () => {
         phoneNumber: string
     ) => {
         try {
-            if (isSocial && tempUuid) {
-                console.log({
-                    phone: phoneNumber,
-                    tempUuid: tempUuid,
-                });
-                const response = await sendSocialPhoneVerification({
-                    phone: phoneNumber,
-                    tempUuid: tempUuid,
-                });
+            let response;
 
-                console.log('인증번호 발송 성공:', response);
+            if (isSocial && tempUuid) {
+                response = await sendSocialPhoneVerification({
+                    phone: phoneNumber,
+                    tempUuid: tempUuid,
+                });
                 setCurrentPhoneType('social');
-                alert('인증번호가 발송되었습니다');
             } else {
                 // 일반 회원가입
-                const response = await sendPhoneVerification(phoneNumber);
-                console.log('인증번호 발송 성공:', response);
+                response = await sendPhoneVerification(phoneNumber);
                 setCurrentPhoneType('normal');
-                alert('인증번호가 발송되었습니다');
+            }
+
+            // MO 방식: API 응답에 code 포함
+            // 서버 응답 구조: { data: { code: "123456", emailAddress: "xxx@gmail.com" } }
+            const codeData = response.data || response;
+            if (codeData.code) {
+                setVerificationInfo({
+                    code: codeData.code,
+                    targetEmail:
+                        codeData.emailAddress ||
+                        process.env.NEXT_PUBLIC_VERIFICATION_EMAIL ||
+                        'taetoeggen556@gmail.com',
+                });
+
+                // 인증 완료 폴링 시작
+                startPolling(phoneNumber, isSocial);
             }
 
             setIsVerificationSent(true);
@@ -112,6 +127,71 @@ export const usePhoneVerification = () => {
         }
     };
 
+    // 서버에 인증 완료 여부 확인
+    const checkVerificationStatus = async (phoneNumber: string, isSocial: boolean) => {
+        try {
+            const endpoint = isSocial
+                ? '/auth/social/phone/verification-status'
+                : '/auth/phone/verification-status';
+
+            const response = await axiosInstance.get(endpoint, {
+                params: { phone: phoneNumber },
+            });
+
+            if (response.data.verified) {
+                setIsPhoneVerified(true);
+                stopPolling();
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('인증 상태 확인 실패:', error);
+            return false;
+        }
+    };
+
+    // 폴링 시작
+    const startPolling = (phoneNumber: string, isSocial: boolean) => {
+        // 기존 폴링 중지
+        stopPolling();
+
+        // 5초마다 인증 상태 확인
+        pollingInterval.current = setInterval(() => {
+            checkVerificationStatus(phoneNumber, isSocial);
+        }, 5000);
+
+        // 5분 후 자동 중지
+        setTimeout(() => {
+            stopPolling();
+        }, 5 * 60 * 1000);
+    };
+
+    // 폴링 중지
+    const stopPolling = () => {
+        if (pollingInterval.current) {
+            clearInterval(pollingInterval.current);
+            pollingInterval.current = null;
+        }
+    };
+
+    // 이메일 앱 열기
+    const openEmailApp = () => {
+        if (!verificationInfo) return;
+
+        const subject = '휴대폰 인증';
+        const body = verificationInfo.code;
+        const mailtoLink = `mailto:${verificationInfo.targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        window.location.href = mailtoLink;
+    };
+
+    // 컴포넌트 unmount 시 폴링 중지
+    useEffect(() => {
+        return () => {
+            stopPolling();
+        };
+    }, []);
+
     return {
         isVerificationSent,
         verificationCode,
@@ -119,5 +199,9 @@ export const usePhoneVerification = () => {
         isPhoneVerified,
         sendVerificationCode,
         confirmVerificationCode,
+        verificationInfo,
+        openEmailApp,
+        checkVerificationStatus: (phoneNumber: string) =>
+            checkVerificationStatus(phoneNumber, currentPhoneType === 'social'),
     };
 };
