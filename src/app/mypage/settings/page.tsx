@@ -33,20 +33,11 @@ const SettingsPage = () => {
 
     // FCM 관련 상태
     const { permission, isSupported, token } = useFcm();
-    const { isPushEnabled, checkPushStatus, setPushEnabled } = useNotificationStore();
+    const { isPushEnabled, setPushEnabled } = useNotificationStore();
 
     // 알림 설정 관련
     const { notificationSettings, handleNotificationSettingToggle, resetNotificationSettings } =
         useNotificationSettings(isPushEnabled);
-
-    // 초기 알림 권한 상태 및 서버 토큰 상태 확인
-    useEffect(() => {
-        if (permission === 'granted') {
-            checkPushStatus();
-        } else {
-            setPushEnabled(false);
-        }
-    }, [permission, checkPushStatus, setPushEnabled]);
 
     // 푸시 알림 토글 핸들러
     const handlePushToggle = async (checked: boolean) => {
