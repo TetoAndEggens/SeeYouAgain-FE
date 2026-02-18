@@ -3,9 +3,11 @@ import { useAuthStore } from '@/store/authStore';
 import axiosInstance from '@/lib/axios';
 import { usePathname } from 'next/navigation';
 import { getMemberInfo } from '@/api/member';
+import { useNotificationStore } from '@/store/notificationStore';
 
 export const useAuth = () => {
     const { login, logout, setLoading, setUser, isAuthenticated } = useAuthStore();
+    const { setPushEnabled } = useNotificationStore();
     const pathname = usePathname();
 
     useEffect(() => {
@@ -28,6 +30,7 @@ export const useAuth = () => {
 
                 login();
                 setUser(data);
+                setPushEnabled(data.isPushEnabled);
             } catch (error) {
                 logout();
                 // 이미 로그인 페이지가 아닐 때만 리다이렉트

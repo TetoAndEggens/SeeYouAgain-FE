@@ -28,15 +28,6 @@ export const updatePushSetting = async (
     return data;
 };
 
-/**
- * 푸시 알림 설정 조회 API
- * @returns 현재 푸시 알림 설정 상태
- */
-export const getPushSetting = async (): Promise<ServerResponseType<PushSettingResponse>> => {
-    const { data } = await axiosInstance.get('/member/push');
-    return data;
-};
-
 export const getMemberInfo = async (): Promise<ServerResponseType<User>> => {
     const { data } = await axiosInstance.get('/member/me');
     return data;
