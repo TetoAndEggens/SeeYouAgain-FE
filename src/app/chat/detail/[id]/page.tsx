@@ -25,7 +25,9 @@ const ChatRoomPage = ({ params }: Props) => {
     const bottomRef = React.useRef<boolean>(true);
     const { id } = use(params);
     const chatRoomId = Number(id);
+    console.log('chatRoomID : ', chatRoomId);
     const isInvalidChatRoomId = Number.isNaN(chatRoomId);
+    console.log('isInvalidChatRoomId : ', isInvalidChatRoomId);
 
     const { chatMessage, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
         useMessage({
