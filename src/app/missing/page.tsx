@@ -9,6 +9,7 @@ import { AnimalTypeType, SortByType } from '@/types/common';
 import { CustomSelect } from '@/components/features/adopt/CustomSelect';
 import NotFound from '@/components/layout/404';
 import { MissingLargeCardSkeleton } from '@/components/features/missing/MissingLargeCardSkeleton';
+import { Plus } from 'lucide-react';
 
 export default function MissingPage() {
     const [sortBy, setSortBy] = useState<SortByType>('LATEST');
@@ -74,6 +75,13 @@ export default function MissingPage() {
                     ))
                 )}
             </div>
+            <Link
+                href="/missing/write"
+                aria-label="실종/목격 글쓰기"
+                className="fixed right-4 bottom-20 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-[#A9A4A4] shadow-md"
+            >
+                <Plus size={25} className="text-white" strokeWidth={3} />
+            </Link>
         </div>
     );
 }
