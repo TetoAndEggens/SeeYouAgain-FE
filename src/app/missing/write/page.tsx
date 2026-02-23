@@ -89,7 +89,7 @@ const MissingWritePage = () => {
                 <Form important title="상세 내용">
                     <Textarea
                         placeholder={'실종 / 목격 상황을 자세히 설명해주세요.'}
-                        className="h-[6rem] items-start"
+                        className="h-24 items-start"
                         value={formData.content}
                         onChange={(e) => handleChangeInput('content', e.target.value)}
                     />
