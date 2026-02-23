@@ -11,6 +11,7 @@ export const useCreateRooms = () => {
     const mutation = useMutation({
         mutationFn: (boardId: number) => createRooms(boardId),
         onSuccess: (chatRoomId) => {
+            console.log('useCreateRooms chatRoomId : ', chatRoomId);
             router.push(`/chat/detail/${chatRoomId}`);
         },
         onError: () => {
