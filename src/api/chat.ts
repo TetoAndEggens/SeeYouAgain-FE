@@ -10,7 +10,7 @@ export const getRooms = async (
 };
 
 export const createRooms = async (boardId: number): Promise<number> => {
-    const { data } = await axiosInstance.get('chat/rooms', { params: { boardId } });
+    const { data } = await axiosInstance.post('chat/rooms', { params: { boardId } });
     console.log('createRooms : ', data);
     return data;
 };
