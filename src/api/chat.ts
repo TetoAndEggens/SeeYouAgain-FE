@@ -10,7 +10,7 @@ export const getRooms = async (
 };
 
 export const createRooms = async (boardId: number): Promise<number> => {
-    const { data } = await axiosInstance.post('chat/rooms', { params: { boardId } });
+    const { data } = await axiosInstance.post('chat/rooms', { boardId }); // API 명세의 request body 스키마({ boardId })에 맞게 전송하도록 수정했습니다.
     console.log('createRooms : ', data);
     return data;
 };
