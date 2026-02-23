@@ -19,6 +19,7 @@ export const useMessage = (param: MessageParam) => {
         number | null
     >({
         queryKey: ['chatMessage', param.chatRoomId, param.sortDirection, param.size],
+        enabled: Number.isFinite(param.chatRoomId),
 
         queryFn: ({ pageParam = null }) =>
             getMessage({
@@ -33,7 +34,6 @@ export const useMessage = (param: MessageParam) => {
         },
 
         select: (data) => {
-            const now = Date.now();
             const mergedData = data.pages.flatMap((page) => {
                 const message = page.messages.data;
                 let temp: Message[] = [];
