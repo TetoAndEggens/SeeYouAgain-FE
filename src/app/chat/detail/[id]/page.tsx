@@ -1,6 +1,6 @@
-'use client';
+﻿'use client';
 
-import React from 'react';
+import React, { use } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Send } from 'lucide-react';
 import { ChatMessage } from '@/components/layout/ChatMessage';
@@ -16,14 +16,16 @@ import type { Message as MessageItem } from '@/types/chat';
 import { formatChatTime } from '@/lib/utils';
 
 type Props = {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 };
 
 const ChatRoomPage = ({ params }: Props) => {
     const router = useRouter();
     const ref = React.useRef<HTMLDivElement>(null);
     const bottomRef = React.useRef<boolean>(true);
-    const chatRoomId = Number(params.id);
+    const { id } = use(params);
+    const chatRoomId = Number(id);
+    const isInvalidChatRoomId = Number.isNaN(chatRoomId);
 
     const { chatMessage, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
         useMessage({
@@ -38,7 +40,7 @@ const ChatRoomPage = ({ params }: Props) => {
 
     React.useEffect(() => {
         connect();
-        setLiveMessages([]); // 채팅방 이동 시 이전 방 live 메시지 초기화
+        setLiveMessages([]);
 
         // 개인 채널 구독 코드
         subscribePersonal((payload) => {
@@ -90,6 +92,8 @@ const ChatRoomPage = ({ params }: Props) => {
     }, [mergedMessages.length]);
 
     const onSend = () => {
+        if (isInvalidChatRoomId) return;
+
         const content = inputValue.trim();
         if (!content) return;
 
@@ -117,7 +121,9 @@ const ChatRoomPage = ({ params }: Props) => {
             </div>
 
             <div className="flex-1 overflow-y-auto" ref={ref} onScroll={onScroll}>
-                {isLoading ? (
+                {isInvalidChatRoomId ? (
+                    <div className="p-4 text-center">잘못된 채팅방 경로입니다.</div>
+                ) : isLoading ? (
                     <div className="p-4 text-center">로딩 중입니다.</div>
                 ) : isError ? (
                     <div className="p-4 text-center">메시지를 불러오지 못했습니다.</div>
