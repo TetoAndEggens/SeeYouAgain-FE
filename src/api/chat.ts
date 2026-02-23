@@ -12,7 +12,7 @@ export const getRooms = async (
 export const createRooms = async (boardId: number): Promise<number> => {
     const { data } = await axiosInstance.post('chat/rooms', { boardId });
     console.log('createRooms : ', data);
-    return data;
+    return data.chatRoomId;
 };
 
 export const getMessage = async (params: MessageParam): Promise<MessageResponse> => {
