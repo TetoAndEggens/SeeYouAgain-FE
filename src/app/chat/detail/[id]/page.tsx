@@ -23,12 +23,9 @@ const ChatRoomPage = ({ params }: Props) => {
     const router = useRouter();
     const ref = React.useRef<HTMLDivElement>(null);
     const bottomRef = React.useRef<boolean>(true);
-    console.log('params : ', params);
     const { id } = use(params);
     const chatRoomId = Number(id);
-    console.log('chatRoomID : ', chatRoomId);
     const isInvalidChatRoomId = Number.isNaN(chatRoomId);
-    console.log('isInvalidChatRoomId : ', isInvalidChatRoomId);
 
     const { chatMessage, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
         useMessage({

@@ -7,6 +7,7 @@ import { Search } from '@/components/layout/Search';
 import { useChatRoomData, useUnreadRoomData } from '@/hook/chat/useChatList';
 import { ChatPreview } from '@/components/layout/ChatPreview';
 import { ChatPost } from '@/components/layout/ChatPost';
+import { formatChatTime } from '@/lib/utils';
 import { ChatRoomParam, ChatRoomData } from '@/types/chat';
 
 const ChatListPage = () => {
@@ -77,7 +78,7 @@ const ChatListPage = () => {
                             <ChatPreview
                                 userName={item.otherMemberNickname}
                                 lastMessage={item.lastMessage}
-                                timestamp={item.lastMessageTime}
+                                timestamp={formatChatTime(item.lastMessageTime)}
                                 unreadCount={item.unreadCount}
                                 onClick={() => router.push(`/chat/detail/${item.chatRoomId}`)}
                             />
