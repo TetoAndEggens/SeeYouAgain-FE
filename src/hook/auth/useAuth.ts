@@ -13,7 +13,7 @@ export const useAuth = () => {
     useEffect(() => {
         const checkAuth = async () => {
             // 공개 페이지(로그인, 회원가입 등)에서는 인증 체크 스킵
-            const publicPaths = ['/', '/login', '/signup', '/auth/callback', '/auth/social-signup'];
+            const publicPaths = ['/login', '/signup', '/auth/callback', '/auth/social-signup'];
             const isPublicPath = publicPaths.some((path) => pathname?.startsWith(path));
 
             if (isPublicPath) {
