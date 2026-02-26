@@ -105,9 +105,7 @@ export const subscribePersonal = (
 
     // 서버 JSON에 맞게 전달
     chatSubscription = client.subscribe(CHAT_SUBSCRIBE_DEST, (message: Message) => {
-        console.log('message : ', message);
         const parsed = JSON.parse(message.body) as ChatMessageDto;
-        console.log('parsed : ', parsed);
         chatHandler(parsed);
     });
 
@@ -134,7 +132,7 @@ export const unsubscribePersonal = () => {
     onReadNotification = null;
 };
 
-// 서버 @MessageMapping("/chat/send")에 맞는 publish 목적지
+// 채팅 전송 publish
 export const sendChatMessage = (data: ChatSendDto) => {
     if (!client.connected) return;
 

@@ -12,7 +12,6 @@ import Link from 'next/link';
 import React from 'react';
 
 export default function Home() {
-    console.log('dev test');
     const { data: adoptData, isLoading: adoptLoading } = useQuery({
         queryKey: ['adoptAnimals'],
         queryFn: () =>

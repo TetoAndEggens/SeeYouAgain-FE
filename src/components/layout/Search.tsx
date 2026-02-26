@@ -28,7 +28,7 @@ export function Search({
             <div
                 className="bg-gray-30 flex w-[90%] items-center justify-between rounded-lg px-4 py-2 shadow-md"
                 onClick={(e) => {
-                    console.log('test ');
+                    // console.log('test ');
                 }}
             >
                 <input
