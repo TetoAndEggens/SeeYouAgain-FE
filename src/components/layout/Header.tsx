@@ -73,7 +73,6 @@ export function Header() {
     const variant = headerControl.variant as Variant;
 
     function menuClick() {
-        console.log('isOpen : ', isOpen);
         isOpen ? closeSidebar() : openSidebar();
     }
 

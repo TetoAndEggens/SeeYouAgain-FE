@@ -86,7 +86,7 @@ const SignupPage = () => {
         }
 
         try {
-            console.log(formData);
+            // console.log(formData);
             await signup(formData);
 
             alert('회원가입이 완료되었습니다!');
@@ -252,7 +252,9 @@ const SignupPage = () => {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => checkVerificationStatus(formData.phoneNumber)}
+                                        onClick={() =>
+                                            checkVerificationStatus(formData.phoneNumber)
+                                        }
                                         className="h-8 text-xs"
                                     >
                                         수동으로 확인하기
