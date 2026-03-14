@@ -1,11 +1,46 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata, Viewport } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
+
+import { Header } from '../components/layout/Header';
+import Sidebar from '@/components/layout/Sidebar';
+import { NavigationMenu } from '@/components/layout/NavigationMenu';
+import { AuthProvider } from '@/providers/AuthProvider';
+import QueryProvider from '@/providers/QueryProvider';
+import ChatSocketProvider from '@/providers/ChatSocketProvider';
+import { Toaster } from 'sonner'; // 전역 toast 렌더링을 위해 Toaster를 추가했습니다.
+
+const pretendard = localFont({
+    src: [
+        {
+            path: '../fonts/Pretendard-Regular.woff2',
+            weight: '400',
+            style: 'normal',
+        },
+        {
+            path: '../fonts/Pretendard-Medium.woff2',
+            weight: '500',
+            style: 'normal',
+        },
+        {
+            path: '../fonts/Pretendard-SemiBold.woff2',
+            weight: '600',
+            style: 'normal',
+        },
+        {
+            path: '../fonts/Pretendard-Bold.woff2',
+            weight: '700',
+            style: 'normal',
+        },
+    ],
+    variable: '--font-pretendard',
+    display: 'swap',
+});
 
 export const metadata: Metadata = {
     title: 'SeeYouAgain',
     description: '프로젝트 설명',
     manifest: '/manifest.json',
-    themeColor: '#000000',
     appleWebApp: {
         capable: true,
         statusBarStyle: 'default',
@@ -17,14 +52,29 @@ export const metadata: Metadata = {
     },
 };
 
+export const viewport: Viewport = {
+    themeColor: '#000000',
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="ko">
-            <body>{children}</body>
+        <html lang="ko" className={pretendard.variable}>
+            <body className={`${pretendard.className} flex h-screen flex-col`}>
+                <AuthProvider>
+                    <Header />
+                    <QueryProvider>
+                        <ChatSocketProvider />
+                        <main className="relative h-full overflow-y-auto">{children}</main>
+                    </QueryProvider>
+                    <NavigationMenu />
+                    <Sidebar />
+                    <Toaster richColors position="top-center" />{' '}
+                </AuthProvider>
+            </body>
         </html>
     );
 }

@@ -1,7 +1,247 @@
-import React from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
+import Switch from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import Tag from '@/components/ui/tag';
+import { useFcm } from '@/hook/fcm/useFcm';
+import { NotificationPermissionDialog } from '@/components/features/notification/NotificationPermissionDialog';
+import { toast } from 'sonner';
+import { useNotificationStore } from '@/store/notificationStore';
+import { useKeyword } from '@/hook/settings/useKeyword';
+import { useNotificationSettings } from '@/hook/settings/useNotificationSettings';
+import { updatePushSetting } from '@/api/member';
 
 const SettingsPage = () => {
-    return <div>알림 설정</div>;
+    const [showPermissionDialog, setShowPermissionDialog] = useState<boolean>(false);
+
+    //키워드 관련
+    const {
+        missingKeyword,
+        missingKeywords,
+        adoptKeyword,
+        adoptKeywords,
+        isAddingKeyword,
+        isDeletingKeywordId,
+
+        handleAddKeyword,
+        handleDeleteKeyword,
+        setMissingKeyword,
+        setAdoptKeyword,
+    } = useKeyword();
+
+    // FCM 관련 상태
+    const { permission, isSupported, token } = useFcm();
+    const { isPushEnabled, setPushEnabled } = useNotificationStore();
+
+    // 알림 설정 관련
+    const { notificationSettings, handleNotificationSettingToggle, resetNotificationSettings } =
+        useNotificationSettings(isPushEnabled);
+
+    // 푸시 알림 토글 핸들러
+    const handlePushToggle = async (checked: boolean) => {
+        if (!isSupported) {
+            toast.error('이 브라우저는 알림을 지원하지 않습니다.');
+            return;
+        }
+
+        if (checked) {
+            // 알림 켜기
+            if (permission === 'granted') {
+                try {
+                    // 서버에 푸시 알림 활성화 요청
+                    await updatePushSetting({ isPushEnabled: true });
+                    setPushEnabled(true);
+                    toast.success('알림이 활성화되었습니다.');
+                } catch (error) {
+                    console.error('알림 활성화 실패:', error);
+                    toast.error('알림 활성화에 실패했습니다.');
+                }
+            } else if (permission === 'denied') {
+                toast.error('알림 권한이 차단되었습니다. 브라우저 설정에서 허용해주세요.');
+            } else {
+                // 권한 요청 다이얼로그 표시
+                setShowPermissionDialog(true);
+            }
+        } else {
+            // 알림 끄기
+            try {
+                // 서버에 푸시 알림 비활성화 요청 (FCM 토큰은 유지)
+                await updatePushSetting({ isPushEnabled: false });
+                setPushEnabled(false);
+
+                // 개별 알림 설정도 모두 초기화
+                resetNotificationSettings();
+
+                toast.success('알림이 비활성화되었습니다.');
+            } catch (error) {
+                console.error('알림 비활성화 실패:', error);
+                toast.error('알림 비활성화에 실패했습니다.');
+            }
+        }
+    };
+
+    return (
+        <div>
+            <div className="px-5 py-4 text-center">
+                <p>원하는 정보를 받아보세요</p>
+            </div>
+            <div className="flex flex-col gap-6 px-2.5">
+                <div className="flex items-center justify-between rounded-lg border bg-white px-2.5 py-5">
+                    <div>
+                        <p className="text-lg font-bold">푸시 알림</p>
+                        <p>새로운 동물 정보를 받아보세요</p>
+                    </div>
+                    <Switch
+                        checked={isPushEnabled}
+                        onCheckedChange={handlePushToggle}
+                        className="h-7 w-12"
+                        thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
+                    />
+                </div>
+                <div className="flex flex-col gap-2 rounded-lg border bg-white px-2.5 py-5">
+                    <div>
+                        <p className="text-lg font-bold">목격 알림 키워드</p>
+                        <p>관심있는 키워드를 추가하세요</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Input
+                            value={missingKeyword}
+                            onChange={(e) => setMissingKeyword(e.target.value)}
+                            onKeyUp={(e) => {
+                                if (e.key === 'Enter' && !isAddingKeyword) {
+                                    handleAddKeyword(missingKeyword, 'WITNESS');
+                                }
+                            }}
+                            disabled={isAddingKeyword}
+                        />
+                        <Button
+                            size={'sm'}
+                            onClick={() => handleAddKeyword(missingKeyword, 'WITNESS')}
+                            disabled={isAddingKeyword}
+                        >
+                            {isAddingKeyword ? '등록 중...' : '등록'}
+                        </Button>
+                    </div>
+                    <div className="flex w-full flex-wrap gap-2">
+                        {missingKeywords.map((item, index) => (
+                            <Tag
+                                key={index}
+                                variant="default"
+                                size="sm"
+                                isDelete={isDeletingKeywordId !== item.id}
+                                onDelete={() => handleDeleteKeyword(item.id, 'WITNESS')}
+                            >
+                                {isDeletingKeywordId === item.id ? '삭제 중...' : item.keyword}
+                            </Tag>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex flex-col gap-2 rounded-lg border bg-white px-2.5 py-5">
+                    <div>
+                        <p className="text-lg font-bold">입양 알림 키워드</p>
+                        <p>관심있는 키워드를 추가하세요</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Input
+                            value={adoptKeyword}
+                            onChange={(e) => setAdoptKeyword(e.target.value)}
+                            onKeyUp={(e) => {
+                                if (e.key === 'Enter' && !isAddingKeyword) {
+                                    handleAddKeyword(adoptKeyword, 'ABANDONED');
+                                }
+                            }}
+                            disabled={isAddingKeyword}
+                        />
+                        <Button
+                            size={'sm'}
+                            onClick={() => handleAddKeyword(adoptKeyword, 'ABANDONED')}
+                            disabled={isAddingKeyword}
+                        >
+                            {isAddingKeyword ? '등록 중...' : '등록'}
+                        </Button>
+                    </div>
+                    <div className="flex w-full flex-wrap gap-2">
+                        {adoptKeywords.map((item, index) => (
+                            <Tag
+                                key={index}
+                                variant="default"
+                                size="sm"
+                                isDelete={isDeletingKeywordId !== item.id}
+                                onDelete={() => handleDeleteKeyword(item.id, 'ABANDONED')}
+                            >
+                                {isDeletingKeywordId === item.id ? '삭제 중...' : item.keyword}
+                            </Tag>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                    <p className="text-lg font-bold">알림 받을 내용</p>
+
+                    <div className="flex items-center justify-between rounded-lg border bg-white px-2.5 py-5">
+                        <div>
+                            <p className="text-lg font-bold">새로운 입양 대기 동물</p>
+                            <p>매일 새로 등록되는 동물 정보</p>
+                        </div>
+                        <Switch
+                            checked={notificationSettings.newAdopt}
+                            onCheckedChange={() => handleNotificationSettingToggle('newAdopt')}
+                            disabled={!isPushEnabled}
+                            className="h-7 w-12"
+                            thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
+                        />
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg border bg-white px-2.5 py-5">
+                        <div>
+                            <p className="text-lg font-bold">실종·목격 게시물</p>
+                            <p>실종 및 목격 정보 업데이트</p>
+                        </div>
+                        <Switch
+                            checked={notificationSettings.missing}
+                            onCheckedChange={() => handleNotificationSettingToggle('missing')}
+                            disabled={!isPushEnabled}
+                            className="h-7 w-12"
+                            thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
+                        />
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg border bg-white px-2.5 py-5">
+                        <div>
+                            <p className="text-lg font-bold">채팅 메시지</p>
+                            <p>새로운 채팅 메시지 알림</p>
+                        </div>
+                        <Switch
+                            checked={notificationSettings.chat}
+                            onCheckedChange={() => handleNotificationSettingToggle('chat')}
+                            disabled={!isPushEnabled}
+                            className="h-7 w-12"
+                            thumbClassName="h-6 w-6 data-[state=checked]:translate-x-5"
+                        />
+                    </div>
+                </div>
+                {token && <p>{token}</p>}
+            </div>
+
+            {/* 알림 권한 요청 다이얼로그 */}
+            <NotificationPermissionDialog
+                open={showPermissionDialog}
+                onOpenChange={async (open) => {
+                    setShowPermissionDialog(open);
+                    // 다이얼로그가 닫힐 때 권한 상태 다시 확인
+                    if (!open && permission === 'granted') {
+                        try {
+                            // 서버에 푸시 알림 활성화 요청
+                            await updatePushSetting({ isPushEnabled: true });
+                            setPushEnabled(true);
+                        } catch (error) {
+                            console.error('푸시 알림 활성화 실패:', error);
+                            toast.error('푸시 알림 활성화에 실패했습니다.');
+                        }
+                    }
+                }}
+            />
+        </div>
+    );
 };
 
 export default SettingsPage;
