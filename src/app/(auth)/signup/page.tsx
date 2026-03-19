@@ -253,7 +253,7 @@ const SignupPage = () => {
                                         variant="outline"
                                         size="sm"
                                         onClick={() =>
-                                            checkVerificationStatus(formData.phoneNumber)
+                                            confirmVerificationCode(formData.phoneNumber)
                                         }
                                         className="h-8 text-xs"
                                     >

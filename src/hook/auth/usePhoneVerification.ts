@@ -57,7 +57,7 @@ export const usePhoneVerification = () => {
                 });
 
                 // 인증 완료 폴링 시작
-                startPolling(phoneNumber, isSocial);
+                // startPolling(phoneNumber, isSocial);
             }
 
             setIsVerificationSent(true);
@@ -72,12 +72,6 @@ export const usePhoneVerification = () => {
     };
 
     const confirmVerificationCode = async (phoneNumber: string) => {
-        // 인증번호 입력 확인
-        if (!verificationCode || verificationCode.length !== 6) {
-            alert('인증번호 6자리를 입력해주세요');
-            return;
-        }
-
         try {
             if (currentPhoneType === 'social') {
                 const response = await verifySocialPhoneCode(phoneNumber);
@@ -117,7 +111,7 @@ export const usePhoneVerification = () => {
                 setIsPhoneVerified(true);
                 alert('인증이 완료되었습니다');
             } else {
-                await verifyPhoneCode(phoneNumber, verificationCode);
+                await verifyPhoneCode(phoneNumber);
                 setIsPhoneVerified(true);
                 alert('인증이 완료되었습니다');
             }
@@ -130,13 +124,9 @@ export const usePhoneVerification = () => {
     // 서버에 인증 완료 여부 확인
     const checkVerificationStatus = async (phoneNumber: string, isSocial: boolean) => {
         try {
-            const endpoint = isSocial
-                ? '/auth/social/phone/verification-status'
-                : '/auth/phone/verification-status';
+            const verificationFunc = isSocial ? verifyPhoneCode : verifySocialPhoneCode;
 
-            const response = await axiosInstance.get(endpoint, {
-                params: { phone: phoneNumber },
-            });
+            const response = await verificationFunc(phoneNumber);
 
             if (response.data.verified) {
                 setIsPhoneVerified(true);
@@ -161,9 +151,12 @@ export const usePhoneVerification = () => {
         }, 5000);
 
         // 5분 후 자동 중지
-        setTimeout(() => {
-            stopPolling();
-        }, 5 * 60 * 1000);
+        setTimeout(
+            () => {
+                stopPolling();
+            },
+            5 * 60 * 1000
+        );
     };
 
     // 폴링 중지
