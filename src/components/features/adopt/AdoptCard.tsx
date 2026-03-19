@@ -2,6 +2,7 @@ import { calculateAgeFromYear } from '@/lib/date-utils';
 import { cn } from '@/lib/utils';
 import type { AdoptAnimal } from '@/types/animal';
 import { Mars, Venus } from 'lucide-react';
+import Image from 'next/image';
 
 interface AdoptCardProps extends AdoptAnimal {
     className?: string;
@@ -24,7 +25,14 @@ export function AdoptCard({
             )}
         >
             <div className="flex-shrink-0">
-                <img src={profile} alt={breedType} className="aspect-square w-full object-cover" />
+                <Image
+                    src={profile}
+                    alt={breedType}
+                    width={192}
+                    height={192}
+                    loading="lazy"
+                    className="aspect-square w-full object-cover"
+                />
             </div>
             <div className="flex flex-col gap-2 px-4 py-3">
                 <div className="flex flex-col gap-1">
