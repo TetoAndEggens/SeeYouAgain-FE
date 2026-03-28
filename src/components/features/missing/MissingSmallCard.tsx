@@ -1,6 +1,7 @@
 import Tag from '@/components/ui/tag';
 import { formatRelativeTime } from '@/lib/utils';
 import { BoardData } from '@/types/board';
+import Image from 'next/image';
 
 export function MissingSmallCard({
     title,
@@ -17,7 +18,14 @@ export function MissingSmallCard({
     return (
         <div className="border-gray-20 flex items-center gap-4 rounded-lg border bg-white p-4">
             <div className="flex-shrink-0">
-                <img src={imageUrl} alt={breedType} className="h-22 w-22 rounded-lg object-cover" />
+                <Image
+                    src={imageUrl}
+                    alt={breedType}
+                    width={88}
+                    height={88}
+                    loading="lazy"
+                    className="h-22 w-22 rounded-lg object-cover"
+                />
             </div>
             <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">

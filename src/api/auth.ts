@@ -45,10 +45,9 @@ export const sendPhoneVerification = async (phone: string) => {
     return data;
 };
 
-export const verifyPhoneCode = async (phone: string, code: string) => {
+export const verifyPhoneCode = async (phone: string) => {
     const { data } = await axiosInstance.post('/auth/phone/verify-code', {
         phone: phone,
-        code: code,
     });
     return data;
 };

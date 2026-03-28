@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
                 hostname: 'placedog.net',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'placecats.com',
+                pathname: '/**',
+            },
         ],
     },
 
@@ -23,7 +28,7 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: 'https://prod-api.seeyouagain.store/:path*',
+                destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
             },
         ];
     },
