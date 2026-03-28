@@ -10,29 +10,9 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-4.x-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-[데모 보기](#) · [버그 제보](../../issues) · [기능 제안](../../issues)
-
 </div>
 
----
-
-## 📑 목차
-
-- [프로젝트 소개](#-프로젝트-소개)
-- [주요 기능](#-주요-기능)
-- [기술 스택](#-기술-스택)
-- [프로젝트 구조](#-프로젝트-구조)
-- [시작하기](#-시작하기)
-    - [사전 요구사항](#사전-요구사항)
-    - [환경 설정](#환경-설정)
-    - [설치 및 실행](#설치-및-실행)
-- [아키텍처](#-아키텍처)
-- [주요 기능 상세](#-주요-기능-상세)
-- [배포](#-배포)
-- [기여하기](#-기여하기)
-- [라이선스](#-라이선스)
-
----
+![Mockup](https://github.com/user-attachments/assets/edfe4cd5-91af-42d4-82d6-dcd2d21f0383)
 
 ## 🎯 프로젝트 소개
 
